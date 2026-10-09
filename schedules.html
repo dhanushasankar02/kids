@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Schedules | AquaKids Academy — Swim • Learn • Stay Safe</title>
+
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Framer Motion (Motion One via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@10.16.2/dist/motion.min.js"></script>
+
+    <style>
+        /* ==================== GLOBAL SYSTEM TOKENS ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-body: #f0fdfa;
+            --navbar-bg: rgba(255, 255, 255, 0.94);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+            --brand-primary: #0284c7;
+            --brand-aqua: #06b6d4;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
+            --brand-mint: #34d399;
+            --brand-violet: #a78bfa;
+            --brand-rose: #f472b6;
+            --brand-amber: #f59e0b;
+            --brand-teal: #14b8a6;
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-nav: 0 4px 20px -2px rgba(2, 132, 199, 0.1);
+            --shadow-card: 0 14px 35px -8px rgba(2, 132, 199, 0.16);
+            --font-friendly: 'Fredoka', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark-mode {
+            --bg-body: #07131e;
+            --navbar-bg: rgba(11, 26, 42, 0.94);
+            --card-bg: #0f2338;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #38bdf8;
+            --brand-aqua: #22d3ee;
+            --border-soft: rgba(56, 189, 248, 0.2);
+            --shadow-nav: 0 4px 25px -2px rgba(0, 0, 0, 0.55);
+            --shadow-card: 0 14px 35px -8px rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a, button { text-decoration: none !important; font-family: inherit; }
+
+        /* ==================== RTL OVERRIDES ==================== */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .dropdown-menu { left: auto !important; right: 0 !important; }
+        [dir="rtl"] .dropdown-item:hover { transform: translateX(-4px) !important; }
+
+        /* ==================== STICKY NAVBAR (UNCHANGED) ==================== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            background: var(--navbar-bg);
+            border-bottom: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-nav);
+            transition: var(--transition);
+        }
+
+        .navbar-container {
+            max-width: 1440px; margin: 0 auto; padding: 0.85rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1.5rem; white-space: nowrap;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; color: inherit; }
+
+        .logo-emblem {
+            width: 46px; height: 46px;
+            background: linear-gradient(145deg, #0ea5e9, #0284c7);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            transition: var(--transition); flex-shrink: 0;
+        }
+
+        .logo-emblem svg {
+            width: 26px; height: 26px; fill: none; stroke: #ffffff;
+            stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .nav-logo:hover .logo-emblem {
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 8px 18px rgba(2, 132, 199, 0.45);
+        }
+
+        .logo-text-block { display: flex; flex-direction: column; }
+
+        .logo-title {
+            font-family: var(--font-friendly); font-size: 1.35rem; font-weight: 700;
+            line-height: 1.1; letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        body.dark-mode .logo-title {
+            background: linear-gradient(135deg, #38bdf8 0%, #a5f3fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .logo-tagline {
+            font-size: 0.72rem; font-weight: 700; color: var(--brand-coral);
+            letter-spacing: 1.2px; text-transform: uppercase;
+        }
+
+        .nav-center-menu { display: flex; align-items: center; gap: 0.35rem; list-style: none; }
+        .nav-item { position: relative; }
+
+        .nav-link {
+            font-weight: 700; font-size: 0.95rem; padding: 0.55rem 0.95rem;
+            color: var(--text-main); border-radius: 50px;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: var(--transition); cursor: pointer;
+        }
+
+        .nav-link .dropdown-caret { font-size: 0.7rem; transition: transform 0.25s ease; }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--brand-primary);
+        }
+
+        .nav-item.dropdown:hover .nav-link .dropdown-caret { transform: rotate(180deg); }
+
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 10px;
+            min-width: 250px; background: var(--card-bg); border-radius: 20px;
+            padding: 0.75rem; border: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-card);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: var(--transition); z-index: 1000; list-style: none;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.75rem 1rem; color: var(--text-main);
+            font-weight: 600; font-size: 0.92rem; border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--brand-primary);
+            transform: translateX(4px);
+        }
+
+        .dropdown-item.parent-dash {
+            border-left: 3px solid var(--brand-coral);
+            background: rgba(255, 107, 107, 0.05);
+            margin-bottom: 6px;
+        }
+
+        .dropdown-item.admin-dash {
+            border-left: 3px solid var(--brand-primary);
+            background: rgba(2, 132, 199, 0.05);
+        }
+
+        [dir="rtl"] .dropdown-item.parent-dash,
+        [dir="rtl"] .dropdown-item.admin-dash {
+            border-left: none; border-right: 3px solid var(--brand-coral);
+        }
+        [dir="rtl"] .dropdown-item.admin-dash { border-right-color: var(--brand-primary); }
+
+        .dash-pill {
+            font-size: 0.65rem; font-weight: 800; padding: 2px 8px;
+            border-radius: 20px; text-transform: uppercase;
+        }
+
+        .dash-pill.parent { background: rgba(255, 107, 107, 0.2); color: var(--brand-coral); }
+        .dash-pill.admin { background: rgba(2, 132, 199, 0.2); color: var(--brand-primary); }
+
+        .nav-right-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+        .action-chip {
+            background: var(--card-bg); border: 1.5px solid var(--border-soft);
+            color: var(--text-main); font-size: 0.88rem; font-weight: 700;
+            padding: 0.45rem 0.95rem; border-radius: 50px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: var(--transition);
+        }
+
+        .action-chip:hover {
+            border-color: var(--brand-primary); color: var(--brand-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
+        }
+
+        .action-chip.btn-login {
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; border-color: transparent; font-weight: 700;
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
+        }
+
+        .action-chip.btn-login:hover {
+            background: linear-gradient(135deg, #ff7b7b 0%, #e11d48 100%);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.5);
+            color: #ffffff;
+        }
+
+        .menu-toggle-btn {
+            display: none; background: rgba(6, 182, 212, 0.12);
+            border: 1.5px solid var(--border-soft); color: var(--brand-primary);
+            font-size: 1.3rem; padding: 0.45rem 0.85rem; border-radius: 14px;
+            cursor: pointer; transition: var(--transition);
+        }
+
+        /* ==================== MOBILE DRAWER (UNCHANGED) ==================== */
+        .mobile-overlay {
+            position: fixed; inset: 0; background: rgba(8, 26, 42, 0.7);
+            backdrop-filter: blur(8px); z-index: 10000;
+            opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+
+        .mobile-overlay.active { opacity: 1; visibility: visible; }
+
+        .mobile-panel {
+            position: fixed; top: 0; right: -390px; width: 330px; max-width: 86vw;
+            height: 100vh; background: var(--card-bg);
+            border-left: 2px solid var(--border-soft); box-shadow: var(--shadow-card);
+            z-index: 10001; padding: 2rem 1.5rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            overflow-y: auto; transition: right 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body[dir="rtl"] .mobile-panel {
+            right: auto; left: -390px; border-left: none;
+            border-right: 2px solid var(--border-soft);
+            transition: left 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .mobile-panel.active { right: 0; }
+        body[dir="rtl"] .mobile-panel.active { left: 0; }
+
+        .mobile-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 1rem; border-bottom: 1.5px solid var(--border-soft);
+        }
+
+        .mobile-close-btn {
+            background: none; border: none; color: var(--text-main);
+            font-size: 1.4rem; cursor: pointer;
+        }
+
+        .mobile-links { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+        .mobile-item { border-bottom: 1px solid var(--border-soft); padding-bottom: 0.35rem; }
+
+        .mobile-link {
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-main); font-weight: 700; font-size: 1.05rem;
+            padding: 0.75rem 0.85rem; border-radius: 12px; cursor: pointer;
+        }
+
+        .mobile-link:hover, .mobile-link.active {
+            color: var(--brand-primary); background: rgba(6, 182, 212, 0.08);
+        }
+
+        .mobile-accordion {
+            display: none; padding-left: 1rem; padding-top: 0.35rem;
+            flex-direction: column; gap: 0.4rem; list-style: none;
+        }
+
+        [dir="rtl"] .mobile-accordion { padding-left: 0; padding-right: 1rem; }
+        .mobile-accordion.show { display: flex; }
+
+        .mobile-sublink {
+            color: var(--text-sub); font-size: 0.92rem; font-weight: 600;
+            padding: 0.55rem 0.85rem; display: flex; align-items: center;
+            justify-content: space-between; border-radius: 10px;
+        }
+
+        .mobile-sublink:hover {
+            color: var(--brand-primary); background: rgba(6, 182, 212, 0.1);
+        }
+
+        .mobile-actions {
+            margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem;
+            padding-top: 1.25rem; border-top: 1.5px solid var(--border-soft);
+        }
+
+        .mobile-actions .action-chip { justify-content: center; width: 100%; padding: 0.75rem; }
+
+        /* ==================== LOGIN MODAL (UNCHANGED) ==================== */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(6px); z-index: 20000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem; opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+
+        .login-dialog {
+            background: var(--card-bg); border: 2px solid var(--border-soft);
+            border-radius: 28px; width: 100%; max-width: 430px;
+            padding: 2.5rem 2rem; box-shadow: var(--shadow-card);
+            position: relative; transform: scale(0.95); transition: var(--transition);
+        }
+
+        .modal-backdrop.active .login-dialog { transform: scale(1); }
+
+        .modal-close-trigger {
+            position: absolute; top: 1.2rem; right: 1.2rem;
+            background: none; border: none; font-size: 1.3rem;
+            color: var(--text-muted); cursor: pointer;
+        }
+
+        [dir="rtl"] .modal-close-trigger { right: auto; left: 1.2rem; }
+
+        .dialog-title {
+            font-family: var(--font-friendly); font-size: 1.8rem;
+            font-weight: 700; margin-bottom: 0.35rem;
+        }
+
+        .dialog-subtitle { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1.8rem; }
+        .input-group { margin-bottom: 1.2rem; }
+
+        .input-label { display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.4rem; }
+
+        .form-control {
+            width: 100%; padding: 0.8rem 1.1rem; border-radius: 14px;
+            border: 1.5px solid var(--border-soft); background: var(--bg-body);
+            color: var(--text-main); outline: none; font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+        }
+
+        .submit-btn {
+            width: 100%; padding: 0.9rem;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
+            transition: var(--transition); margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.45);
+        }
+
+        /* ==================== SCHEDULES PAGE STYLES ==================== */
+        .sch-main { width: 100%; padding-top: 0; }
+
+        /* ========== SECTION 1: FULL-SCREEN HERO BACKGROUND ========== */
+        .sch-s1-hero {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 5rem;
+            overflow: hidden;
+        }
+
+        .sch-s1-hero-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .sch-s1-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                rgba(20, 184, 166, 0.7) 0%,
+                rgba(6, 182, 212, 0.55) 45%,
+                rgba(15, 23, 42, 0.9) 100%);
+            z-index: 1;
+        }
+
+        body.dark-mode .sch-s1-hero-overlay {
+            background: linear-gradient(135deg,
+                rgba(5, 40, 40, 0.92) 0%,
+                rgba(20, 184, 166, 0.5) 45%,
+                rgba(7, 19, 30, 0.95) 100%);
+        }
+
+        .sch-s1-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .sch-s1-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(20, 184, 166, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.8rem;
+            border: 1.5px solid rgba(20, 184, 166, 0.5);
+        }
+
+        .sch-s1-title {
+            font-family: var(--font-friendly);
+            font-size: clamp(2.4rem, 6vw, 4.4rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .sch-s1-title .teal-accent {
+            background: linear-gradient(135deg, #5eead4, #14b8a6, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sch-s1-desc {
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sch-s1-cta-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .sch-s1-btn-primary {
+            background: linear-gradient(135deg, #14b8a6 0%, #5eead4 100%);
+            color: #0f172a !important;
+            padding: 1.1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 28px rgba(20, 184, 166, 0.5);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .sch-s1-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 34px rgba(20, 184, 166, 0.65);
+        }
+
+        .sch-s1-btn-ghost {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff !important;
+            padding: 1.1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .sch-s1-btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.28);
+            border-color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .sch-s1-scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            animation: schBounceDown 2s infinite;
+        }
+
+        @keyframes schBounceDown {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ========== SECTION 2: WEEKLY SCHEDULE GRID ========== */
+        .sch-s2-weekly {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .sch-s2-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .sch-s2-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .sch-s2-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .sch-s2-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1rem;
+        }
+
+        .sch-s2-day {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 1.5rem 0.8rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sch-s2-day:hover {
+            transform: translateY(-6px);
+            border-color: var(--brand-teal);
+            box-shadow: 0 20px 45px -12px rgba(20, 184, 166, 0.3);
+        }
+
+        .sch-s2-day.active {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(94, 234, 212, 0.15));
+            border-color: var(--brand-teal);
+        }
+
+        .sch-s2-day-name {
+            font-family: var(--font-friendly);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sch-s2-day-num {
+            font-family: var(--font-friendly);
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+        }
+
+        .sch-s2-day-count {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 50px;
+            background: rgba(20, 184, 166, 0.15);
+            color: var(--brand-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        body.dark-mode .sch-s2-day-count {
+            background: rgba(94, 234, 212, 0.15);
+            color: #5eead4;
+        }
+
+        /* ========== SECTION 3: TIME SLOTS TABS ========== */
+        .sch-s3-slots {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .sch-s3-head {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .sch-s3-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .sch-s3-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .sch-s3-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .sch-s3-tab {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            color: var(--text-main);
+            font-family: var(--font-friendly);
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sch-s3-tab:hover {
+            border-color: var(--brand-teal);
+            color: var(--brand-teal);
+            transform: translateY(-2px);
+        }
+
+        .sch-s3-tab.active {
+            background: linear-gradient(135deg, #14b8a6, #5eead4);
+            color: #0f172a;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.4);
+        }
+
+        .sch-s3-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .sch-s3-slot {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .sch-s3-slot:hover {
+            transform: translateY(-4px);
+            border-color: var(--brand-teal);
+            box-shadow: 0 16px 36px -12px rgba(20, 184, 166, 0.25);
+        }
+
+        .sch-s3-slot-time {
+            font-family: var(--font-friendly);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            min-width: 90px;
+        }
+
+        .sch-s3-slot-info {
+            flex: 1;
+        }
+
+        .sch-s3-slot-info strong {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.2rem;
+        }
+
+        .sch-s3-slot-info span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .sch-s3-slot-status {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .sch-s3-slot-status.open {
+            background: rgba(52, 211, 153, 0.15);
+            color: #10b981;
+        }
+
+        .sch-s3-slot-status.filling {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .sch-s3-slot-status.full {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+        }
+
+        /* ========== SECTION 4: SEASONAL CALENDAR ========== */
+        .sch-s4-seasons {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .sch-s4-inner {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.06), rgba(94, 234, 212, 0.1));
+            border: 2px solid var(--border-soft);
+            border-radius: 36px;
+            padding: 4rem 3rem;
+        }
+
+        body.dark-mode .sch-s4-inner {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(94, 234, 212, 0.06));
+        }
+
+        .sch-s4-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .sch-s4-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .sch-s4-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .sch-s4-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .sch-s4-season {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sch-s4-season::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .sch-s4-season:nth-child(1)::before { background: linear-gradient(90deg, #38bdf8, #0284c7); }
+        .sch-s4-season:nth-child(2)::before { background: linear-gradient(90deg, #34d399, #10b981); }
+        .sch-s4-season:nth-child(3)::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .sch-s4-season:nth-child(4)::before { background: linear-gradient(90deg, #a78bfa, #7c3aed); }
+
+        .sch-s4-season:hover::before { transform: scaleX(1); }
+
+        .sch-s4-season:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px -12px rgba(20, 184, 166, 0.25);
+        }
+
+        .sch-s4-season-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin: 0 auto 1.2rem;
+            box-shadow: 0 10px 24px rgba(20, 184, 166, 0.25);
+        }
+
+        .sch-s4-season:nth-child(1) .sch-s4-season-icon { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+        .sch-s4-season:nth-child(2) .sch-s4-season-icon { background: linear-gradient(135deg, #34d399, #10b981); }
+        .sch-s4-season:nth-child(3) .sch-s4-season-icon { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+        .sch-s4-season:nth-child(4) .sch-s4-season-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+
+        .sch-s4-season h4 {
+            font-family: var(--font-friendly);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sch-s4-season-range {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: rgba(20, 184, 166, 0.12);
+            color: var(--brand-teal);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        body.dark-mode .sch-s4-season-range {
+            background: rgba(94, 234, 212, 0.15);
+            color: #5eead4;
+        }
+
+        .sch-s4-season p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        /* ========== SECTION 5: MAKEUP & FLEXIBILITY ========== */
+        .sch-s5-flex {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .sch-s5-card {
+            background: linear-gradient(135deg, #0f172a 0%, #134e4a 100%);
+            border-radius: 36px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            align-items: stretch;
+            position: relative;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+            min-height: 460px;
+        }
+
+        .sch-s5-card::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.35), transparent 70%);
+            z-index: 0;
+        }
+
+        .sch-s5-img-side {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sch-s5-img-side img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sch-s5-img-side::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 55%, rgba(15, 23, 42, 0.85));
+        }
+
+        [dir="rtl"] .sch-s5-img-side::after {
+            background: linear-gradient(to left, transparent 55%, rgba(15, 23, 42, 0.85));
+        }
+
+        .sch-s5-content {
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sch-s5-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(20, 184, 166, 0.2);
+            color: #5eead4;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            border: 1.5px solid rgba(20, 184, 166, 0.35);
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sch-s5-content h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.15;
+        }
+
+        .sch-s5-content h2 span {
+            background: linear-gradient(135deg, #5eead4, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sch-s5-content p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 520px;
+        }
+
+        .sch-s5-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .sch-s5-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .sch-s5-feature i {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            background: rgba(20, 184, 166, 0.2);
+            color: #5eead4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .sch-s5-btn {
+            background: linear-gradient(135deg, #14b8a6 0%, #5eead4 100%);
+            color: #0f172a !important;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.5);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        .sch-s5-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(20, 184, 166, 0.65);
+        }
+
+        /* ========== SECTION 6: HOLIDAY & CLOSURE DATES ========== */
+        .sch-s6-holidays {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .sch-s6-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .sch-s6-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .sch-s6-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .sch-s6-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .sch-s6-item {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.5rem 1.8rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .sch-s6-item:hover {
+            transform: translateX(8px);
+            border-color: var(--brand-teal);
+            box-shadow: 0 16px 36px -12px rgba(20, 184, 166, 0.25);
+        }
+
+        [dir="rtl"] .sch-s6-item:hover { transform: translateX(-8px); }
+
+        .sch-s6-date-badge {
+            background: linear-gradient(135deg, #14b8a6, #5eead4);
+            color: #0f172a;
+            border-radius: 16px;
+            padding: 0.9rem 1.1rem;
+            text-align: center;
+            font-family: var(--font-friendly);
+            flex-shrink: 0;
+            min-width: 80px;
+        }
+
+        .sch-s6-date-badge .month {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .sch-s6-date-badge .day {
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .sch-s6-info h4 {
+            font-family: var(--font-friendly);
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .sch-s6-info p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .sch-s6-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .sch-s6-status.closed {
+            background: rgba(255, 107, 107, 0.12);
+            color: #ff6b6b;
+        }
+
+        .sch-s6-status.limited {
+            background: rgba(245, 158, 11, 0.12);
+            color: #f59e0b;
+        }
+
+        .sch-s6-status.open {
+            background: rgba(52, 211, 153, 0.12);
+            color: #10b981;
+        }
+
+        /* ========== SECTION 7: BOOK YOUR SLOT CTA ========== */
+        .sch-s7-cta {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem 6rem;
+        }
+
+        .sch-s7-banner {
+            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%);
+            border-radius: 36px;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -15px rgba(20, 184, 166, 0.4);
+        }
+
+        .sch-s7-banner::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+        }
+
+        .sch-s7-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -120px; left: -60px;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+        }
+
+        .sch-s7-content { position: relative; z-index: 1; }
+
+        .sch-s7-content h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.15;
+        }
+
+        .sch-s7-content p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 520px;
+        }
+
+        .sch-s7-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .sch-s7-btn-primary {
+            background: #ffffff;
+            color: #0d9488 !important;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .sch-s7-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .sch-s7-btn-ghost {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff !important;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .sch-s7-btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .sch-s7-img-wrap {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sch-s7-img {
+            width: 100%;
+            max-width: 320px;
+            max-height: 320px;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ==================== FOOTER (UNCHANGED) ==================== */
+        .footer {
+            background: #f8fafc;
+            border-top: 2px solid var(--border-soft);
+            padding: 4.5rem 2rem 2rem;
+            margin-top: auto;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .footer { background: #091a29; border-top: 2px solid var(--border-soft); }
+
+        .footer-container {
+            max-width: 1400px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1.2fr 1.6fr;
+            gap: 3.5rem; margin-bottom: 3.5rem;
+        }
+
+        .footer-brand { display: flex; flex-direction: column; gap: 1.2rem; }
+
+        .footer-logo { display: flex; align-items: center; gap: 12px; color: inherit; }
+
+        .footer-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 380px;
+        }
+
+        .social-links { display: flex; gap: 0.75rem; }
+
+        .social-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--card-bg); border: 1.5px solid var(--border-soft);
+            color: var(--brand-primary) !important;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .social-btn:hover {
+            background: var(--brand-primary) !important;
+            color: #ffffff !important;
+            border-color: var(--brand-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        .footer-col h4 {
+            font-family: var(--font-friendly); font-size: 1.2rem;
+            font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem;
+        }
+
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+
+        .footer-link {
+            color: var(--text-sub); font-size: 0.95rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: var(--transition);
+        }
+
+        .footer-link i {
+            font-size: 0.72rem; color: var(--brand-primary);
+            transition: transform 0.2s ease;
+        }
+
+        .footer-link:hover { color: var(--brand-primary); transform: translateX(4px); }
+        [dir="rtl"] .footer-link:hover { transform: translateX(-4px); }
+        [dir="rtl"] .footer-link i { transform: scaleX(-1); }
+
+        .newsletter-desc {
+            color: var(--text-sub); font-size: 0.95rem;
+            line-height: 1.6; margin-bottom: 1rem;
+        }
+
+        .newsletter-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .newsletter-input {
+            width: 100%; padding: 0.85rem 1.2rem; border-radius: 12px;
+            border: 1.5px solid var(--border-soft); background: var(--card-bg);
+            color: var(--text-main); font-family: inherit; font-size: 0.95rem;
+            outline: none; transition: var(--transition);
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .newsletter-btn {
+            padding: 0.85rem 1.4rem; border-radius: 12px; border: none;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; font-family: var(--font-friendly);
+            font-size: 1rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.3);
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.45);
+        }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 0 auto;
+            border-top: 1.5px solid var(--border-soft);
+            padding-top: 1.8rem;
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-muted); font-size: 0.9rem;
+            flex-wrap: wrap; gap: 1rem;
+        }
+
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+
+        .footer-bottom-link {
+            color: var(--text-muted); font-size: 0.88rem;
+            font-weight: 600; transition: var(--transition);
+        }
+
+        .footer-bottom-link:hover { color: var(--brand-primary); }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1180px) {
+            .nav-center-menu, .nav-right-actions .action-chip { display: none; }
+            .menu-toggle-btn { display: block; }
+        }
+
+        @media (max-width: 1100px) {
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+            .sch-s2-days { grid-template-columns: repeat(4, 1fr); }
+            .sch-s4-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 1024px) {
+            .sch-s1-hero { padding: 7rem 1.5rem 4rem; }
+            .sch-s3-slots-grid { grid-template-columns: repeat(2, 1fr); }
+            .sch-s5-card { grid-template-columns: 1fr; }
+            .sch-s5-img-side { min-height: 300px; }
+            .sch-s5-img-side::after {
+                background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 40%);
+            }
+            [dir="rtl"] .sch-s5-img-side::after {
+                background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 40%);
+            }
+            .sch-s7-banner { grid-template-columns: 1fr; text-align: center; }
+            .sch-s7-content p { margin-left: auto; margin-right: auto; }
+            .sch-s7-actions { justify-content: center; }
+        }
+
+        @media (max-width: 650px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom-links { justify-content: center; flex-wrap: wrap; }
+            .sch-s2-days { grid-template-columns: repeat(2, 1fr); }
+            .sch-s3-slots-grid { grid-template-columns: 1fr; }
+            .sch-s4-grid { grid-template-columns: 1fr; }
+            .sch-s4-inner { padding: 2.5rem 1.5rem; }
+            .sch-s6-item { grid-template-columns: auto 1fr; gap: 1rem; }
+            .sch-s6-status { grid-column: 1 / -1; justify-self: start; }
+            .sch-s7-banner { padding: 3rem 1.5rem; }
+            .sch-s1-cta-row { flex-direction: column; align-items: center; }
+            .sch-s1-btn-primary, .sch-s1-btn-ghost { width: 100%; justify-content: center; }
+            .sch-s7-btn-primary, .sch-s7-btn-ghost { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body dir="ltr">
+
+    <!-- ==================== MAIN NAVBAR ==================== -->
+    <header class="navbar" id="mainNavbar">
+        <div class="navbar-container">
+            <a href="index.html" class="nav-logo" aria-label="AquaKids Academy Home">
+                <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);">
+                    <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="logo-text-block">
+                    <span class="logo-title">AquaKids Academy</span>
+                    <span class="logo-tagline">Swim • Learn • Stay Safe</span>
+                </div>
+            </a>
+
+            <ul class="nav-center-menu">
+                <li class="nav-item dropdown">
+                    <a href="index.html" class="nav-link">
+                        Home <i class="fas fa-chevron-down dropdown-caret"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html" class="dropdown-item"><span>Home 1 (Water Confidence)</span></a></li>
+                        <li><a href="home2.html" class="dropdown-item"><span>Home 2 (Stroke Mastery)</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
+                <li class="nav-item"><a href="instructors.html" class="nav-link">Instructors</a></li>
+                <li class="nav-item"><a href="water safety.html" class="nav-link">Water Safety</a></li>
+                <li class="nav-item"><a href="schedules.html" class="nav-link active">Schedules</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">
+                        Dashboard <i class="fas fa-chevron-down dropdown-caret"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="user-dashboard.html" class="dropdown-item parent-dash">
+                                <div>
+                                    <div style="font-weight: 700;">User Dashboard</div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">Learning Topics, Badges &amp; Levels</div>
+                                </div>
+                                <span class="dash-pill parent">Family</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="admin-dashboard.html" class="dropdown-item admin-dash">
+                                <div>
+                                    <div style="font-weight: 700;">Admin Dashboard</div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">Rosters, Coaches &amp; Billing</div>
+                                </div>
+                                <span class="dash-pill admin">Staff</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="nav-right-actions">
+                <button class="action-chip" id="themeToggleBtn" aria-label="Toggle Night/Day Mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                    <span id="themeLabel">Dark</span>
+                </button>
+                <button class="action-chip" id="rtlToggleBtn" aria-label="Toggle Text Direction">
+                    <i class="fas fa-right-left" id="rtlIcon"></i>
+                    <span id="rtlLabel">RTL</span>
+                </button>
+                <a href="login.html" class="action-chip btn-login" aria-label="Open Login Portal">
+                    <i class="fas fa-lock"></i>
+                    <span>Login</span>
+                </a>
+                <button class="menu-toggle-btn" id="mobileToggleBtn" aria-label="Toggle Mobile Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MOBILE DRAWER (MATCHING USER DASHBOARD) ==================== -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-panel" id="mobilePanel">
+        <div class="mobile-header">
+            <a href="index.html" class="nav-logo" style="text-decoration: none; color: inherit;">
+                <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 40px; height: 40px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35); flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="logo-text-block">
+                    <span class="logo-title" style="font-size: 1.25rem;">AquaKids</span>
+                    <span class="logo-tagline" style="font-size: 0.7rem; color: var(--text-sub);">Swim • Learn • Stay Safe</span>
+                </div>
+            </a>
+            <button class="mobile-close-btn" id="mobileCloseBtn" title="Close Menu" aria-label="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="mobile-links" style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li class="mobile-item" style="border: none; padding: 0.5rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Main Navigation</li>
+            
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileHomeAcc">
+                    <span><i class="fas fa-home" style="width: 24px; color: var(--brand-primary);"></i> Home Pages</span>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+                <ul class="mobile-accordion" id="mobileHomeContent">
+                    <li><a href="index.html" class="mobile-sublink"><i class="fas fa-water" style="width: 18px;"></i> Home 1 (Confidence)</a></li>
+                    <li><a href="home2.html" class="mobile-sublink"><i class="fas fa-award" style="width: 18px;"></i> Home 2 (Mastery)</a></li>
+                </ul>
+            </li>
+            
+            <li class="mobile-item">
+                <a href="programs.html" class="mobile-link">
+                    <span><i class="fas fa-swimmer" style="width: 24px; color: var(--brand-aqua);"></i> Swim Programs</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="instructors.html" class="mobile-link">
+                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #f59e0b;"></i> Instructors &amp; Staff</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="water safety.html" class="mobile-link">
+                    <span><i class="fas fa-life-ring" style="width: 24px; color: var(--brand-coral);"></i> Water Safety</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="schedules.html" class="mobile-link active">
+                    <span><i class="fas fa-calendar-alt" style="width: 24px; color: var(--brand-aqua);"></i> Schedules &amp; Slots</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="contact.html" class="mobile-link">
+                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-mint);"></i> Contact Us</span>
+                </a>
+            </li>
+
+            <li class="mobile-item" style="border: none; padding: 0.75rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Dashboards &amp; Portals</li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileDashAcc">
+                    <span><i class="fas fa-tachometer-alt" style="width: 24px; color: var(--brand-coral);"></i> Portals</span>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+                <ul class="mobile-accordion" id="mobileDashContent">
+                    <li>
+                        <a href="user-dashboard.html" class="mobile-sublink">
+                            <span><i class="fas fa-user-circle" style="width: 18px;"></i> User Dashboard</span>
+                            <span class="dash-pill parent">Family</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin-dashboard.html" class="mobile-sublink">
+                            <span><i class="fas fa-user-shield" style="width: 18px;"></i> Admin Dashboard</span>
+                            <span class="dash-pill admin">Staff</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="mobile-item" style="border: none; padding: 0.75rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Settings &amp; Preferences</li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileRtlBtn" style="cursor: pointer;">
+                    <span><i class="fas fa-right-left" style="width: 24px; color: var(--brand-primary);"></i> RTL Layout</span>
+                    <span class="badge-count" id="mobileRtlLabel" style="background: var(--brand-primary); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; color: #fff; font-weight: 700;">OFF</span>
+                </div>
+            </li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileThemeBtn" style="cursor: pointer;">
+                    <span><i class="fas fa-moon" style="width: 24px; color: var(--brand-aqua);"></i> Dark Mode</span>
+                    <span class="badge-count" id="mobileThemeLabel" style="background: var(--brand-aqua); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; color: #fff; font-weight: 700;">OFF</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="mobile-actions" style="margin-top: auto; padding-top: 1rem; border-top: 1.5px solid var(--border-soft);">
+            <a href="login.html" class="action-chip btn-login" style="width: 100%; justify-content: center;">
+                <i class="fas fa-user-lock"></i> Login to Portal
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== LOGIN MODAL ==================== -->
+    <div class="modal-backdrop" id="loginBackdrop">
+        <div class="login-dialog">
+            <button class="modal-close-trigger" id="modalCloseBtn"><i class="fas fa-times"></i></button>
+            <h3 class="dialog-title">Academy Login</h3>
+            <p class="dialog-subtitle">Select your account type to access your portal.</p>
+
+            <form id="academyLoginForm">
+                <div class="input-group">
+                    <label class="input-label" for="loginRole">Account Type</label>
+                    <select id="loginRole" class="form-control" required>
+                        <option value="parent">Parent / Guardian</option>
+                        <option value="admin">Staff / Pool Administrator</option>
+                        <option value="coach">Swim Instructor</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" class="form-control" placeholder="parent@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="userPass">Password</label>
+                    <input type="password" id="userPass" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== SCHEDULES MAIN CONTENT ==================== -->
+    <main class="sch-main">
+
+        <!-- ========== SECTION 1: FULL-SCREEN HERO BACKGROUND ========== -->
+        <section class="sch-s1-hero" id="schS1Hero">
+            <img src="images/schedules-hero-fullscreen.png" alt="Swimming pool with lanes marked and clock on wall showing class times" class="sch-s1-hero-bg">
+            <div class="sch-s1-hero-overlay"></div>
+
+            <div class="sch-s1-hero-content">
+                <span class="sch-s1-badge" data-sch="heroBadge">
+                    <i class="fas fa-clock"></i> Flexible Class Times
+                </span>
+                <h1 class="sch-s1-title" data-sch="heroTitle">
+                    Find the Perfect Time<br>
+                    <span class="teal-accent">for Your Family's Splash</span>
+                </h1>
+                <p class="sch-s1-desc" data-sch="heroDesc">
+                    Morning, afternoon, or evening — we have class times that fit every family's rhythm. Browse the schedule, pick a slot, and dive in.
+                </p>
+                <div class="sch-s1-cta-row" data-sch="heroCta">
+                    <button class="sch-s1-btn-primary" onclick="alert('Booking system coming soon!')">
+                        <i class="fas fa-calendar-check"></i> Book Your Slot
+                    </button>
+                    <a href="programs.html" class="sch-s1-btn-ghost">
+                        <i class="fas fa-water"></i> Explore Programs
+                    </a>
+                </div>
+            </div>
+
+            <div class="sch-s1-scroll-hint" data-sch="heroHint">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 2: WEEKLY SCHEDULE GRID ========== -->
+        <section class="sch-s2-weekly" id="schS2Weekly">
+            <div class="sch-s2-head" data-sch="weeklyHead">
+                <h2>This Week at a Glance</h2>
+                <p>Seven days, seven opportunities to swim. Click any day to see its full class list.</p>
+            </div>
+            <div class="sch-s2-days">
+                <div class="sch-s2-day" data-sch="day1">
+                    <div class="sch-s2-day-name">Mon</div>
+                    <div class="sch-s2-day-num">14</div>
+                    <span class="sch-s2-day-count">8 classes</span>
+                </div>
+                <div class="sch-s2-day" data-sch="day2">
+                    <div class="sch-s2-day-name">Tue</div>
+                    <div class="sch-s2-day-num">15</div>
+                    <span class="sch-s2-day-count">7 classes</span>
+                </div>
+                <div class="sch-s2-day" data-sch="day3">
+                    <div class="sch-s2-day-name">Wed</div>
+                    <div class="sch-s2-day-num">16</div>
+                    <span class="sch-s2-day-count">9 classes</span>
+                </div>
+                <div class="sch-s2-day active" data-sch="day4">
+                    <div class="sch-s2-day-name">Thu</div>
+                    <div class="sch-s2-day-num">17</div>
+                    <span class="sch-s2-day-count">10 classes</span>
+                </div>
+                <div class="sch-s2-day" data-sch="day5">
+                    <div class="sch-s2-day-name">Fri</div>
+                    <div class="sch-s2-day-num">18</div>
+                    <span class="sch-s2-day-count">8 classes</span>
+                </div>
+                <div class="sch-s2-day" data-sch="day6">
+                    <div class="sch-s2-day-name">Sat</div>
+                    <div class="sch-s2-day-num">19</div>
+                    <span class="sch-s2-day-count">12 classes</span>
+                </div>
+                <div class="sch-s2-day" data-sch="day7">
+                    <div class="sch-s2-day-name">Sun</div>
+                    <div class="sch-s2-day-num">20</div>
+                    <span class="sch-s2-day-count">6 classes</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 3: TIME SLOTS TABS ========== -->
+        <section class="sch-s3-slots" id="schS3Slots">
+            <div class="sch-s3-head" data-sch="slotsHead">
+                <h2>Available Time Slots</h2>
+                <p>Filter by time of day to see what fits your schedule best.</p>
+            </div>
+            <div class="sch-s3-tabs" data-sch="slotsTabs">
+                <button class="sch-s3-tab active" data-time="all">All Times</button>
+                <button class="sch-s3-tab" data-time="morning">Morning (8–12)</button>
+                <button class="sch-s3-tab" data-time="afternoon">Afternoon (12–5)</button>
+                <button class="sch-s3-tab" data-time="evening">Evening (5–8)</button>
+            </div>
+            <div class="sch-s3-slots-grid" id="schSlotsGrid">
+                <div class="sch-s3-slot" data-time="morning" data-sch="slot1">
+                    <div class="sch-s3-slot-time">8:30 AM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Parent &amp; Me Splash</strong>
+                        <span>Ages 2–3 · Coach Sofia</span>
+                    </div>
+                    <span class="sch-s3-slot-status open">Open</span>
+                </div>
+                <div class="sch-s3-slot" data-time="morning" data-sch="slot2">
+                    <div class="sch-s3-slot-time">9:15 AM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Little Floaters</strong>
+                        <span>Ages 4–5 · Coach Mira</span>
+                    </div>
+                    <span class="sch-s3-slot-status filling">2 spots</span>
+                </div>
+                <div class="sch-s3-slot" data-time="morning" data-sch="slot3">
+                    <div class="sch-s3-slot-time">10:00 AM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Junior Strokes</strong>
+                        <span>Ages 6–8 · Coach James</span>
+                    </div>
+                    <span class="sch-s3-slot-status open">Open</span>
+                </div>
+                <div class="sch-s3-slot" data-time="afternoon" data-sch="slot4">
+                    <div class="sch-s3-slot-time">1:30 PM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Stroke Mastery</strong>
+                        <span>Ages 9–12 · Coach David</span>
+                    </div>
+                    <span class="sch-s3-slot-status full">Full</span>
+                </div>
+                <div class="sch-s3-slot" data-time="afternoon" data-sch="slot5">
+                    <div class="sch-s3-slot-time">3:00 PM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Little Floaters</strong>
+                        <span>Ages 4–5 · Coach Sofia</span>
+                    </div>
+                    <span class="sch-s3-slot-status open">Open</span>
+                </div>
+                <div class="sch-s3-slot" data-time="afternoon" data-sch="slot6">
+                    <div class="sch-s3-slot-time">4:15 PM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Junior Strokes</strong>
+                        <span>Ages 6–8 · Coach Mira</span>
+                    </div>
+                    <span class="sch-s3-slot-status filling">3 spots</span>
+                </div>
+                <div class="sch-s3-slot" data-time="evening" data-sch="slot7">
+                    <div class="sch-s3-slot-time">5:30 PM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Stroke Mastery</strong>
+                        <span>Ages 9–12 · Coach David</span>
+                    </div>
+                    <span class="sch-s3-slot-status open">Open</span>
+                </div>
+                <div class="sch-s3-slot" data-time="evening" data-sch="slot8">
+                    <div class="sch-s3-slot-time">6:30 PM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Adult Beginner</strong>
+                        <span>All adults · Coach James</span>
+                    </div>
+                    <span class="sch-s3-slot-status filling">4 spots</span>
+                </div>
+                <div class="sch-s3-slot" data-time="evening" data-sch="slot9">
+                    <div class="sch-s3-slot-time">7:30 PM</div>
+                    <div class="sch-s3-slot-info">
+                        <strong>Private Lesson</strong>
+                        <span>By appointment · Coach Mira</span>
+                    </div>
+                    <span class="sch-s3-slot-status open">Open</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 4: SEASONAL CALENDAR ========== -->
+        <section class="sch-s4-seasons" id="schS4Seasons">
+            <div class="sch-s4-inner">
+                <div class="sch-s4-head" data-sch="seasonsHead">
+                    <h2>Seasonal Program Calendar</h2>
+                    <p>Our program cycles align with the seasons — each season brings new skills, new badges, and new celebrations.</p>
+                </div>
+                <div class="sch-s4-grid">
+                    <div class="sch-s4-season" data-sch="season1">
+                        <div class="sch-s4-season-icon"><i class="fas fa-seedling"></i></div>
+                        <h4>Spring Session</h4>
+                        <span class="sch-s4-season-range">Mar – May</span>
+                        <p>Building water confidence after the winter break. Focus on floating and breathing.</p>
+                    </div>
+                    <div class="sch-s4-season" data-sch="season2">
+                        <div class="sch-s4-season-icon"><i class="fas fa-sun"></i></div>
+                        <h4>Summer Session</h4>
+                        <span class="sch-s4-season-range">Jun – Aug</span>
+                        <p>Intensive stroke development with daily options. Perfect for rapid progress.</p>
+                    </div>
+                    <div class="sch-s4-season" data-sch="season3">
+                        <div class="sch-s4-season-icon"><i class="fas fa-leaf"></i></div>
+                        <h4>Fall Session</h4>
+                        <span class="sch-s4-season-range">Sep – Nov</span>
+                        <p>Endurance building and stroke refinement. Introduction to competitive skills.</p>
+                    </div>
+                    <div class="sch-s4-season" data-sch="season4">
+                        <div class="sch-s4-season-icon"><i class="fas fa-snowflake"></i></div>
+                        <h4>Winter Session</h4>
+                        <span class="sch-s4-season-range">Dec – Feb</span>
+                        <p>Indoor pool mastery. Maintaining skills and preparing for the next season.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 5: MAKEUP & FLEXIBILITY ========== -->
+        <section class="sch-s5-flex" id="schS5Flex">
+            <div class="sch-s5-card">
+                <div class="sch-s5-img-side" data-sch="flexImg">
+                    <img src="images/schedules-flexibility.png" alt="Parent easily rescheduling swim lesson on phone app">
+                </div>
+                <div class="sch-s5-content" data-sch="flexContent">
+                    <span class="sch-s5-tag"><i class="fas fa-calendar-day"></i> Flexible Scheduling</span>
+                    <h2>Life Happens. <span>We Get It.</span></h2>
+                    <p>Missed a class? Need to switch days? Our flexible makeup policy makes it easy — no stress, no penalties.</p>
+                    <div class="sch-s5-features">
+                        <div class="sch-s5-feature">
+                            <i class="fas fa-check"></i> Free makeup classes with 24hr notice
+                        </div>
+                        <div class="sch-s5-feature">
+                            <i class="fas fa-check"></i> Switch time slots any week
+                        </div>
+                        <div class="sch-s5-feature">
+                            <i class="fas fa-check"></i> No fees for schedule changes
+                        </div>
+                        <div class="sch-s5-feature">
+                            <i class="fas fa-check"></i> Pause enrollment anytime
+                        </div>
+                    </div>
+                    <button class="sch-s5-btn" onclick="alert('Makeup booking coming soon!')">
+                        <i class="fas fa-calendar-plus"></i> Book a Makeup Class
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 6: HOLIDAY & CLOSURE DATES ========== -->
+        <section class="sch-s6-holidays" id="schS6Holidays">
+            <div class="sch-s6-head" data-sch="holidaysHead">
+                <h2>Upcoming Holidays &amp; Closures</h2>
+                <p>Plan ahead — here are the dates when our pools will be closed or on limited schedule.</p>
+            </div>
+            <div class="sch-s6-list">
+                <div class="sch-s6-item" data-sch="holiday1">
+                    <div class="sch-s6-date-badge">
+                        <div class="month">Nov</div>
+                        <div class="day">27</div>
+                    </div>
+                    <div class="sch-s6-info">
+                        <h4>Thanksgiving Day</h4>
+                        <p>All pools closed. No classes scheduled.</p>
+                    </div>
+                    <span class="sch-s6-status closed"><i class="fas fa-circle-xmark"></i> Closed</span>
+                </div>
+                <div class="sch-s6-item" data-sch="holiday2">
+                    <div class="sch-s6-date-badge">
+                        <div class="month">Dec</div>
+                        <div class="day">24</div>
+                    </div>
+                    <div class="sch-s6-info">
+                        <h4>Christmas Eve</h4>
+                        <p>Morning classes only. Afternoon and evening cancelled.</p>
+                    </div>
+                    <span class="sch-s6-status limited"><i class="fas fa-clock"></i> Limited</span>
+                </div>
+                <div class="sch-s6-item" data-sch="holiday3">
+                    <div class="sch-s6-date-badge">
+                        <div class="month">Dec</div>
+                        <div class="day">25</div>
+                    </div>
+                    <div class="sch-s6-info">
+                        <h4>Christmas Day</h4>
+                        <p>All pools closed. No classes scheduled.</p>
+                    </div>
+                    <span class="sch-s6-status closed"><i class="fas fa-circle-xmark"></i> Closed</span>
+                </div>
+                <div class="sch-s6-item" data-sch="holiday4">
+                    <div class="sch-s6-date-badge">
+                        <div class="month">Jan</div>
+                        <div class="day">01</div>
+                    </div>
+                    <div class="sch-s6-info">
+                        <h4>New Year's Day</h4>
+                        <p>Reduced schedule. Check app for available slots.</p>
+                    </div>
+                    <span class="sch-s6-status limited"><i class="fas fa-clock"></i> Limited</span>
+                </div>
+                <div class="sch-s6-item" data-sch="holiday5">
+                    <div class="sch-s6-date-badge">
+                        <div class="month">Mar</div>
+                        <div class="day">15</div>
+                    </div>
+                    <div class="sch-s6-info">
+                        <h4>Spring Break Camp</h4>
+                        <p>Special full-day camp available. Regular classes paused.</p>
+                    </div>
+                    <span class="sch-s6-status open"><i class="fas fa-star"></i> Camp</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 7: BOOK YOUR SLOT CTA ========== -->
+        <section class="sch-s7-cta" id="schS7Cta">
+            <div class="sch-s7-banner">
+                <div class="sch-s7-content" data-sch="ctaContent">
+                    <h2>Ready to Lock In Your Class Time?</h2>
+                    <p>Spots fill fast — especially weekend classes. Reserve your child's slot today and start splashing this week.</p>
+                    <div class="sch-s7-actions">
+                        <button class="sch-s7-btn-primary" onclick="alert('Booking portal coming soon!')">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </button>
+                        <a href="contact.html" class="sch-s7-btn-ghost">
+                            <i class="fas fa-comments"></i> Ask About Availability
+                        </a>
+                    </div>
+                </div>
+                <div class="sch-s7-img-wrap" data-sch="ctaImg">
+                    <img src="images/schedules-cta-swimmer.png" alt="Happy child ready to jump into pool at scheduled class" class="sch-s7-img">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);">
+                        <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-title">AquaKids Academy</span>
+                        <span class="logo-tagline">Swim • Learn • Stay Safe</span>
+                    </div>
+                </a>
+                <p class="footer-desc">
+                    Building water confidence and safety skills for children of all ages. Our certified instructors create a fun, nurturing environment where every child can thrive in the water.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="programs.html" class="footer-link"><i class="fas fa-chevron-right"></i> Programs</a></li>
+                    <li><a href="instructors.html" class="footer-link"><i class="fas fa-chevron-right"></i> Instructors</a></li>
+                    <li><a href="schedules.html" class="footer-link"><i class="fas fa-chevron-right"></i> Schedules</a></li>
+                    <li><a href="water safety.html" class="footer-link"><i class="fas fa-chevron-right"></i> Water Safety</a></li>
+                    <li><a href="contact.html" class="footer-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Enrollment Guide</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Parent Portal</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Stay Updated</h4>
+                <p class="newsletter-desc">
+                    Get the latest news, swim tips, and schedule updates delivered to your inbox.
+                </p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 AquaKids Academy. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#" class="footer-bottom-link">Privacy</a>
+                <a href="#" class="footer-bottom-link">Terms</a>
+                <a href="#" class="footer-bottom-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+
+            /* ========== NAVBAR + DRAWER + MODAL LOGIC (UNCHANGED) ========== */
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+            const themeLabel = document.getElementById('themeLabel');
+            const mobileThemeLabel = document.getElementById('mobileThemeLabel');
+
+            const rtlToggleBtn = document.getElementById('rtlToggleBtn');
+            const mobileRtlBtn = document.getElementById('mobileRtlBtn');
+            const rtlLabel = document.getElementById('rtlLabel');
+            const mobileRtlLabel = document.getElementById('mobileRtlLabel');
+
+            const mobileToggleBtn = document.getElementById('mobileToggleBtn');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobilePanel = document.getElementById('mobilePanel');
+
+            const mobileHomeAcc = document.getElementById('mobileHomeAcc');
+            const mobileHomeContent = document.getElementById('mobileHomeContent');
+            const mobileDashAcc = document.getElementById('mobileDashAcc');
+            const mobileDashContent = document.getElementById('mobileDashContent');
+
+            const loginModalBtn = document.getElementById('loginModalBtn');
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            const loginBackdrop = document.getElementById('loginBackdrop');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const loginForm = document.getElementById('academyLoginForm');
+
+            function applyTheme(isDark) {
+                if (isDark) {
+                    body.classList.add('dark-mode');
+                    if (themeLabel) themeLabel.textContent = 'Light';
+                    if (mobileThemeLabel) mobileThemeLabel.textContent = 'Light Mode';
+                    localStorage.setItem('aquakids_theme', 'dark');
+                } else {
+                    body.classList.remove('dark-mode');
+                    if (themeLabel) themeLabel.textContent = 'Dark';
+                    if (mobileThemeLabel) mobileThemeLabel.textContent = 'Dark Mode';
+                    localStorage.setItem('aquakids_theme', 'light');
+                }
+            }
+
+            function toggleTheme() { applyTheme(!body.classList.contains('dark-mode')); }
+
+            const savedTheme = localStorage.getItem('aquakids_theme');
+            applyTheme(savedTheme === 'dark');
+
+            if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+            if (mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+
+            function applyRTL(isRtl) {
+                const dir = isRtl ? 'rtl' : 'ltr';
+                document.body.setAttribute('dir', dir);
+                document.documentElement.setAttribute('dir', dir);
+                if (rtlLabel) rtlLabel.textContent = isRtl ? 'LTR' : 'RTL';
+                if (mobileRtlLabel) mobileRtlLabel.textContent = isRtl ? 'LTR Layout' : 'RTL Layout';
+                localStorage.setItem('aquakids_rtl', dir);
+            }
+
+            function toggleRTL() {
+                const isRtl = (document.body.getAttribute('dir') || 'ltr') === 'ltr';
+                applyRTL(isRtl);
+                closeMobileDrawer();
+            }
+
+            const savedRtl = localStorage.getItem('aquakids_rtl');
+            applyRTL(savedRtl === 'rtl');
+
+            if (rtlToggleBtn) rtlToggleBtn.addEventListener('click', toggleRTL);
+            if (mobileRtlBtn) mobileRtlBtn.addEventListener('click', toggleRTL);
+
+            function openMobileDrawer() {
+                mobileOverlay.classList.add('active');
+                mobilePanel.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+
+            function closeMobileDrawer() {
+                mobileOverlay.classList.remove('active');
+                mobilePanel.classList.remove('active');
+                body.style.overflow = '';
+            }
+
+            if (mobileToggleBtn) mobileToggleBtn.addEventListener('click', openMobileDrawer);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileDrawer);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileDrawer);
+
+            function bindAccordion(trigger, content) {
+                if (trigger && content) {
+                    trigger.addEventListener('click', () => {
+                        content.classList.toggle('show');
+                        const caret = trigger.querySelector('.dropdown-caret');
+                        if (caret) caret.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    });
+                }
+            }
+
+            bindAccordion(mobileHomeAcc, mobileHomeContent);
+            bindAccordion(mobileDashAcc, mobileDashContent);
+
+            function openLoginModal() {
+                loginBackdrop.classList.add('active');
+                closeMobileDrawer();
+            }
+
+            function closeLoginModal() { loginBackdrop.classList.remove('active'); }
+
+            if (loginModalBtn) loginModalBtn.addEventListener('click', openLoginModal);
+            if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', openLoginModal);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeLoginModal);
+            if (loginBackdrop) {
+                loginBackdrop.addEventListener('click', (e) => {
+                    if (e.target === loginBackdrop) closeLoginModal();
+                });
+            }
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const role = document.getElementById('loginRole').value;
+                    const email = document.getElementById('userEmail').value;
+                    alert(`Signed in as [${role.toUpperCase()}]: ${email}`);
+                    closeLoginModal();
+                });
+            }
+
+            /* ========== TIME SLOT FILTER ========== */
+            const timeTabs = document.querySelectorAll('.sch-s3-tab');
+            const timeSlots = document.querySelectorAll('.sch-s3-slot');
+
+            timeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    timeTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const filter = tab.dataset.time;
+
+                    timeSlots.forEach(slot => {
+                        if (filter === 'all' || slot.dataset.time === filter) {
+                            slot.style.display = 'flex';
+                        } else {
+                            slot.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            /* ========== DAY SELECTOR (VISUAL) ========== */
+            const dayCards = document.querySelectorAll('.sch-s2-day');
+            dayCards.forEach(day => {
+                day.addEventListener('click', () => {
+                    dayCards.forEach(d => d.classList.remove('active'));
+                    day.classList.add('active');
+                });
+            });
+
+            /* ============================================================
+               FRAMER MOTION — UNIQUE ANIMATION SIGNATURES FOR SCHEDULES
+               Each section uses a COMPLETELY DIFFERENT animation technique
+               ============================================================ */
+
+            const { animate, inView } = window.Motion;
+
+            /* ---------- SECTION 1: FULL-SCREEN HERO — Clock-tick reveal ---------- */
+            inView('#schS1Hero', () => {
+                animate('.sch-s1-hero-bg',
+                    { scale: [1.15, 1] },
+                    { duration: 2, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="heroBadge"]',
+                    { opacity: [0, 1], rotate: [-8, 0], y: [-30, 0] },
+                    { duration: 0.7, delay: 0.3, easing: [0.34, 1.56, 0.64, 1] }
+                );
+                animate('[data-sch="heroTitle"]',
+                    { opacity: [0, 1], y: [50, 0], scale: [0.95, 1] },
+                    { duration: 1.1, delay: 0.45, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="heroDesc"]',
+                    { opacity: [0, 1], y: [30, 0] },
+                    { duration: 0.9, delay: 0.65, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="heroCta"]',
+                    { opacity: [0, 1], y: [25, 0] },
+                    { duration: 0.8, delay: 0.85, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="heroHint"]',
+                    { opacity: [0, 1] },
+                    { duration: 1, delay: 1.5 }
+                );
+            }, { amount: 0.1 });
+
+            /* ---------- SECTION 2: WEEKLY — Clockwise day-by-day reveal ---------- */
+            inView('#schS2Weekly', () => {
+                animate('[data-sch="weeklyHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const days = document.querySelectorAll('[data-sch^="day"]:not([data-sch="weeklyHead"])');
+                days.forEach((day, i) => {
+                    animate(day,
+                        { opacity: [0, 1], y: [50, 0], scale: [0.85, 1] },
+                        { duration: 0.55, delay: 0.15 + i * 0.09, easing: [0.34, 1.56, 0.64, 1] }
+                    );
+                });
+            }, { amount: 0.2 });
+
+            /* ---------- SECTION 3: SLOTS — Fade from right with stagger ---------- */
+            inView('#schS3Slots', () => {
+                animate('[data-sch="slotsHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="slotsTabs"]',
+                    { opacity: [0, 1], y: [20, 0] },
+                    { duration: 0.6, delay: 0.15, easing: [0.22, 1, 0.36, 1] }
+                );
+                const slots = document.querySelectorAll('[data-sch^="slot"]');
+                slots.forEach((slot, i) => {
+                    animate(slot,
+                        { opacity: [0, 1], x: [40, 0] },
+                        { duration: 0.55, delay: 0.3 + i * 0.07, easing: [0.22, 1, 0.36, 1] }
+                    );
+                });
+            }, { amount: 0.15 });
+
+            /* ---------- SECTION 4: SEASONS — Seasonal rotation reveal ---------- */
+            inView('#schS4Seasons', () => {
+                animate('[data-sch="seasonsHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const seasons = document.querySelectorAll('[data-sch^="season"]:not([data-sch="seasonsHead"])');
+                seasons.forEach((season, i) => {
+                    const rotations = [-6, 4, -4, 6];
+                    animate(season,
+                        { opacity: [0, 1], rotate: [rotations[i], 0], y: [60, 0], scale: [0.85, 1] },
+                        { duration: 0.8, delay: 0.2 + i * 0.14, easing: [0.22, 1, 0.36, 1] }
+                    );
+                });
+            }, { amount: 0.2 });
+
+            /* ---------- SECTION 5: FLEX — Image/Content cross slide with stagger ---------- */
+            inView('#schS5Flex', () => {
+                animate('[data-sch="flexImg"]',
+                    { opacity: [0, 1], x: [-80, 0], scale: [1.1, 1] },
+                    { duration: 1.1, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="flexContent"]',
+                    { opacity: [0, 1], x: [60, 0] },
+                    { duration: 1, delay: 0.2, easing: [0.22, 1, 0.36, 1] }
+                );
+            }, { amount: 0.25 });
+
+            /* ---------- SECTION 6: HOLIDAYS — Calendar item cascade ---------- */
+            inView('#schS6Holidays', () => {
+                animate('[data-sch="holidaysHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const items = document.querySelectorAll('[data-sch^="holiday"]');
+                items.forEach((item, i) => {
+                    animate(item,
+                        { opacity: [0, 1], x: [60, 0], y: [15, 0] },
+                        { duration: 0.65, delay: 0.15 + i * 0.11, easing: [0.22, 1, 0.36, 1] }
+                    );
+                });
+            }, { amount: 0.15 });
+
+            /* ---------- SECTION 7: CTA — Content rises, image scales + rotates ---------- */
+            inView('#schS7Cta', () => {
+                animate('[data-sch="ctaContent"]',
+                    { opacity: [0, 1], y: [50, 0] },
+                    { duration: 0.9, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-sch="ctaImg"]',
+                    { opacity: [0, 1], scale: [0.8, 1], rotate: [-4, 0] },
+                    { duration: 1, delay: 0.25, easing: [0.22, 1, 0.36, 1] }
+                );
+            }, { amount: 0.3 });
+
+        });
+    </script>
+</body>
+</html>

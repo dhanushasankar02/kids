@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>User Dashboard — AquaKids Academy</title>
+
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Framer Motion (Motion One CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@10.16.2/dist/motion.min.js"></script>
+
+    <style>
+        /* ==================== GLOBAL SYSTEM TOKENS ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-body: #f0fdfa;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+            --brand-primary: #0284c7;
+            --brand-aqua: #06b6d4;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
+            --brand-mint: #10b981;
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-card: 0 10px 30px -5px rgba(2, 132, 199, 0.12);
+            --shadow-hover: 0 18px 40px -8px rgba(2, 132, 199, 0.22);
+            --font-friendly: 'Fredoka', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark-mode {
+            --bg-body: #07131e;
+            --sidebar-bg: #0f2338;
+            --card-bg: #0f2338;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #38bdf8;
+            --brand-aqua: #22d3ee;
+            --border-soft: rgba(56, 189, 248, 0.2);
+            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.55);
+            --shadow-hover: 0 18px 40px -8px rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        a, button { text-decoration: none !important; font-family: inherit; }
+
+        /* ==================== LAYOUT: DASHBOARD CONTAINER ==================== */
+        .dash-wrapper {
+            display: flex;
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+        /* ==================== SIDEBAR (NO MAIN WEBSITE NAVBAR) ==================== */
+        .dash-sidebar {
+            width: 270px;
+            background: var(--sidebar-bg);
+            border-right: 2px solid var(--border-soft);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.8rem 1.2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed var(--border-soft);
+            cursor: pointer;
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(145deg, #0ea5e9, #0284c7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+        }
+
+        .brand-title {
+            font-family: var(--font-friendly);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .brand-title span {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--brand-primary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-top: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin: 0.8rem 0 0.3rem 0.6rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            color: var(--text-sub);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .sidebar-link i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+            color: var(--brand-primary);
+            transition: var(--transition);
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--brand-primary);
+            transform: translateX(4px);
+        }
+
+        .sidebar-link .badge-count {
+            margin-left: auto;
+            background: var(--brand-coral);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        /* Sidebar Footer / User Info */
+        .sidebar-user {
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand-aqua), var(--brand-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(6, 182, 212, 0.3);
+        }
+
+        .user-meta { overflow: hidden; }
+
+        .user-name {
+            font-family: var(--font-friendly);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .user-role {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ==================== MAIN CONTENT AREA ==================== */
+        .dash-main {
+            margin-left: 270px;
+            flex-grow: 1;
+            padding: 2rem 2.5rem;
+            max-width: 1400px;
+            width: calc(100vw - 270px);
+        }
+
+        /* Top Dashboard Header Bar */
+        .dash-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .welcome-box h1 {
+            font-family: var(--font-friendly);
+            font-size: 1.85rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome-box p {
+            color: var(--text-sub);
+            font-size: 0.98rem;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .back-site-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.65rem 1.2rem;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #fff !important;
+            border-radius: 12px;
+            font-family: var(--font-friendly);
+            font-weight: 600;
+            font-size: 0.92rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+            transition: var(--transition);
+        }
+
+        .back-site-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45);
+        }
+
+        /* ==================== DASHBOARD VIEWS (DYNAMIC CONTENT SWITCHING) ==================== */
+        .dash-view {
+            display: none;
+            animation: fadeInView 0.35s ease forwards;
+        }
+
+        .dash-view.active-view {
+            display: block;
+        }
+
+        @keyframes fadeInView {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Back to Overview Bar inside Topic View */
+        .topic-view-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-card);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .topic-title-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .topic-view-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .topic-view-title h2 {
+            font-family: var(--font-friendly);
+            font-size: 1.5rem;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .topic-view-title p {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+        }
+
+        .back-overview-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--brand-primary);
+            border-radius: 12px;
+            font-family: var(--font-friendly);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .back-overview-btn:hover {
+            background: var(--brand-primary);
+            color: #fff;
+            transform: translateX(-4px);
+        }
+
+        /* STAT CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 18px;
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.cyan { background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua); }
+        .stat-icon.blue { background: rgba(2, 132, 199, 0.15); color: var(--brand-primary); }
+        .stat-icon.coral { background: rgba(255, 107, 107, 0.15); color: var(--brand-coral); }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.15); color: var(--brand-mint); }
+
+        .stat-info .stat-num {
+            font-family: var(--font-friendly);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .stat-info .stat-lbl {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* TOPICS SECTION OVERVIEW */
+        .section-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-family: var(--font-friendly);
+            font-size: 1.45rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i { color: var(--brand-aqua); }
+
+        .topic-filters {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-chip:hover, .filter-chip.active {
+            background: var(--brand-primary);
+            color: #fff;
+            border-color: var(--brand-primary);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.85rem 1.2rem 0.85rem 2.8rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* TOPIC CARDS GRID */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand-aqua), var(--brand-primary));
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .topic-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--brand-aqua);
+        }
+
+        .topic-card:hover::before { height: 6px; opacity: 1; }
+
+        .topic-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .topic-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .topic-pill {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .pill-safety { background: rgba(255, 107, 107, 0.15); color: var(--brand-coral); }
+        .pill-program { background: rgba(2, 132, 199, 0.15); color: var(--brand-primary); }
+        .pill-schedule { background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua); }
+        .pill-instructor { background: rgba(251, 191, 36, 0.18); color: #d97706; }
+        .pill-support { background: rgba(16, 185, 129, 0.15); color: var(--brand-mint); }
+
+        .topic-card h3 {
+            font-family: var(--font-friendly);
+            font-size: 1.18rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .topic-card p {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .topic-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-top: 0.5rem;
+        }
+
+        .topic-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.55rem 1.1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #ffffff !important;
+            font-family: var(--font-friendly);
+            font-weight: 700;
+            font-size: 0.88rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+            transition: var(--transition);
+        }
+
+        .topic-card:hover .topic-btn {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+        }
+
+        /* ==================== CONTENT CARDS FOR SPECIFIC TOPIC VIEWS ==================== */
+        .content-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.6rem;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .content-card-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-card h3 {
+            font-family: var(--font-friendly);
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+        }
+
+        .content-card p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.65;
+            margin-bottom: 1.2rem;
+        }
+
+        .content-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .content-list li {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-list li i {
+            color: var(--brand-mint);
+            font-size: 0.9rem;
+        }
+
+        /* Table & Timetable styling */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .custom-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+
+        .custom-table th, .custom-table td {
+            padding: 0.9rem 1.1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-soft);
+            font-size: 0.92rem;
+            white-space: nowrap;
+        }
+
+        [dir="rtl"] .custom-table th, [dir="rtl"] .custom-table td {
+            text-align: right;
+        }
+
+        .custom-table th {
+            background: rgba(6, 182, 212, 0.1);
+            font-family: var(--font-friendly);
+            font-size: 0.95rem;
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        .custom-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .slot-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .slot-booked { background: rgba(16, 185, 129, 0.15); color: var(--brand-mint); }
+        .slot-open { background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua); }
+
+        /* Instructor Grid */
+        .instructor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .instructor-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .instructor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .inst-img-wrap {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem auto;
+            background: linear-gradient(135deg, var(--brand-aqua), var(--brand-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 2rem;
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        .inst-name {
+            font-family: var(--font-friendly);
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .inst-title {
+            font-size: 0.85rem;
+            color: var(--brand-primary);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .inst-bio {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
+        }
+
+        /* SWIM PROGRESS & RECENT BADGES */
+        .grid-two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .box-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+        }
+
+        .box-head h3 {
+            font-family: var(--font-friendly);
+            font-size: 1.2rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-item { margin-bottom: 1rem; }
+        .progress-item:last-child { margin-bottom: 0; }
+
+        .progress-lbl {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 10px;
+            background: rgba(6, 182, 212, 0.12);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--brand-aqua), var(--brand-primary));
+            transition: width 0.8s ease;
+        }
+
+        .badges-wrap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 1rem;
+        }
+
+        .badge-card {
+            background: rgba(6, 182, 212, 0.06);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .badge-card:hover {
+            transform: scale(1.05);
+            background: rgba(6, 182, 212, 0.12);
+        }
+
+        .badge-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+            color: var(--brand-sun);
+        }
+
+        .badge-title {
+            font-family: var(--font-friendly);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Action Form */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--brand-primary);
+        }
+
+        .submit-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-friendly);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45);
+        }
+
+        /* ==================== DASHBOARD TOP HEADER ==================== */
+        .dash-header {
+            position: sticky;
+            top: 0.8rem;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1.5px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.2rem 1.6rem;
+            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .dash-header {
+            background: rgba(15, 35, 56, 0.94);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.55);
+        }
+
+        .welcome-box h1 {
+            font-family: var(--font-friendly);
+            font-size: 1.85rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome-box p {
+            color: var(--text-sub);
+            font-size: 0.98rem;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .theme-toggle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .back-site-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.65rem 1.2rem;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #fff !important;
+            border-radius: 12px;
+            font-family: var(--font-friendly);
+            font-weight: 600;
+            font-size: 0.92rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+            transition: var(--transition);
+        }
+
+        .back-site-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45);
+        }
+
+        .dash-hamburger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 14px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-soft);
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dash-hamburger-btn:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
+        }
+
+        .sidebar-close-btn {
+            display: none;
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--border-soft);
+            color: var(--text-muted);
+            width: 32px; height: 32px;
+            border-radius: 10px;
+            align-items: center; justify-content: center;
+            font-size: 1rem; cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar-close-btn:hover {
+            color: var(--brand-coral);
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        [dir="rtl"] .sidebar-close-btn {
+            right: auto;
+            left: 1.2rem;
+        }
+
+        .dash-sidebar-overlay {
+            position: fixed; inset: 0;
+            background: rgba(8, 26, 42, 0.65);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .dash-sidebar-overlay.active {
+            opacity: 1; visibility: visible;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 992px) {
+            .dash-hamburger-btn {
+                display: inline-flex;
+            }
+            .sidebar-close-btn {
+                display: flex;
+            }
+            .dash-sidebar {
+                width: 280px !important;
+                position: fixed !important;
+                top: 0 !important; bottom: 0 !important;
+                left: -300px !important;
+                z-index: 10000 !important;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.25) !important;
+                transition: left 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1) !important;
+                padding: 1.8rem 1.2rem !important;
+            }
+            .dash-sidebar.active {
+                left: 0 !important;
+            }
+            .brand-title, .nav-label, .sidebar-link span, .sidebar-user .user-meta, .sidebar-link .badge-count {
+                display: block !important;
+            }
+            .sidebar-brand { justify-content: flex-start !important; }
+            .sidebar-link { justify-content: flex-start !important; padding: 0.75rem 1rem !important; }
+            .sidebar-user { justify-content: flex-start !important; padding: 0.9rem !important; }
+
+            .dash-main {
+                margin-left: 0 !important;
+                width: 100vw !important;
+                padding: 1.5rem 1.2rem !important;
+            }
+            .grid-two-col { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .header-actions .back-site-btn {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dash-main { margin-left: 0 !important; width: 100vw !important; padding: 1.2rem !important; }
+            .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 0.75rem !important; }
+            .stat-card { padding: 0.95rem 0.8rem !important; gap: 0.65rem !important; border-radius: 16px !important; }
+            .stat-icon { width: 42px !important; height: 42px !important; font-size: 1.15rem !important; border-radius: 12px !important; }
+            .stat-info .stat-num { font-size: 1.05rem !important; }
+            .stat-info .stat-lbl { font-size: 0.75rem !important; }
+        }
+
+        /* ==================== RTL OVERRIDES ==================== */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .dash-sidebar {
+            left: auto;
+            right: 0;
+            border-right: none;
+            border-left: 2px solid var(--border-soft);
+        }
+        [dir="rtl"] .dash-main {
+            margin-left: 0;
+            margin-right: 270px;
+        }
+        [dir="rtl"] .sidebar-link:hover, [dir="rtl"] .sidebar-link.active {
+            transform: translateX(-4px);
+        }
+        [dir="rtl"] .sidebar-link .badge-count {
+            margin-left: 0;
+            margin-right: auto;
+        }
+        [dir="rtl"] .search-box input {
+            padding: 0.85rem 2.8rem 0.85rem 1.2rem;
+        }
+        [dir="rtl"] .search-box i {
+            left: auto;
+            right: 1rem;
+        }
+        [dir="rtl"] .back-overview-btn i, [dir="rtl"] .back-site-btn i, [dir="rtl"] .topic-btn i {
+            transform: scaleX(-1);
+        }
+        @media (max-width: 992px) {
+            [dir="rtl"] .dash-sidebar {
+                left: auto !important;
+                right: -300px !important;
+                border-left: 2px solid var(--border-soft) !important;
+                transition: right 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1) !important;
+            }
+            [dir="rtl"] .dash-sidebar.active {
+                right: 0 !important;
+            }
+            [dir="rtl"] .dash-main {
+                margin-right: 0 !important;
+                margin-left: 0 !important;
+                width: 100vw !important;
+            }
+        }
+        @media (max-width: 600px) {
+            [dir="rtl"] .dash-main { margin-right: 0; width: 100vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dash-wrapper">
+
+        <!-- Backdrop overlay for mobile drawer -->
+        <div class="dash-sidebar-overlay" id="dashSidebarOverlay"></div>
+
+        <!-- ==================== DASHBOARD SIDEBAR (NO MAIN NAVBAR) ==================== -->
+        <aside class="dash-sidebar">
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" title="Close Menu" aria-label="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+            <div>
+                <a href="index.html" class="sidebar-brand" title="Back to Main Website" style="text-decoration: none; color: inherit;">
+                    <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35); flex-shrink: 0;">
+                        <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div class="brand-title">
+                        AquaKids
+                        <span>User Dashboard</span>
+                    </div>
+                </a>
+
+                <ul class="sidebar-nav">
+                    <li class="nav-label">Navigation</li>
+                    <li>
+                        <div class="sidebar-link active" data-target="overview">
+                            <i class="fas fa-th-large"></i>
+                            <span>Overview</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" data-target="programs">
+                            <i class="fas fa-water"></i>
+                            <span>Swim Programs</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" data-target="instructors">
+                            <i class="fas fa-user-nurse"></i>
+                            <span>Instructors</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" data-target="safety">
+                            <i class="fas fa-life-ring"></i>
+                            <span>Water Safety</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" data-target="schedules">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedules &amp; Slots</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" data-target="topics">
+                            <i class="fas fa-book-open"></i>
+                            <span>Topics &amp; Modules</span>
+                            <span class="badge-count">7</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" data-target="support">
+                            <i class="fas fa-headset"></i>
+                            <span>Support &amp; Help</span>
+                        </div>
+                    </li>
+
+                    <li class="nav-label">Settings &amp; Preferences</li>
+                    <li>
+                        <div class="sidebar-link" id="sidebarRtlToggle">
+                            <i class="fas fa-right-left"></i>
+                            <span>RTL Direction</span>
+                            <span class="badge-count" id="sidebarRtlLabel" style="background: var(--brand-primary);">OFF</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sidebar-link" id="sidebarThemeToggle">
+                            <i class="fas fa-moon" id="sidebarThemeIcon"></i>
+                            <span>Dark Mode</span>
+                            <span class="badge-count" id="sidebarThemeLabel" style="background: var(--brand-aqua);">OFF</span>
+                        </div>
+                    </li>
+
+                    <li class="nav-label">Account &amp; Site</li>
+                    <li>
+                        <a href="index.html" class="sidebar-link">
+                            <i class="fas fa-home"></i>
+                            <span>Back to Main Site</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sidebar User Profile -->
+            <div class="sidebar-user">
+                <div class="user-avatar">S</div>
+                <div class="user-meta">
+                    <div class="user-name">Sarah Jenkins</div>
+                    <div class="user-role">Leo's Parent</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================== DASHBOARD MAIN CONTENT AREA ==================== -->
+        <main class="dash-main">
+
+            <!-- Top Dashboard Header Bar (Matching Reference Dashboard Design Image) -->
+            <header class="dash-header">
+                <div class="welcome-box">
+                    <h1>Parent Operations ⚙️</h1>
+                    <p>Monitor your child's swimming progress, review water safety modules, and manage class schedules.</p>
+                </div>
+
+                <div class="header-actions">
+                    <button class="dash-hamburger-btn" id="dashHamburgerBtn" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars"></i>
+                        <span>Menu</span>
+                    </button>
+                    <button class="theme-toggle-btn" id="rtlToggleBtn" title="Toggle RTL / LTR Direction" style="display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; width: auto; font-weight: 700; font-size: 0.88rem;">
+                        <i class="fas fa-right-left"></i>
+                        <span id="rtlLabel">RTL</span>
+                    </button>
+                    <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="index.html" class="back-site-btn" title="Back to Main Website">
+                        <i class="fas fa-arrow-left"></i>
+                        <span class="btn-text">Main Site</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- ==================== VIEW 1: OVERVIEW (DEFAULT) ==================== -->
+            <div class="dash-view active-view" id="view-overview">
+                
+                <!-- Quick Stats Row (2x2 Grid on Mobile) -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon cyan">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-num">Leo Jenkins</div>
+                            <div class="stat-lbl">Level 2 Goldfish Track</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-num">8 / 12</div>
+                            <div class="stat-lbl">Topics Completed</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon coral">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-num">Tomorrow, 4 PM</div>
+                            <div class="stat-lbl">Next Swim Lesson</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-num">5 Badges</div>
+                            <div class="stat-lbl">Earned Achievements</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- USER MODULES & MANAGEMENT SECTION -->
+                <section id="topics-section">
+                    <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                        <h2 style="font-family: var(--font-friendly); font-size: 1.45rem; color: var(--text-main); font-weight: 700;">Parent Modules &amp; Management</h2>
+                        
+                        <!-- Category Filters -->
+                        <div class="topic-filters">
+                            <button class="filter-chip active" data-filter="all">All Topics</button>
+                            <button class="filter-chip" data-filter="safety">Water Safety</button>
+                            <button class="filter-chip" data-filter="program">Programs</button>
+                            <button class="filter-chip" data-filter="schedule">Schedules</button>
+                            <button class="filter-chip" data-filter="instructor">Instructors</button>
+                            <button class="filter-chip" data-filter="support">Support</button>
+                        </div>
+                    </div>
+
+                    <!-- Topic Live Search Input -->
+                    <div class="search-box" style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="topicSearchInput" placeholder="Search topics inside dashboard (e.g., rules, freestyle, schedule, instructor)...">
+                    </div>
+
+                    <!-- TOPIC CARDS GRID (DYNAMIC DASHBOARD SWITCHING) -->
+                    <div class="topics-grid" id="topicsGrid">
+
+                        <!-- TOPIC 1: Water Safety Rules -->
+                        <article class="topic-card" data-category="safety" data-target="safety" data-keywords="water safety pool rules floating emergency cpr life jacket">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #ff6b6b, #ee5253);">
+                                    <i class="fas fa-life-ring"></i>
+                                </div>
+                            </div>
+                            <h3>Water Safety Rules &amp; Protocols</h3>
+                            <p>Essential pool rules, floating techniques, life-jacket safety, and emergency response guides for children.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- TOPIC 2: Swimming Programs -->
+                        <article class="topic-card" data-category="program" data-target="programs" data-keywords="swimming programs aqua tots junior stroke mastery skill levels">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #0284c7, #0ea5e9);">
+                                    <i class="fas fa-swimmer"></i>
+                                </div>
+                            </div>
+                            <h3>Swim Programs &amp; Skill Tracks</h3>
+                            <p>Discover structured curriculum from beginner water confidence up to competitive stroke mastery tracks.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- TOPIC 3: Class Schedules & Slots -->
+                        <article class="topic-card" data-category="schedule" data-target="schedules" data-keywords="class schedule pool slot booking weekly times makeup session">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                            <h3>Class Schedules &amp; Slot Booking</h3>
+                            <p>View real-time swimming class timetables, reserve pool slots, and request makeup classes.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- TOPIC 4: Certified Instructors -->
+                        <article class="topic-card" data-category="instructor" data-target="instructors" data-keywords="instructors coaches certified staff bios lesson teachers">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                                    <i class="fas fa-user-nurse"></i>
+                                </div>
+                            </div>
+                            <h3>Meet Certified Swim Coaches</h3>
+                            <p>Learn about our certified instructors, swim coaches' experience, certifications, and teaching philosophies.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- TOPIC 5: Parent Help & Support Desk -->
+                        <article class="topic-card" data-category="support" data-target="support" data-keywords="contact help support parent portal inquiry call message location">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #10b981, #059669);">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                            </div>
+                            <h3>Parent Support &amp; Help Desk</h3>
+                            <p>Get answers to enrollment questions, facility guidelines, payments, or contact our support team directly.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- TOPIC 6: Advanced Stroke Mechanics -->
+                        <article class="topic-card" data-category="program" data-target="strokes" data-keywords="stroke mastery freestyle backstroke butterfly technique mechanics">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                                    <i class="fas fa-water"></i>
+                                </div>
+                            </div>
+                            <h3>Stroke Mechanics &amp; Technique</h3>
+                            <p>Deep-dive into breathing rhythms, arm rotation, body alignment, and turn execution for junior athletes.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                        <!-- TOPIC 7: Water Confidence & Toddler Splash -->
+                        <article class="topic-card" data-category="program" data-target="confidence" data-keywords="water confidence beginner toddlers splash">
+                            <div class="topic-top">
+                                <div class="topic-icon-wrap" style="background: linear-gradient(135deg, #ec4899, #d946ef);">
+                                    <i class="fas fa-child"></i>
+                                </div>
+                            </div>
+                            <h3>Water Confidence &amp; Foundations</h3>
+                            <p>Gentle introduction for younger children building trust, bubbles, splashing fun, and floating basics.</p>
+                            <div class="topic-footer">
+                                <button class="topic-btn">Open Module <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </article>
+
+                    </div>
+                </section>
+
+                <!-- CHILD PROGRESS & BADGES SECTION -->
+                <section class="grid-two-col">
+                    <div class="dashboard-box">
+                        <div class="box-head">
+                            <h3><i class="fas fa-chart-line" style="color: var(--brand-primary);"></i> Leo's Skill Mastery</h3>
+                            <span style="font-size: 0.85rem; font-weight: 700; color: var(--brand-mint);">75% Total Progress</span>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-lbl">
+                                <span>Back Floating &amp; Breathing Control</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 90%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-lbl">
+                                <span>Freestyle Flutter Kicks</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 80%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-lbl">
+                                <span>Treading Water (60 sec)</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-lbl">
+                                <span>Deep Water Jump &amp; Safety Turn</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-box">
+                        <div class="box-head">
+                            <h3><i class="fas fa-trophy" style="color: var(--brand-sun);"></i> Earned Badges</h3>
+                            <span style="font-size: 0.85rem; font-weight: 700; color: var(--brand-primary);">5 Unlocked</span>
+                        </div>
+
+                        <div class="badges-wrap">
+                            <div class="badge-card">
+                                <div class="badge-icon"><i class="fas fa-bubbles"></i></div>
+                                <div class="badge-title">Bubble Master</div>
+                            </div>
+                            <div class="badge-card">
+                                <div class="badge-icon"><i class="fas fa-fish"></i></div>
+                                <div class="badge-title">Starfish Float</div>
+                            </div>
+                            <div class="badge-card">
+                                <div class="badge-icon"><i class="fas fa-shield-alt"></i></div>
+                                <div class="badge-title">Safety Hero</div>
+                            </div>
+                            <div class="badge-card">
+                                <div class="badge-icon"><i class="fas fa-swimmer"></i></div>
+                                <div class="badge-title">Kick Champion</div>
+                            </div>
+                            <div class="badge-card">
+                                <div class="badge-icon"><i class="fas fa-medal"></i></div>
+                                <div class="badge-title">Deep Diver</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ==================== VIEW 2: WATER SAFETY TOPIC ==================== -->
+            <div class="dash-view" id="view-safety">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #ff6b6b, #ee5253);">
+                            <i class="fas fa-life-ring"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Water Safety Rules &amp; Emergency Protocols</h2>
+                            <p>Essential safety guidelines, pool deck behavior, floating survival, and CPR action steps.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="content-card-grid">
+                    <div class="content-card">
+                        <div class="content-card-icon" style="background: rgba(255, 107, 107, 0.15); color: var(--brand-coral);">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Golden Pool Rules</h3>
+                        <p>Core rules every young swimmer must master before entering the deep pool area.</p>
+                        <ul class="content-list">
+                            <li><i class="fas fa-check-circle"></i> Never swim without adult or coach supervision</li>
+                            <li><i class="fas fa-check-circle"></i> Always walk on pool decks (No running)</li>
+                            <li><i class="fas fa-check-circle"></i> Look before diving &amp; obey depth markers</li>
+                            <li><i class="fas fa-check-circle"></i> Practice the Buddy System at all times</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-card-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua);">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h3>Floating &amp; Survival Skills</h3>
+                        <p>Techniques taught to stay calm and conserve energy during unexpected water entries.</p>
+                        <ul class="content-list">
+                            <li><i class="fas fa-check-circle"></i> Starfish Back Float for effortless breathing</li>
+                            <li><i class="fas fa-check-circle"></i> Treading water with eggbeater kick</li>
+                            <li><i class="fas fa-check-circle"></i> Roll-to-float breathing orientation</li>
+                            <li><i class="fas fa-check-circle"></i> Safe wall grab &amp; climb out technique</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-card-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--brand-mint);">
+                            <i class="fas fa-medkit"></i>
+                        </div>
+                        <h3>Emergency CPR &amp; Action Steps</h3>
+                        <p>Immediate steps for parents and coaches in case of water emergency.</p>
+                        <ul class="content-list">
+                            <li><i class="fas fa-check-circle"></i> <strong>Reach or Throw, Don't Go</strong> (Use rescue tube)</li>
+                            <li><i class="fas fa-check-circle"></i> Call Emergency Services (911/Local) immediately</li>
+                            <li><i class="fas fa-check-circle"></i> Begin CPR: 30 Chest compressions to 2 rescue breaths</li>
+                            <li><i class="fas fa-check-circle"></i> Ensure AED is retrieved and attached</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== VIEW 3: SWIM PROGRAMS TOPIC ==================== -->
+            <div class="dash-view" id="view-programs">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #0284c7, #0ea5e9);">
+                            <i class="fas fa-swimmer"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Swim Programs &amp; Skill Progression Tracks</h2>
+                            <p>Comprehensive age-based curriculum designed to build aquatic mastery step by step.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="content-card-grid">
+                    <div class="content-card">
+                        <div class="content-card-icon" style="background: rgba(2, 132, 199, 0.15); color: var(--brand-primary);">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3>Level 1: Aqua Tots</h3>
+                        <p>Ages 2 to 4 years. Building initial water comfort, blowing bubbles, and floating confidence.</p>
+                        <ul class="content-list">
+                            <li><i class="fas fa-check-circle"></i> Submersion &amp; bubble blowing</li>
+                            <li><i class="fas fa-check-circle"></i> Assisted front and back float</li>
+                            <li><i class="fas fa-check-circle"></i> Water entry &amp; exit games</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-card" style="border-color: var(--brand-aqua);">
+                        <div class="content-card-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua);">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3>Level 2: Goldfish (Leo's Track)</h3>
+                        <p>Ages 5 to 8 years. Developing independent propulsion, flutter kicking, and unassisted floating.</p>
+                        <ul class="content-list">
+                            <li><i class="fas fa-check-circle"></i> 15-foot unassisted front crawl</li>
+                            <li><i class="fas fa-check-circle"></i> Rhythmic side breathing basics</li>
+                            <li><i class="fas fa-check-circle"></i> Backstroke kick alignment</li>
+                        </ul>
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <span class="slot-badge slot-booked"><i class="fas fa-star"></i> Currently Active Track</span>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-card-icon" style="background: rgba(251, 191, 36, 0.18); color: #d97706;">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>Level 3 &amp; 4: Advanced Strokes</h3>
+                        <p>Ages 8 to 14 years. Mastering breaststroke, butterfly, lap stamina, and flip turns.</p>
+                        <ul class="content-list">
+                            <li><i class="fas fa-check-circle"></i> 50-meter freestyle &amp; backstroke endurance</li>
+                            <li><i class="fas fa-check-circle"></i> Breaststroke kick &amp; pull timing</li>
+                            <li><i class="fas fa-check-circle"></i> Competitive start dives &amp; turn flips</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== VIEW 4: SCHEDULES TOPIC ==================== -->
+            <div class="dash-view" id="view-schedules">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Class Schedules &amp; Pool Slot Booking</h2>
+                            <p>View upcoming weekly swim sessions, Lane assignments, and request makeup classes.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="dashboard-box" style="margin-bottom: 2rem;">
+                    <div class="box-head">
+                        <h3><i class="fas fa-clock" style="color: var(--brand-aqua);"></i> Leo's Enrolled Class Times</h3>
+                        <span class="slot-badge slot-booked">Reserved &amp; Confirmed</span>
+                    </div>
+                    <p style="font-size: 0.92rem; color: var(--text-sub); margin-bottom: 1rem;">
+                        <strong>Days:</strong> Every Tuesday &amp; Thursday | <strong>Time:</strong> 4:00 PM – 4:45 PM | <strong>Location:</strong> AquaKids Center Lane 3
+                    </p>
+                </div>
+
+                <h3 style="font-family: var(--font-friendly); margin-bottom: 1rem; color: var(--text-main);">Weekly Available Pool Timetable</h3>
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Morning Session</th>
+                                <th>Afternoon Session</th>
+                                <th>Evening Session</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Monday</strong></td>
+                                <td>09:00 AM – 10:00 AM</td>
+                                <td>03:30 PM – 04:30 PM</td>
+                                <td>05:30 PM – 06:30 PM</td>
+                                <td><span class="slot-badge slot-open">2 Slots Left</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tuesday</strong></td>
+                                <td>09:30 AM – 10:30 AM</td>
+                                <td><strong>04:00 PM – 04:45 PM (Leo)</strong></td>
+                                <td>06:00 PM – 07:00 PM</td>
+                                <td><span class="slot-badge slot-booked">Booked (Leo)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wednesday</strong></td>
+                                <td>10:00 AM – 11:00 AM</td>
+                                <td>03:30 PM – 04:30 PM</td>
+                                <td>05:30 PM – 06:30 PM</td>
+                                <td><span class="slot-badge slot-open">4 Slots Left</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Thursday</strong></td>
+                                <td>09:30 AM – 10:30 AM</td>
+                                <td><strong>04:00 PM – 04:45 PM (Leo)</strong></td>
+                                <td>06:00 PM – 07:00 PM</td>
+                                <td><span class="slot-badge slot-booked">Booked (Leo)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Saturday</strong></td>
+                                <td>08:30 AM – 10:00 AM</td>
+                                <td>01:00 PM – 02:30 PM</td>
+                                <td>Closed</td>
+                                <td><span class="slot-badge slot-open">1 Slot Left</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==================== VIEW 5: INSTRUCTORS TOPIC ==================== -->
+            <div class="dash-view" id="view-instructors">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="fas fa-user-nurse"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Meet Certified Swim Coaches &amp; Staff</h2>
+                            <p>Our team of Red-Cross &amp; WSI certified instructors dedicated to your child's safety and confidence.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="instructor-grid">
+                    <div class="instructor-card" style="border-color: var(--brand-primary);">
+                        <div class="inst-img-wrap">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="inst-name">Coach Sarah Jenkins</div>
+                        <div class="inst-title">Head Swim Instructor (Leo's Coach)</div>
+                        <p class="inst-bio">8+ years teaching aquatic confidence and strokes. Certified Red Cross Water Safety Instructor &amp; CPR Specialist.</p>
+                        <span class="slot-badge slot-booked"><i class="fas fa-check"></i> Assigned Coach</span>
+                    </div>
+
+                    <div class="instructor-card">
+                        <div class="inst-img-wrap" style="background: linear-gradient(135deg, var(--brand-mint), var(--brand-aqua));">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="inst-name">Coach Michael Chang</div>
+                        <div class="inst-title">Aqua Tots &amp; Beginner Specialist</div>
+                        <p class="inst-bio">Specialized in gentle water acclimation for toddlers and young children, focusing on patience and fun games.</p>
+                        <span class="slot-badge slot-open">Available</span>
+                    </div>
+
+                    <div class="instructor-card">
+                        <div class="inst-img-wrap" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="inst-name">Coach Elena Rostova</div>
+                        <div class="inst-title">Competitive Stroke Specialist</div>
+                        <p class="inst-bio">Former collegiate swimmer focusing on lap stamina, flip turn mechanics, and butterfly stroke optimization.</p>
+                        <span class="slot-badge slot-open">Available</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== VIEW 6: SUPPORT TOPIC ==================== -->
+            <div class="dash-view" id="view-support">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Parent Support &amp; Help Desk</h2>
+                            <p>Direct assistance, enrollment queries, locker policies, and makeup class requests.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="grid-two-col">
+                    <div class="dashboard-box">
+                        <div class="box-head">
+                            <h3><i class="fas fa-question-circle" style="color: var(--brand-primary);"></i> Frequently Asked Questions</h3>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div>
+                                <strong style="color: var(--text-main); font-size: 0.95rem;">What gear should my child bring?</strong>
+                                <p style="font-size: 0.88rem; color: var(--text-sub); margin-top: 4px;">Fitted swimsuit, swim cap, leak-proof goggles, and a clean dry towel.</p>
+                            </div>
+                            <div style="border-top: 1px dashed var(--border-soft); padding-top: 0.8rem;">
+                                <strong style="color: var(--text-main); font-size: 0.95rem;">How do makeup classes work?</strong>
+                                <p style="font-size: 0.88rem; color: var(--text-sub); margin-top: 4px;">Notify us 24 hours prior via dashboard to receive a makeup slot pass valid for 30 days.</p>
+                            </div>
+                            <div style="border-top: 1px dashed var(--border-soft); padding-top: 0.8rem;">
+                                <strong style="color: var(--text-main); font-size: 0.95rem;">Can parents watch from poolside?</strong>
+                                <p style="font-size: 0.88rem; color: var(--text-sub); margin-top: 4px;">Yes, we have a climate-controlled glass viewing lounge overlooking the pool lanes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-box">
+                        <div class="box-head">
+                            <h3><i class="fas fa-paper-plane" style="color: var(--brand-mint);"></i> Send Message to Desk</h3>
+                        </div>
+                        <form onsubmit="event.preventDefault(); alert('Message sent to AquaKids Support! We will reply within 2 hours.');">
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <input type="text" placeholder="e.g., Makeup class request for Leo" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea rows="3" placeholder="Type your query or instruction here..." required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== VIEW 7: STROKE MECHANICS TOPIC ==================== -->
+            <div class="dash-view" id="view-strokes">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Stroke Mechanics &amp; Technique</h2>
+                            <p>Detailed technique breakdowns for freestyle, backstroke, breaststroke, and butterfly.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="content-card-grid">
+                    <div class="content-card">
+                        <h3>Freestyle (Front Crawl)</h3>
+                        <p>High elbow catch, side-breathing rhythm every 3 strokes, and flutter kick speed.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Backstroke Alignment</h3>
+                        <p>Keep chin tilted up, hips elevated near water surface, and straight arm pinky entry.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Breaststroke Timing</h3>
+                        <p>Pull, breathe, kick, glide sequence with whip kick ankle rotation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== VIEW 8: WATER CONFIDENCE TOPIC ==================== -->
+            <div class="dash-view" id="view-confidence">
+                <div class="topic-view-header">
+                    <div class="topic-title-group">
+                        <div class="topic-view-icon" style="background: linear-gradient(135deg, #ec4899, #d946ef);">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <div class="topic-view-title">
+                            <h2>Water Confidence &amp; Toddler Foundations</h2>
+                            <p>Fun games and gentle trust exercises to eliminate water anxiety for young children.</p>
+                        </div>
+                    </div>
+                    <button class="back-overview-btn" onclick="switchView('overview')">
+                        <i class="fas fa-arrow-left"></i> Back to All Topics
+                    </button>
+                </div>
+
+                <div class="content-card-grid">
+                    <div class="content-card">
+                        <h3>Bubble Blowing Games</h3>
+                        <p>Making motorboat sounds and blowing ping-pong balls across water surface.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Starfish Floats</h3>
+                        <p>Relaxed floating on back with arms spread out and calm belly breathing.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ==================== DASHBOARD JAVASCRIPT (DYNAMIC VIEW SWITCHING) ==================== -->
+    <script>
+        // FUNCTION TO SWITCH TOPIC VIEWS DYNAMICALLY INSIDE DASHBOARD (NO NAVBAR PAGE JUMP)
+        function switchView(targetId) {
+            // 1. Hide all dash-views
+            const allViews = document.querySelectorAll('.dash-view');
+            allViews.forEach(v => v.classList.remove('active-view'));
+
+            let targetViewId = targetId;
+            let scrollToTopics = false;
+            if (targetId === 'topics') {
+                targetViewId = 'overview';
+                scrollToTopics = true;
+            }
+
+            // 2. Show target view (default to overview if not found)
+            const targetView = document.getElementById('view-' + targetViewId) || document.getElementById('view-overview');
+            if (targetView) {
+                targetView.classList.add('active-view');
+            }
+
+            // 3. Update sidebar active highlight
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                const linkTarget = link.getAttribute('data-target');
+                if (linkTarget === targetId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // 4. Scroll main section to top or topics
+            if (scrollToTopics) {
+                const topicsSec = document.getElementById('topics-section');
+                if (topicsSec) {
+                    topicsSec.scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 0. HAMBURGER & MOBILE DRAWER TOGGLE LOGIC
+            const dashHamburgerBtn = document.getElementById('dashHamburgerBtn');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            const dashSidebar = document.querySelector('.dash-sidebar');
+            const dashSidebarOverlay = document.getElementById('dashSidebarOverlay');
+
+            function openSidebar() {
+                if (dashSidebar) dashSidebar.classList.add('active');
+                if (dashSidebarOverlay) dashSidebarOverlay.classList.add('active');
+            }
+
+            function closeSidebar() {
+                if (dashSidebar) dashSidebar.classList.remove('active');
+                if (dashSidebarOverlay) dashSidebarOverlay.classList.remove('active');
+            }
+
+            if (dashHamburgerBtn) dashHamburgerBtn.addEventListener('click', openSidebar);
+            if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
+            if (dashSidebarOverlay) dashSidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Close mobile drawer after clicking any navigation item
+            const allSidebarLinks = document.querySelectorAll('.sidebar-link');
+            allSidebarLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 992) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            // 1. SIDEBAR CLICK EVENT LISTENERS
+            const sidebarNavItems = document.querySelectorAll('.sidebar-link[data-target]');
+            sidebarNavItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const target = item.getAttribute('data-target');
+                    if (target) {
+                        switchView(target);
+                    }
+                });
+            });
+
+            // 2. TOPIC CARDS CLICK EVENT LISTENERS (Dynamic view switch inside dashboard)
+            const topicCards = document.querySelectorAll('.topic-card[data-target]');
+            topicCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const targetViewId = card.getAttribute('data-target');
+                    if (targetViewId) {
+                        switchView(targetViewId);
+                    }
+                });
+            });
+
+            // 3. TOPIC CATEGORY FILTERING LOGIC (For Overview Grid)
+            const filterChips = document.querySelectorAll('.filter-chip');
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+
+                    const filterValue = chip.getAttribute('data-filter');
+                    filterTopics(filterValue);
+                });
+            });
+
+            // 4. TOPIC LIVE SEARCH FILTERING LOGIC
+            const searchInput = document.getElementById('topicSearchInput');
+            const topSearchInput = document.getElementById('dashTopSearchInput');
+
+            function handleSearchInput(e) {
+                const val = e.target.value;
+                if (searchInput && e.target !== searchInput) searchInput.value = val;
+                if (topSearchInput && e.target !== topSearchInput) topSearchInput.value = val;
+                
+                // Switch to overview view if searching while on another tab
+                const activeView = document.querySelector('.dash-view.active-view');
+                if (activeView && activeView.id !== 'view-overview' && val.trim().length > 0) {
+                    switchView('overview');
+                }
+
+                const activeFilter = document.querySelector('.filter-chip.active')?.getAttribute('data-filter') || 'all';
+                filterTopics(activeFilter);
+            }
+
+            if (searchInput) searchInput.addEventListener('input', handleSearchInput);
+            if (topSearchInput) topSearchInput.addEventListener('input', handleSearchInput);
+
+            function filterTopics(activeFilter) {
+                const searchQuery = (searchInput?.value || '').toLowerCase().trim();
+                const cards = document.querySelectorAll('.topic-card');
+
+                cards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const keywords = card.getAttribute('data-keywords') || '';
+                    const titleText = card.querySelector('h3')?.innerText.toLowerCase() || '';
+                    const descText = card.querySelector('p')?.innerText.toLowerCase() || '';
+
+                    const matchesCategory = (activeFilter === 'all' || category === activeFilter);
+                    const matchesSearch = !searchQuery ||
+                        titleText.includes(searchQuery) ||
+                        descText.includes(searchQuery) ||
+                        keywords.toLowerCase().includes(searchQuery);
+
+                    if (matchesCategory && matchesSearch) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // 5. DARK MODE & RTL TOGGLE PERSISTENCE
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const icon = themeBtn ? themeBtn.querySelector('i') : null;
+            const sidebarThemeToggle = document.getElementById('sidebarThemeToggle');
+            const sidebarThemeIcon = document.getElementById('sidebarThemeIcon');
+            const sidebarThemeLabel = document.getElementById('sidebarThemeLabel');
+
+            function applyTheme(isDark) {
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                    if (icon) icon.className = 'fas fa-sun';
+                    if (sidebarThemeIcon) sidebarThemeIcon.className = 'fas fa-sun';
+                    if (sidebarThemeLabel) sidebarThemeLabel.textContent = 'ON';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    if (icon) icon.className = 'fas fa-moon';
+                    if (sidebarThemeIcon) sidebarThemeIcon.className = 'fas fa-moon';
+                    if (sidebarThemeLabel) sidebarThemeLabel.textContent = 'OFF';
+                }
+                localStorage.setItem('aquakids_theme', isDark ? 'dark' : 'light');
+            }
+
+            const savedTheme = localStorage.getItem('aquakids_theme');
+            applyTheme(savedTheme === 'dark');
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.body.classList.contains('dark-mode');
+                    applyTheme(!isDark);
+                });
+            }
+            if (sidebarThemeToggle) {
+                sidebarThemeToggle.addEventListener('click', () => {
+                    const isDark = document.body.classList.contains('dark-mode');
+                    applyTheme(!isDark);
+                });
+            }
+
+            // RTL TOGGLE & PERSISTENCE
+            const rtlBtn = document.getElementById('rtlToggleBtn');
+            const rtlLabel = document.getElementById('rtlLabel');
+            const sidebarRtlToggle = document.getElementById('sidebarRtlToggle');
+            const sidebarRtlLabel = document.getElementById('sidebarRtlLabel');
+
+            function applyRTL(isRtl) {
+                if (isRtl) {
+                    document.body.setAttribute('dir', 'rtl');
+                    document.documentElement.setAttribute('dir', 'rtl');
+                    if (rtlLabel) rtlLabel.textContent = 'LTR';
+                    if (sidebarRtlLabel) sidebarRtlLabel.textContent = 'ON';
+                } else {
+                    document.body.setAttribute('dir', 'ltr');
+                    document.documentElement.setAttribute('dir', 'ltr');
+                    if (rtlLabel) rtlLabel.textContent = 'RTL';
+                    if (sidebarRtlLabel) sidebarRtlLabel.textContent = 'OFF';
+                }
+                localStorage.setItem('aquakids_rtl', isRtl ? 'rtl' : 'ltr');
+            }
+
+            const savedRtl = localStorage.getItem('aquakids_rtl');
+            applyRTL(savedRtl === 'rtl');
+
+            if (rtlBtn) {
+                rtlBtn.addEventListener('click', () => {
+                    const currentDir = document.body.getAttribute('dir') || 'ltr';
+                    applyRTL(currentDir === 'ltr');
+                });
+            }
+            if (sidebarRtlToggle) {
+                sidebarRtlToggle.addEventListener('click', () => {
+                    const currentDir = document.body.getAttribute('dir') || 'ltr';
+                    applyRTL(currentDir === 'ltr');
+                });
+            }
+
+            // 6. ENTRANCE ANIMATIONS (Motion One CDN)
+            if (window.Motion) {
+                const { animate, stagger } = window.Motion;
+                animate('.stat-card', { opacity: [0, 1], y: [20, 0] }, { delay: stagger(0.08), duration: 0.5 });
+                animate('.topic-card', { opacity: [0, 1], y: [25, 0] }, { delay: stagger(0.08), duration: 0.5 });
+            }
+        });
+    </script>
+</body>
+</html>

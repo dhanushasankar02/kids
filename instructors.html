@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Instructors | AquaKids Academy — Swim • Learn • Stay Safe</title>
+
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Framer Motion (Motion One via CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@10.16.2/dist/motion.min.js"></script>
+
+    <style>
+        /* ==================== GLOBAL SYSTEM TOKENS ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-body: #f0fdfa;
+            --navbar-bg: rgba(255, 255, 255, 0.94);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+            --brand-primary: #0284c7;
+            --brand-aqua: #06b6d4;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
+            --brand-mint: #34d399;
+            --brand-violet: #a78bfa;
+            --brand-rose: #f472b6;
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-nav: 0 4px 20px -2px rgba(2, 132, 199, 0.1);
+            --shadow-card: 0 14px 35px -8px rgba(2, 132, 199, 0.16);
+            --font-friendly: 'Fredoka', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark-mode {
+            --bg-body: #07131e;
+            --navbar-bg: rgba(11, 26, 42, 0.94);
+            --card-bg: #0f2338;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #38bdf8;
+            --brand-aqua: #22d3ee;
+            --border-soft: rgba(56, 189, 248, 0.2);
+            --shadow-nav: 0 4px 25px -2px rgba(0, 0, 0, 0.55);
+            --shadow-card: 0 14px 35px -8px rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a, button { text-decoration: none !important; font-family: inherit; }
+
+        /* ==================== RTL OVERRIDES ==================== */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .dropdown-menu { left: auto !important; right: 0 !important; }
+        [dir="rtl"] .dropdown-item:hover { transform: translateX(-4px) !important; }
+
+        /* ==================== STICKY NAVBAR (UNCHANGED) ==================== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            background: var(--navbar-bg);
+            border-bottom: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-nav);
+            transition: var(--transition);
+        }
+
+        .navbar-container {
+            max-width: 1440px; margin: 0 auto; padding: 0.85rem 2rem;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1.5rem; white-space: nowrap;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; color: inherit; }
+
+        .logo-emblem {
+            width: 46px; height: 46px;
+            background: linear-gradient(145deg, #0ea5e9, #0284c7);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            transition: var(--transition); flex-shrink: 0;
+        }
+
+        .logo-emblem svg {
+            width: 26px; height: 26px; fill: none; stroke: #ffffff;
+            stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .nav-logo:hover .logo-emblem {
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 8px 18px rgba(2, 132, 199, 0.45);
+        }
+
+        .logo-text-block { display: flex; flex-direction: column; }
+
+        .logo-title {
+            font-family: var(--font-friendly); font-size: 1.35rem; font-weight: 700;
+            line-height: 1.1; letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        body.dark-mode .logo-title {
+            background: linear-gradient(135deg, #38bdf8 0%, #a5f3fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .logo-tagline {
+            font-size: 0.72rem; font-weight: 700; color: var(--brand-coral);
+            letter-spacing: 1.2px; text-transform: uppercase;
+        }
+
+        .nav-center-menu { display: flex; align-items: center; gap: 0.35rem; list-style: none; }
+        .nav-item { position: relative; }
+
+        .nav-link {
+            font-weight: 700; font-size: 0.95rem; padding: 0.55rem 0.95rem;
+            color: var(--text-main); border-radius: 50px;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: var(--transition); cursor: pointer;
+        }
+
+        .nav-link .dropdown-caret { font-size: 0.7rem; transition: transform 0.25s ease; }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--brand-primary);
+        }
+
+        .nav-item.dropdown:hover .nav-link .dropdown-caret { transform: rotate(180deg); }
+
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 10px;
+            min-width: 250px; background: var(--card-bg); border-radius: 20px;
+            padding: 0.75rem; border: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-card);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: var(--transition); z-index: 1000; list-style: none;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.75rem 1rem; color: var(--text-main);
+            font-weight: 600; font-size: 0.92rem; border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--brand-primary);
+            transform: translateX(4px);
+        }
+
+        .dropdown-item.parent-dash {
+            border-left: 3px solid var(--brand-coral);
+            background: rgba(255, 107, 107, 0.05);
+            margin-bottom: 6px;
+        }
+
+        .dropdown-item.admin-dash {
+            border-left: 3px solid var(--brand-primary);
+            background: rgba(2, 132, 199, 0.05);
+        }
+
+        [dir="rtl"] .dropdown-item.parent-dash,
+        [dir="rtl"] .dropdown-item.admin-dash {
+            border-left: none; border-right: 3px solid var(--brand-coral);
+        }
+        [dir="rtl"] .dropdown-item.admin-dash { border-right-color: var(--brand-primary); }
+
+        .dash-pill {
+            font-size: 0.65rem; font-weight: 800; padding: 2px 8px;
+            border-radius: 20px; text-transform: uppercase;
+        }
+
+        .dash-pill.parent { background: rgba(255, 107, 107, 0.2); color: var(--brand-coral); }
+        .dash-pill.admin { background: rgba(2, 132, 199, 0.2); color: var(--brand-primary); }
+
+        .nav-right-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+        .action-chip {
+            background: var(--card-bg); border: 1.5px solid var(--border-soft);
+            color: var(--text-main); font-size: 0.88rem; font-weight: 700;
+            padding: 0.45rem 0.95rem; border-radius: 50px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: var(--transition);
+        }
+
+        .action-chip:hover {
+            border-color: var(--brand-primary); color: var(--brand-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
+        }
+
+        .action-chip.btn-login {
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; border-color: transparent; font-weight: 700;
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
+        }
+
+        .action-chip.btn-login:hover {
+            background: linear-gradient(135deg, #ff7b7b 0%, #e11d48 100%);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.5);
+            color: #ffffff;
+        }
+
+        .menu-toggle-btn {
+            display: none; background: rgba(6, 182, 212, 0.12);
+            border: 1.5px solid var(--border-soft); color: var(--brand-primary);
+            font-size: 1.3rem; padding: 0.45rem 0.85rem; border-radius: 14px;
+            cursor: pointer; transition: var(--transition);
+        }
+
+        /* ==================== MOBILE DRAWER (UNCHANGED) ==================== */
+        .mobile-overlay {
+            position: fixed; inset: 0; background: rgba(8, 26, 42, 0.7);
+            backdrop-filter: blur(8px); z-index: 10000;
+            opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+
+        .mobile-overlay.active { opacity: 1; visibility: visible; }
+
+        .mobile-panel {
+            position: fixed; top: 0; right: -390px; width: 330px; max-width: 86vw;
+            height: 100vh; background: var(--card-bg);
+            border-left: 2px solid var(--border-soft); box-shadow: var(--shadow-card);
+            z-index: 10001; padding: 2rem 1.5rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            overflow-y: auto; transition: right 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body[dir="rtl"] .mobile-panel {
+            right: auto; left: -390px; border-left: none;
+            border-right: 2px solid var(--border-soft);
+            transition: left 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .mobile-panel.active { right: 0; }
+        body[dir="rtl"] .mobile-panel.active { left: 0; }
+
+        .mobile-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 1rem; border-bottom: 1.5px solid var(--border-soft);
+        }
+
+        .mobile-close-btn {
+            background: none; border: none; color: var(--text-main);
+            font-size: 1.4rem; cursor: pointer;
+        }
+
+        .mobile-links { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+
+        .mobile-item { border-bottom: 1px solid var(--border-soft); padding-bottom: 0.35rem; }
+
+        .mobile-link {
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-main); font-weight: 700; font-size: 1.05rem;
+            padding: 0.75rem 0.85rem; border-radius: 12px; cursor: pointer;
+        }
+
+        .mobile-link:hover, .mobile-link.active {
+            color: var(--brand-primary); background: rgba(6, 182, 212, 0.08);
+        }
+
+        .mobile-accordion {
+            display: none; padding-left: 1rem; padding-top: 0.35rem;
+            flex-direction: column; gap: 0.4rem; list-style: none;
+        }
+
+        [dir="rtl"] .mobile-accordion { padding-left: 0; padding-right: 1rem; }
+        .mobile-accordion.show { display: flex; }
+
+        .mobile-sublink {
+            color: var(--text-sub); font-size: 0.92rem; font-weight: 600;
+            padding: 0.55rem 0.85rem; display: flex; align-items: center;
+            justify-content: space-between; border-radius: 10px;
+        }
+
+        .mobile-sublink:hover {
+            color: var(--brand-primary); background: rgba(6, 182, 212, 0.1);
+        }
+
+        .mobile-actions {
+            margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem;
+            padding-top: 1.25rem; border-top: 1.5px solid var(--border-soft);
+        }
+
+        .mobile-actions .action-chip { justify-content: center; width: 100%; padding: 0.75rem; }
+
+        /* ==================== LOGIN MODAL (UNCHANGED) ==================== */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(6px); z-index: 20000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem; opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+
+        .login-dialog {
+            background: var(--card-bg); border: 2px solid var(--border-soft);
+            border-radius: 28px; width: 100%; max-width: 430px;
+            padding: 2.5rem 2rem; box-shadow: var(--shadow-card);
+            position: relative; transform: scale(0.95); transition: var(--transition);
+        }
+
+        .modal-backdrop.active .login-dialog { transform: scale(1); }
+
+        .modal-close-trigger {
+            position: absolute; top: 1.2rem; right: 1.2rem;
+            background: none; border: none; font-size: 1.3rem;
+            color: var(--text-muted); cursor: pointer;
+        }
+
+        [dir="rtl"] .modal-close-trigger { right: auto; left: 1.2rem; }
+
+        .dialog-title {
+            font-family: var(--font-friendly); font-size: 1.8rem;
+            font-weight: 700; margin-bottom: 0.35rem;
+        }
+
+        .dialog-subtitle { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1.8rem; }
+        .input-group { margin-bottom: 1.2rem; }
+
+        .input-label { display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.4rem; }
+
+        .form-control {
+            width: 100%; padding: 0.8rem 1.1rem; border-radius: 14px;
+            border: 1.5px solid var(--border-soft); background: var(--bg-body);
+            color: var(--text-main); outline: none; font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+        }
+
+        .submit-btn {
+            width: 100%; padding: 0.9rem;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
+            transition: var(--transition); margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.45);
+        }
+
+        /* ==================== INSTRUCTORS PAGE STYLES ==================== */
+        .inst-main { width: 100%; padding-top: 0; }
+
+        /* ========== SECTION 1: FULL-SCREEN HERO BACKGROUND ========== */
+        .ins-s1-hero {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 5rem;
+            overflow: hidden;
+        }
+
+        .ins-s1-hero-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .ins-s1-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,
+                rgba(244, 114, 182, 0.7) 0%,
+                rgba(167, 139, 250, 0.6) 45%,
+                rgba(15, 23, 42, 0.88) 100%);
+            z-index: 1;
+        }
+
+        body.dark-mode .ins-s1-hero-overlay {
+            background: linear-gradient(135deg,
+                rgba(30, 15, 45, 0.9) 0%,
+                rgba(167, 139, 250, 0.55) 45%,
+                rgba(7, 19, 30, 0.95) 100%);
+        }
+
+        .ins-s1-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .ins-s1-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(244, 114, 182, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.8rem;
+            border: 1.5px solid rgba(244, 114, 182, 0.45);
+        }
+
+        .ins-s1-title {
+            font-family: var(--font-friendly);
+            font-size: clamp(2.4rem, 6vw, 4.4rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .ins-s1-title .rose-accent {
+            background: linear-gradient(135deg, #fbcfe8, #f472b6, #db2777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ins-s1-desc {
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .ins-s1-cta-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ins-s1-btn-primary {
+            background: linear-gradient(135deg, #db2777 0%, #f472b6 100%);
+            color: #ffffff !important;
+            padding: 1.1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 28px rgba(219, 39, 119, 0.5);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .ins-s1-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 34px rgba(219, 39, 119, 0.65);
+        }
+
+        .ins-s1-btn-ghost {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #ffffff !important;
+            padding: 1.1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .ins-s1-btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.28);
+            border-color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .ins-s1-scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            animation: insBounceDown 2s infinite;
+        }
+
+        @keyframes insBounceDown {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ========== SECTION 2: MEET THE TEAM — INTRO GRID ========== */
+        .ins-s2-team {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .ins-s2-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .ins-s2-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .ins-s2-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ins-s2-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.8rem;
+        }
+
+        .ins-s2-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .ins-s2-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--brand-rose);
+            box-shadow: 0 25px 50px -15px rgba(244, 114, 182, 0.3);
+        }
+
+        .ins-s2-img-wrap {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .ins-s2-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .ins-s2-card:hover .ins-s2-img-wrap img { transform: scale(1.08); }
+
+        .ins-s2-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.5), transparent 55%);
+        }
+
+        .ins-s2-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(52, 211, 153, 0.95);
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        [dir="rtl"] .ins-s2-status { right: auto; left: 1rem; }
+
+        .ins-s2-body {
+            padding: 1.5rem 1.5rem 1.8rem;
+        }
+
+        .ins-s2-body h4 {
+            font-family: var(--font-friendly);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .ins-s2-role {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--brand-rose);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.9rem;
+            display: block;
+        }
+
+        body.dark-mode .ins-s2-role { color: #f9a8d4; }
+
+        .ins-s2-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .ins-s2-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            background: rgba(244, 114, 182, 0.12);
+            color: #db2777;
+        }
+
+        body.dark-mode .ins-s2-tag {
+            background: rgba(244, 114, 182, 0.15);
+            color: #f9a8d4;
+        }
+
+        /* ========== SECTION 3: TEACHING PHILOSOPHY — QUOTE CARDS ========== */
+        .ins-s3-philosophy {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .ins-s3-inner {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.06), rgba(167, 139, 250, 0.1));
+            border: 2px solid var(--border-soft);
+            border-radius: 36px;
+            padding: 4rem 3rem;
+        }
+
+        body.dark-mode .ins-s3-inner {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.04), rgba(167, 139, 250, 0.08));
+        }
+
+        .ins-s3-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .ins-s3-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .ins-s3-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ins-s3-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .ins-s3-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 28px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .ins-s3-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--brand-rose);
+            box-shadow: 0 20px 45px -12px rgba(244, 114, 182, 0.3);
+        }
+
+        .ins-s3-quote {
+            font-size: 3rem;
+            font-family: Georgia, serif;
+            color: var(--brand-rose);
+            line-height: 0.8;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .ins-s3-card p {
+            font-size: 1rem;
+            color: var(--text-main);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .ins-s3-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 1.5rem;
+            border-top: 1.5px solid var(--border-soft);
+        }
+
+        .ins-s3-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-family: var(--font-friendly);
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .ins-s3-card:nth-child(1) .ins-s3-avatar { background: linear-gradient(135deg, #f472b6, #db2777); }
+        .ins-s3-card:nth-child(2) .ins-s3-avatar { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .ins-s3-card:nth-child(3) .ins-s3-avatar { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+
+        .ins-s3-author strong {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .ins-s3-author span {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ========== SECTION 4: CERTIFICATION WALL — HORIZONTAL STRIP ========== */
+        .ins-s4-certs {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .ins-s4-head {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .ins-s4-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .ins-s4-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ins-s4-strip {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.2rem;
+        }
+
+        .ins-s4-cert {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 1.8rem 1rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ins-s4-cert::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f472b6, #a78bfa, #38bdf8);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .ins-s4-cert:hover::before { transform: scaleX(1); }
+
+        .ins-s4-cert:hover {
+            transform: translateY(-6px);
+            border-color: var(--brand-rose);
+            box-shadow: 0 18px 40px -12px rgba(244, 114, 182, 0.25);
+        }
+
+        .ins-s4-cert-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.25);
+        }
+
+        .ins-s4-cert:nth-child(1) .ins-s4-cert-icon { background: linear-gradient(135deg, #f472b6, #db2777); }
+        .ins-s4-cert:nth-child(2) .ins-s4-cert-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .ins-s4-cert:nth-child(3) .ins-s4-cert-icon { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+        .ins-s4-cert:nth-child(4) .ins-s4-cert-icon { background: linear-gradient(135deg, #34d399, #10b981); }
+        .ins-s4-cert:nth-child(5) .ins-s4-cert-icon { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+        .ins-s4-cert h4 {
+            font-family: var(--font-friendly);
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .ins-s4-cert p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* ========== SECTION 5: COACH DEVELOPMENT — VERTICAL TIMELINE ========== */
+        .ins-s5-dev {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .ins-s5-head {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .ins-s5-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .ins-s5-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ins-s5-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .ins-s5-timeline::before {
+            content: '';
+            position: absolute;
+            left: 40px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #f472b6, #a78bfa, #38bdf8);
+            border-radius: 3px;
+        }
+
+        [dir="rtl"] .ins-s5-timeline::before { left: auto; right: 40px; }
+
+        .ins-s5-step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        [dir="rtl"] .ins-s5-step { grid-template-columns: 1fr 80px; }
+
+        .ins-s5-step-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #ffffff;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 12px 28px rgba(219, 39, 119, 0.3);
+            flex-shrink: 0;
+        }
+
+        .ins-s5-step:nth-child(1) .ins-s5-step-icon { background: linear-gradient(135deg, #f472b6, #db2777); }
+        .ins-s5-step:nth-child(2) .ins-s5-step-icon { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .ins-s5-step:nth-child(3) .ins-s5-step-icon { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+        .ins-s5-step:nth-child(4) .ins-s5-step-icon { background: linear-gradient(135deg, #34d399, #10b981); }
+
+        .ins-s5-step-body {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 1.8rem 2rem;
+            transition: var(--transition);
+        }
+
+        .ins-s5-step-body:hover {
+            border-color: var(--brand-rose);
+            transform: translateX(6px);
+            box-shadow: 0 16px 36px -12px rgba(244, 114, 182, 0.25);
+        }
+
+        [dir="rtl"] .ins-s5-step-body:hover { transform: translateX(-6px); }
+
+        .ins-s5-step-body h4 {
+            font-family: var(--font-friendly);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .ins-s5-step-body p {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        .ins-s5-step-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--brand-rose);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.6rem;
+        }
+
+        body.dark-mode .ins-s5-step-meta { color: #f9a8d4; }
+
+        /* ========== SECTION 6: TEACHING STYLE SPECTRUM — HORIZONTAL METERS ========== */
+        .ins-s6-spectrum {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .ins-s6-head {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .ins-s6-head h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .ins-s6-head p {
+            color: var(--text-sub);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .ins-s6-meters {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .ins-s6-meter {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 1.8rem 2rem;
+            transition: var(--transition);
+        }
+
+        .ins-s6-meter:hover {
+            border-color: var(--brand-rose);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 36px -12px rgba(244, 114, 182, 0.25);
+        }
+
+        .ins-s6-meter-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .ins-s6-meter-head h4 {
+            font-family: var(--font-friendly);
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .ins-s6-meter-pct {
+            font-family: var(--font-friendly);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--brand-rose);
+        }
+
+        body.dark-mode .ins-s6-meter-pct { color: #f9a8d4; }
+
+        .ins-s6-track {
+            height: 12px;
+            background: var(--bg-body);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ins-s6-fill {
+            height: 100%;
+            border-radius: 8px;
+            width: 0;
+            transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .ins-s6-meter:nth-child(1) .ins-s6-fill { background: linear-gradient(90deg, #f472b6, #db2777); width: 95%; }
+        .ins-s6-meter:nth-child(2) .ins-s6-fill { background: linear-gradient(90deg, #a78bfa, #7c3aed); width: 88%; }
+        .ins-s6-meter:nth-child(3) .ins-s6-fill { background: linear-gradient(90deg, #38bdf8, #0284c7); width: 92%; }
+        .ins-s6-meter:nth-child(4) .ins-s6-fill { background: linear-gradient(90deg, #34d399, #10b981); width: 85%; }
+
+        /* ========== SECTION 7: JOIN THE TEAM CTA ========== */
+        .ins-s7-cta {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem 6rem;
+        }
+
+        .ins-s7-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #831843 100%);
+            border-radius: 36px;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -15px rgba(76, 29, 149, 0.4);
+        }
+
+        .ins-s7-banner::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(244, 114, 182, 0.35), transparent 70%);
+        }
+
+        .ins-s7-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -120px; left: -60px;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.3), transparent 70%);
+        }
+
+        .ins-s7-content { position: relative; z-index: 1; }
+
+        .ins-s7-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(244, 114, 182, 0.2);
+            color: #f9a8d4;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            border: 1.5px solid rgba(244, 114, 182, 0.35);
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ins-s7-content h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.15;
+        }
+
+        .ins-s7-content h2 span {
+            background: linear-gradient(135deg, #fbcfe8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ins-s7-content p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 520px;
+        }
+
+        .ins-s7-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .ins-s7-btn-primary {
+            background: linear-gradient(135deg, #db2777 0%, #f472b6 100%);
+            color: #ffffff !important;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.5);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .ins-s7-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(219, 39, 119, 0.65);
+        }
+
+        .ins-s7-btn-ghost {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff !important;
+            padding: 1rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .ins-s7-btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .ins-s7-img-wrap {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .ins-s7-img {
+            width: 100%;
+            max-width: 320px;
+            max-height: 320px;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ==================== FOOTER (UNCHANGED) ==================== */
+        .footer {
+            background: #f8fafc;
+            border-top: 2px solid var(--border-soft);
+            padding: 4.5rem 2rem 2rem;
+            margin-top: auto;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .footer { background: #091a29; border-top: 2px solid var(--border-soft); }
+
+        .footer-container {
+            max-width: 1400px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1.2fr 1.6fr;
+            gap: 3.5rem; margin-bottom: 3.5rem;
+        }
+
+        .footer-brand { display: flex; flex-direction: column; gap: 1.2rem; }
+
+        .footer-logo { display: flex; align-items: center; gap: 12px; color: inherit; }
+
+        .footer-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 380px;
+        }
+
+        .social-links { display: flex; gap: 0.75rem; }
+
+        .social-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--card-bg); border: 1.5px solid var(--border-soft);
+            color: var(--brand-primary) !important;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .social-btn:hover {
+            background: var(--brand-primary) !important;
+            color: #ffffff !important;
+            border-color: var(--brand-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        .footer-col h4 {
+            font-family: var(--font-friendly); font-size: 1.2rem;
+            font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem;
+        }
+
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+
+        .footer-link {
+            color: var(--text-sub); font-size: 0.95rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: var(--transition);
+        }
+
+        .footer-link i {
+            font-size: 0.72rem; color: var(--brand-primary);
+            transition: transform 0.2s ease;
+        }
+
+        .footer-link:hover { color: var(--brand-primary); transform: translateX(4px); }
+        [dir="rtl"] .footer-link:hover { transform: translateX(-4px); }
+        [dir="rtl"] .footer-link i { transform: scaleX(-1); }
+
+        .newsletter-desc {
+            color: var(--text-sub); font-size: 0.95rem;
+            line-height: 1.6; margin-bottom: 1rem;
+        }
+
+        .newsletter-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .newsletter-input {
+            width: 100%; padding: 0.85rem 1.2rem; border-radius: 12px;
+            border: 1.5px solid var(--border-soft); background: var(--card-bg);
+            color: var(--text-main); font-family: inherit; font-size: 0.95rem;
+            outline: none; transition: var(--transition);
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .newsletter-btn {
+            padding: 0.85rem 1.4rem; border-radius: 12px; border: none;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; font-family: var(--font-friendly);
+            font-size: 1rem; font-weight: 600; cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.3);
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.45);
+        }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 0 auto;
+            border-top: 1.5px solid var(--border-soft);
+            padding-top: 1.8rem;
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-muted); font-size: 0.9rem;
+            flex-wrap: wrap; gap: 1rem;
+        }
+
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+
+        .footer-bottom-link {
+            color: var(--text-muted); font-size: 0.88rem;
+            font-weight: 600; transition: var(--transition);
+        }
+
+        .footer-bottom-link:hover { color: var(--brand-primary); }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1180px) {
+            .nav-center-menu, .nav-right-actions .action-chip { display: none; }
+            .menu-toggle-btn { display: block; }
+        }
+
+        @media (max-width: 1100px) {
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+            .ins-s2-grid { grid-template-columns: repeat(2, 1fr); }
+            .ins-s4-strip { grid-template-columns: repeat(3, 1fr); }
+            .ins-s3-cards { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 1024px) {
+            .ins-s1-hero { padding: 7rem 1.5rem 4rem; }
+            .ins-s7-banner { grid-template-columns: 1fr; text-align: center; }
+            .ins-s7-content p { margin-left: auto; margin-right: auto; }
+            .ins-s7-actions { justify-content: center; }
+        }
+
+        @media (max-width: 650px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom-links { justify-content: center; flex-wrap: wrap; }
+            .ins-s2-grid { grid-template-columns: 1fr; }
+            .ins-s4-strip { grid-template-columns: repeat(2, 1fr); }
+            .ins-s3-inner { padding: 2.5rem 1.5rem; }
+            .ins-s5-step { grid-template-columns: 60px 1fr; gap: 1rem; }
+            .ins-s5-step-icon { width: 60px; height: 60px; font-size: 1.4rem; }
+            .ins-s5-timeline::before { left: 30px; }
+            [dir="rtl"] .ins-s5-timeline::before { left: auto; right: 30px; }
+            .ins-s7-banner { padding: 3rem 1.5rem; }
+            .ins-s1-cta-row { flex-direction: column; align-items: center; }
+            .ins-s1-btn-primary, .ins-s1-btn-ghost { width: 100%; justify-content: center; }
+            .ins-s7-btn-primary, .ins-s7-btn-ghost { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body dir="ltr">
+
+    <!-- ==================== MAIN NAVBAR ==================== -->
+    <header class="navbar" id="mainNavbar">
+        <div class="navbar-container">
+            <a href="index.html" class="nav-logo" aria-label="AquaKids Academy Home">
+                <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);">
+                    <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="logo-text-block">
+                    <span class="logo-title">AquaKids Academy</span>
+                    <span class="logo-tagline">Swim • Learn • Stay Safe</span>
+                </div>
+            </a>
+
+            <ul class="nav-center-menu">
+                <li class="nav-item dropdown">
+                    <a href="index.html" class="nav-link">
+                        Home <i class="fas fa-chevron-down dropdown-caret"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html" class="dropdown-item"><span>Home 1 (Water Confidence)</span></a></li>
+                        <li><a href="home2.html" class="dropdown-item"><span>Home 2 (Stroke Mastery)</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
+                <li class="nav-item"><a href="instructors.html" class="nav-link active">Instructors</a></li>
+                <li class="nav-item"><a href="water safety.html" class="nav-link">Water Safety</a></li>
+                <li class="nav-item"><a href="schedules.html" class="nav-link">Schedules</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">
+                        Dashboard <i class="fas fa-chevron-down dropdown-caret"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="user-dashboard.html" class="dropdown-item parent-dash">
+                                <div>
+                                    <div style="font-weight: 700;">User Dashboard</div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">Learning Topics, Badges &amp; Levels</div>
+                                </div>
+                                <span class="dash-pill parent">Family</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="admin-dashboard.html" class="dropdown-item admin-dash">
+                                <div>
+                                    <div style="font-weight: 700;">Admin Dashboard</div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">Rosters, Coaches &amp; Billing</div>
+                                </div>
+                                <span class="dash-pill admin">Staff</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="nav-right-actions">
+                <button class="action-chip" id="themeToggleBtn" aria-label="Toggle Night/Day Mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                    <span id="themeLabel">Dark</span>
+                </button>
+                <button class="action-chip" id="rtlToggleBtn" aria-label="Toggle Text Direction">
+                    <i class="fas fa-right-left" id="rtlIcon"></i>
+                    <span id="rtlLabel">RTL</span>
+                </button>
+                <a href="login.html" class="action-chip btn-login" aria-label="Open Login Portal">
+                    <i class="fas fa-lock"></i>
+                    <span>Login</span>
+                </a>
+                <button class="menu-toggle-btn" id="mobileToggleBtn" aria-label="Toggle Mobile Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MOBILE DRAWER (MATCHING USER DASHBOARD) ==================== -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-panel" id="mobilePanel">
+        <div class="mobile-header">
+            <a href="index.html" class="nav-logo" style="text-decoration: none; color: inherit;">
+                <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 40px; height: 40px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35); flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="logo-text-block">
+                    <span class="logo-title" style="font-size: 1.25rem;">AquaKids</span>
+                    <span class="logo-tagline" style="font-size: 0.7rem; color: var(--text-sub);">Swim • Learn • Stay Safe</span>
+                </div>
+            </a>
+            <button class="mobile-close-btn" id="mobileCloseBtn" title="Close Menu" aria-label="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="mobile-links" style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li class="mobile-item" style="border: none; padding: 0.5rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Main Navigation</li>
+            
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileHomeAcc">
+                    <span><i class="fas fa-home" style="width: 24px; color: var(--brand-primary);"></i> Home Pages</span>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+                <ul class="mobile-accordion" id="mobileHomeContent">
+                    <li><a href="index.html" class="mobile-sublink"><i class="fas fa-water" style="width: 18px;"></i> Home 1 (Confidence)</a></li>
+                    <li><a href="home2.html" class="mobile-sublink"><i class="fas fa-award" style="width: 18px;"></i> Home 2 (Mastery)</a></li>
+                </ul>
+            </li>
+            
+            <li class="mobile-item">
+                <a href="programs.html" class="mobile-link">
+                    <span><i class="fas fa-swimmer" style="width: 24px; color: var(--brand-aqua);"></i> Swim Programs</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="instructors.html" class="mobile-link active">
+                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #f59e0b;"></i> Instructors &amp; Staff</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="water safety.html" class="mobile-link">
+                    <span><i class="fas fa-life-ring" style="width: 24px; color: var(--brand-coral);"></i> Water Safety</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="schedules.html" class="mobile-link">
+                    <span><i class="fas fa-calendar-alt" style="width: 24px; color: var(--brand-aqua);"></i> Schedules &amp; Slots</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="contact.html" class="mobile-link">
+                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-mint);"></i> Contact Us</span>
+                </a>
+            </li>
+
+            <li class="mobile-item" style="border: none; padding: 0.75rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Dashboards &amp; Portals</li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileDashAcc">
+                    <span><i class="fas fa-tachometer-alt" style="width: 24px; color: var(--brand-coral);"></i> Portals</span>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+                <ul class="mobile-accordion" id="mobileDashContent">
+                    <li>
+                        <a href="user-dashboard.html" class="mobile-sublink">
+                            <span><i class="fas fa-user-circle" style="width: 18px;"></i> User Dashboard</span>
+                            <span class="dash-pill parent">Family</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="admin-dashboard.html" class="mobile-sublink">
+                            <span><i class="fas fa-user-shield" style="width: 18px;"></i> Admin Dashboard</span>
+                            <span class="dash-pill admin">Staff</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="mobile-item" style="border: none; padding: 0.75rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Settings &amp; Preferences</li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileRtlBtn" style="cursor: pointer;">
+                    <span><i class="fas fa-right-left" style="width: 24px; color: var(--brand-primary);"></i> RTL Layout</span>
+                    <span class="badge-count" id="mobileRtlLabel" style="background: var(--brand-primary); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; color: #fff; font-weight: 700;">OFF</span>
+                </div>
+            </li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileThemeBtn" style="cursor: pointer;">
+                    <span><i class="fas fa-moon" style="width: 24px; color: var(--brand-aqua);"></i> Dark Mode</span>
+                    <span class="badge-count" id="mobileThemeLabel" style="background: var(--brand-aqua); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; color: #fff; font-weight: 700;">OFF</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="mobile-actions" style="margin-top: auto; padding-top: 1rem; border-top: 1.5px solid var(--border-soft);">
+            <a href="login.html" class="action-chip btn-login" style="width: 100%; justify-content: center;">
+                <i class="fas fa-user-lock"></i> Login to Portal
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== LOGIN MODAL ==================== -->
+    <div class="modal-backdrop" id="loginBackdrop">
+        <div class="login-dialog">
+            <button class="modal-close-trigger" id="modalCloseBtn"><i class="fas fa-times"></i></button>
+            <h3 class="dialog-title">Academy Login</h3>
+            <p class="dialog-subtitle">Select your account type to access your portal.</p>
+
+            <form id="academyLoginForm">
+                <div class="input-group">
+                    <label class="input-label" for="loginRole">Account Type</label>
+                    <select id="loginRole" class="form-control" required>
+                        <option value="parent">Parent / Guardian</option>
+                        <option value="admin">Staff / Pool Administrator</option>
+                        <option value="coach">Swim Instructor</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" class="form-control" placeholder="parent@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="userPass">Password</label>
+                    <input type="password" id="userPass" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== INSTRUCTORS MAIN CONTENT ==================== -->
+    <main class="inst-main">
+
+        <!-- ========== SECTION 1: FULL-SCREEN HERO BACKGROUND ========== -->
+        <section class="ins-s1-hero" id="insS1Hero">
+            <img src="images/instructors-hero-fullscreen.png" alt="Swim instructor coaching a young swimmer in a bright pool" class="ins-s1-hero-bg">
+            <div class="ins-s1-hero-overlay"></div>
+
+            <div class="ins-s1-hero-content">
+                <span class="ins-s1-badge" data-ins="heroBadge">
+                    <i class="fas fa-users"></i> World-Class Coaching Team
+                </span>
+                <h1 class="ins-s1-title" data-ins="heroTitle">
+                    Meet the Coaches Who<br>
+                    <span class="rose-accent">Make Every Splash Count</span>
+                </h1>
+                <p class="ins-s1-desc" data-ins="heroDesc">
+                    Certified, passionate, and endlessly patient — our instructors bring decades of combined experience and a genuine love for teaching children to swim.
+                </p>
+                <div class="ins-s1-cta-row" data-ins="heroCta">
+                    <button class="ins-s1-btn-primary" onclick="alert('Coach matching coming soon!')">
+                        <i class="fas fa-handshake"></i> Meet Your Child's Coach
+                    </button>
+                    <a href="contact.html" class="ins-s1-btn-ghost">
+                        <i class="fas fa-comments"></i> Ask a Question
+                    </a>
+                </div>
+            </div>
+
+            <div class="ins-s1-scroll-hint" data-ins="heroHint">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 2: MEET THE TEAM — INTRO GRID ========== -->
+        <section class="ins-s2-team" id="insS2Team">
+            <div class="ins-s2-head" data-ins="teamHead">
+                <h2>The Faces Behind the Splash</h2>
+                <p>Every coach is hand-picked for their expertise, warmth, and ability to connect with children of all ages.</p>
+            </div>
+            <div class="ins-s2-grid">
+                <div class="ins-s2-card" data-ins="coach1" id="coach-mira">
+                    <div class="ins-s2-img-wrap">
+                        <img src="images/instructors-coach-mira.png" alt="Coach Mira Chen smiling poolside">
+                        <span class="ins-s2-status"><i class="fas fa-circle"></i> Available</span>
+                    </div>
+                    <div class="ins-s2-body">
+                        <h4>Coach Mira Chen</h4>
+                        <span class="ins-s2-role">Head of Stroke Development</span>
+                        <div class="ins-s2-tags">
+                            <span class="ins-s2-tag">15 yrs</span>
+                            <span class="ins-s2-tag">National Level</span>
+                            <span class="ins-s2-tag">Butterfly</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ins-s2-card" data-ins="coach2" id="coach-james">
+                    <div class="ins-s2-img-wrap">
+                        <img src="images/instructors-coach-james.png" alt="Coach James Okafor giving high-five to a child">
+                        <span class="ins-s2-status"><i class="fas fa-circle"></i> Available</span>
+                    </div>
+                    <div class="ins-s2-body">
+                        <h4>Coach James Okafor</h4>
+                        <span class="ins-s2-role">Water Safety Specialist</span>
+                        <div class="ins-s2-tags">
+                            <span class="ins-s2-tag">12 yrs</span>
+                            <span class="ins-s2-tag">Lifeguard</span>
+                            <span class="ins-s2-tag">CPR Trainer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ins-s2-card" data-ins="coach3" id="coach-sofia">
+                    <div class="ins-s2-img-wrap">
+                        <img src="images/instructors-coach-sofia.png" alt="Coach Sofia Rivera teaching toddler in pool">
+                        <span class="ins-s2-status"><i class="fas fa-circle"></i> Available</span>
+                    </div>
+                    <div class="ins-s2-body">
+                        <h4>Coach Sofia Rivera</h4>
+                        <span class="ins-s2-role">Toddler Program Lead</span>
+                        <div class="ins-s2-tags">
+                            <span class="ins-s2-tag">10 yrs</span>
+                            <span class="ins-s2-tag">Early Childhood</span>
+                            <span class="ins-s2-tag">Parent &amp; Me</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ins-s2-card" data-ins="coach4" id="coach-david">
+                    <div class="ins-s2-img-wrap">
+                        <img src="images/instructors-coach-david.png" alt="Coach David Kim coaching competitive swimmer">
+                        <span class="ins-s2-status"><i class="fas fa-circle"></i> Available</span>
+                    </div>
+                    <div class="ins-s2-body">
+                        <h4>Coach David Kim</h4>
+                        <span class="ins-s2-role">Competitive Track Coach</span>
+                        <div class="ins-s2-tags">
+                            <span class="ins-s2-tag">14 yrs</span>
+                            <span class="ins-s2-tag">Olympic Trials</span>
+                            <span class="ins-s2-tag">Freestyle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 3: TEACHING PHILOSOPHY — QUOTE CARDS ========== -->
+        <section class="ins-s3-philosophy" id="insS3Philosophy">
+            <div class="ins-s3-inner">
+                <div class="ins-s3-head" data-ins="philosophyHead">
+                    <h2>Our Teaching Philosophy</h2>
+                    <p>Three principles guide every lesson, every interaction, and every celebration in our pool.</p>
+                </div>
+                <div class="ins-s3-cards">
+                    <div class="ins-s3-card" data-ins="philosophy1">
+                        <div class="ins-s3-quote">"</div>
+                        <p>Every child learns at their own pace. Our job is to meet them where they are — not where a curriculum says they should be.</p>
+                        <div class="ins-s3-author">
+                            <div class="ins-s3-avatar">MC</div>
+                            <div>
+                                <strong>Coach Mira Chen</strong>
+                                <span>Head of Stroke Development</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ins-s3-card" data-ins="philosophy2">
+                        <div class="ins-s3-quote">"</div>
+                        <p>Safety is not a lesson we teach — it's the foundation on which every lesson is built. Trust must come first.</p>
+                        <div class="ins-s3-author">
+                            <div class="ins-s3-avatar">JO</div>
+                            <div>
+                                <strong>Coach James Okafor</strong>
+                                <span>Water Safety Specialist</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ins-s3-card" data-ins="philosophy3">
+                        <div class="ins-s3-quote">"</div>
+                        <p>A giggle in the water is worth more than perfect technique. Joy is the fastest path to confidence.</p>
+                        <div class="ins-s3-author">
+                            <div class="ins-s3-avatar">SR</div>
+                            <div>
+                                <strong>Coach Sofia Rivera</strong>
+                                <span>Toddler Program Lead</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 4: CERTIFICATION WALL — HORIZONTAL STRIP ========== -->
+        <section class="ins-s4-certs" id="insS4Certs">
+            <div class="ins-s4-head" data-ins="certsHead">
+                <h2>Certified. Verified. Trusted.</h2>
+                <p>Every coach holds current certifications that go far beyond the minimum requirements.</p>
+            </div>
+            <div class="ins-s4-strip">
+                <div class="ins-s4-cert" data-ins="cert1">
+                    <div class="ins-s4-cert-icon"><i class="fas fa-heart-pulse"></i></div>
+                    <h4>CPR &amp; First Aid</h4>
+                    <p>Renewed every 12 months</p>
+                </div>
+                <div class="ins-s4-cert" data-ins="cert2">
+                    <div class="ins-s4-cert-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h4>Lifeguard Certified</h4>
+                    <p>National Lifeguard Association</p>
+                </div>
+                <div class="ins-s4-cert" data-ins="cert3">
+                    <div class="ins-s4-cert-icon"><i class="fas fa-swimmer"></i></div>
+                    <h4>Swim Instructor</h4>
+                    <p>Level 3 Teaching Certification</p>
+                </div>
+                <div class="ins-s4-cert" data-ins="cert4">
+                    <div class="ins-s4-cert-icon"><i class="fas fa-child"></i></div>
+                    <h4>Child Development</h4>
+                    <p>Early Childhood Education</p>
+                </div>
+                <div class="ins-s4-cert" data-ins="cert5">
+                    <div class="ins-s4-cert-icon"><i class="fas fa-clipboard-check"></i></div>
+                    <h4>Background Verified</h4>
+                    <p>Annual police &amp; reference checks</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 5: COACH DEVELOPMENT — VERTICAL TIMELINE ========== -->
+        <section class="ins-s5-dev" id="insS5Dev">
+            <div class="ins-s5-head" data-ins="devHead">
+                <h2>How We Train Our Coaches</h2>
+                <p>Becoming an AquaKids coach is just the beginning. Continuous development keeps our team at the top of their game.</p>
+            </div>
+            <div class="ins-s5-timeline">
+                <div class="ins-s5-step" data-ins="dev1">
+                    <div class="ins-s5-step-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="ins-s5-step-body">
+                        <span class="ins-s5-step-meta">Stage 1 · Weeks 1–4</span>
+                        <h4>Foundation Training</h4>
+                        <p>Intensive onboarding covering our curriculum, safety protocols, and child psychology fundamentals.</p>
+                    </div>
+                </div>
+                <div class="ins-s5-step" data-ins="dev2">
+                    <div class="ins-s5-step-icon"><i class="fas fa-chalkboard-user"></i></div>
+                    <div class="ins-s5-step-body">
+                        <span class="ins-s5-step-meta">Stage 2 · Months 2–3</span>
+                        <h4>Mentored Teaching</h4>
+                        <p>New coaches shadow senior instructors, co-teach classes, and receive weekly feedback sessions.</p>
+                    </div>
+                </div>
+                <div class="ins-s5-step" data-ins="dev3">
+                    <div class="ins-s5-step-icon"><i class="fas fa-video"></i></div>
+                    <div class="ins-s5-step-body">
+                        <span class="ins-s5-step-meta">Stage 3 · Ongoing</span>
+                        <h4>Video Review &amp; Peer Coaching</h4>
+                        <p>Monthly video reviews of lessons, plus peer coaching circles where instructors share best practices.</p>
+                    </div>
+                </div>
+                <div class="ins-s5-step" data-ins="dev4">
+                    <div class="ins-s5-step-icon"><i class="fas fa-award"></i></div>
+                    <div class="ins-s5-step-body">
+                        <span class="ins-s5-step-meta">Stage 4 · Annually</span>
+                        <h4>Advanced Certification</h4>
+                        <p>Yearly advanced training in specialty areas — toddler development, competitive coaching, or adaptive swim.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 6: TEACHING STYLE SPECTRUM — HORIZONTAL METERS ========== -->
+        <section class="ins-s6-spectrum" id="insS6Spectrum">
+            <div class="ins-s6-head" data-ins="spectrumHead">
+                <h2>The AquaKids Teaching Style</h2>
+                <p>Based on parent feedback and student outcomes, here's what our coaching approach looks like in numbers.</p>
+            </div>
+            <div class="ins-s6-meters">
+                <div class="ins-s6-meter" data-ins="meter1">
+                    <div class="ins-s6-meter-head">
+                        <h4>Patience &amp; Encouragement</h4>
+                        <span class="ins-s6-meter-pct">95%</span>
+                    </div>
+                    <div class="ins-s6-track">
+                        <div class="ins-s6-fill" data-ins-fill></div>
+                    </div>
+                </div>
+                <div class="ins-s6-meter" data-ins="meter2">
+                    <div class="ins-s6-meter-head">
+                        <h4>Technique Focus</h4>
+                        <span class="ins-s6-meter-pct">88%</span>
+                    </div>
+                    <div class="ins-s6-track">
+                        <div class="ins-s6-fill" data-ins-fill></div>
+                    </div>
+                </div>
+                <div class="ins-s6-meter" data-ins="meter3">
+                    <div class="ins-s6-meter-head">
+                        <h4>Fun &amp; Engagement</h4>
+                        <span class="ins-s6-meter-pct">92%</span>
+                    </div>
+                    <div class="ins-s6-track">
+                        <div class="ins-s6-fill" data-ins-fill></div>
+                    </div>
+                </div>
+                <div class="ins-s6-meter" data-ins="meter4">
+                    <div class="ins-s6-meter-head">
+                        <h4>Safety Emphasis</h4>
+                        <span class="ins-s6-meter-pct">85%</span>
+                    </div>
+                    <div class="ins-s6-track">
+                        <div class="ins-s6-fill" data-ins-fill></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECTION 7: JOIN THE TEAM CTA ========== -->
+        <section class="ins-s7-cta" id="insS7Cta">
+            <div class="ins-s7-banner">
+                <div class="ins-s7-content" data-ins="ctaContent">
+                    <span class="ins-s7-tag"><i class="fas fa-briefcase"></i> We're Hiring</span>
+                    <h2>Passionate About Teaching? <span>Join Our Team.</span></h2>
+                    <p>We're always looking for certified instructors who share our love for water and our commitment to child safety. If that sounds like you, we'd love to meet.</p>
+                    <div class="ins-s7-actions">
+                        <button class="ins-s7-btn-primary" onclick="alert('Application portal coming soon!')">
+                            <i class="fas fa-paper-plane"></i> Apply to Coach
+                        </button>
+                        <a href="contact.html" class="ins-s7-btn-ghost">
+                            <i class="fas fa-envelope"></i> Contact Us
+                        </a>
+                    </div>
+                </div>
+                <div class="ins-s7-img-wrap" data-ins="ctaImg">
+                    <img src="images/instructors-cta-team.png" alt="AquaKids coaching team smiling together poolside" class="ins-s7-img">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);">
+                        <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-title">AquaKids Academy</span>
+                        <span class="logo-tagline">Swim • Learn • Stay Safe</span>
+                    </div>
+                </a>
+                <p class="footer-desc">
+                    Building water confidence and safety skills for children of all ages. Our certified instructors create a fun, nurturing environment where every child can thrive in the water.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="programs.html" class="footer-link"><i class="fas fa-chevron-right"></i> Programs</a></li>
+                    <li><a href="instructors.html" class="footer-link"><i class="fas fa-chevron-right"></i> Instructors</a></li>
+                    <li><a href="schedules.html" class="footer-link"><i class="fas fa-chevron-right"></i> Schedules</a></li>
+                    <li><a href="water safety.html" class="footer-link"><i class="fas fa-chevron-right"></i> Water Safety</a></li>
+                    <li><a href="contact.html" class="footer-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Enrollment Guide</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Parent Portal</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Stay Updated</h4>
+                <p class="newsletter-desc">
+                    Get the latest news, swim tips, and schedule updates delivered to your inbox.
+                </p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 AquaKids Academy. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#" class="footer-bottom-link">Privacy</a>
+                <a href="#" class="footer-bottom-link">Terms</a>
+                <a href="#" class="footer-bottom-link">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+
+            /* ========== NAVBAR + DRAWER + MODAL LOGIC (UNCHANGED) ========== */
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+            const themeLabel = document.getElementById('themeLabel');
+            const mobileThemeLabel = document.getElementById('mobileThemeLabel');
+
+            const rtlToggleBtn = document.getElementById('rtlToggleBtn');
+            const mobileRtlBtn = document.getElementById('mobileRtlBtn');
+            const rtlLabel = document.getElementById('rtlLabel');
+            const mobileRtlLabel = document.getElementById('mobileRtlLabel');
+
+            const mobileToggleBtn = document.getElementById('mobileToggleBtn');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobilePanel = document.getElementById('mobilePanel');
+
+            const mobileHomeAcc = document.getElementById('mobileHomeAcc');
+            const mobileHomeContent = document.getElementById('mobileHomeContent');
+            const mobileDashAcc = document.getElementById('mobileDashAcc');
+            const mobileDashContent = document.getElementById('mobileDashContent');
+
+            const loginModalBtn = document.getElementById('loginModalBtn');
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            const loginBackdrop = document.getElementById('loginBackdrop');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const loginForm = document.getElementById('academyLoginForm');
+
+            function applyTheme(isDark) {
+                if (isDark) {
+                    body.classList.add('dark-mode');
+                    if (themeLabel) themeLabel.textContent = 'Light';
+                    if (mobileThemeLabel) mobileThemeLabel.textContent = 'Light Mode';
+                    localStorage.setItem('aquakids_theme', 'dark');
+                } else {
+                    body.classList.remove('dark-mode');
+                    if (themeLabel) themeLabel.textContent = 'Dark';
+                    if (mobileThemeLabel) mobileThemeLabel.textContent = 'Dark Mode';
+                    localStorage.setItem('aquakids_theme', 'light');
+                }
+            }
+
+            function toggleTheme() { applyTheme(!body.classList.contains('dark-mode')); }
+
+            const savedTheme = localStorage.getItem('aquakids_theme');
+            applyTheme(savedTheme === 'dark');
+
+            if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+            if (mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+
+            function applyRTL(isRtl) {
+                const dir = isRtl ? 'rtl' : 'ltr';
+                document.body.setAttribute('dir', dir);
+                document.documentElement.setAttribute('dir', dir);
+                if (rtlLabel) rtlLabel.textContent = isRtl ? 'LTR' : 'RTL';
+                if (mobileRtlLabel) mobileRtlLabel.textContent = isRtl ? 'LTR Layout' : 'RTL Layout';
+                localStorage.setItem('aquakids_rtl', dir);
+            }
+
+            function toggleRTL() {
+                const isRtl = (document.body.getAttribute('dir') || 'ltr') === 'ltr';
+                applyRTL(isRtl);
+                closeMobileDrawer();
+            }
+
+            const savedRtl = localStorage.getItem('aquakids_rtl');
+            applyRTL(savedRtl === 'rtl');
+
+            if (rtlToggleBtn) rtlToggleBtn.addEventListener('click', toggleRTL);
+            if (mobileRtlBtn) mobileRtlBtn.addEventListener('click', toggleRTL);
+
+            function openMobileDrawer() {
+                mobileOverlay.classList.add('active');
+                mobilePanel.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+
+            function closeMobileDrawer() {
+                mobileOverlay.classList.remove('active');
+                mobilePanel.classList.remove('active');
+                body.style.overflow = '';
+            }
+
+            if (mobileToggleBtn) mobileToggleBtn.addEventListener('click', openMobileDrawer);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileDrawer);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileDrawer);
+
+            function bindAccordion(trigger, content) {
+                if (trigger && content) {
+                    trigger.addEventListener('click', () => {
+                        content.classList.toggle('show');
+                        const caret = trigger.querySelector('.dropdown-caret');
+                        if (caret) caret.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    });
+                }
+            }
+
+            bindAccordion(mobileHomeAcc, mobileHomeContent);
+            bindAccordion(mobileDashAcc, mobileDashContent);
+
+            function openLoginModal() {
+                loginBackdrop.classList.add('active');
+                closeMobileDrawer();
+            }
+
+            function closeLoginModal() { loginBackdrop.classList.remove('active'); }
+
+            if (loginModalBtn) loginModalBtn.addEventListener('click', openLoginModal);
+            if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', openLoginModal);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeLoginModal);
+            if (loginBackdrop) {
+                loginBackdrop.addEventListener('click', (e) => {
+                    if (e.target === loginBackdrop) closeLoginModal();
+                });
+            }
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const role = document.getElementById('loginRole').value;
+                    const email = document.getElementById('userEmail').value;
+                    alert(`Signed in as [${role.toUpperCase()}]: ${email}`);
+                    closeLoginModal();
+                });
+            }
+
+            /* ============================================================
+               FRAMER MOTION — UNIQUE ANIMATION SIGNATURES FOR INSTRUCTORS
+               Each section uses a COMPLETELY DIFFERENT animation technique
+               ============================================================ */
+
+            const { animate, inView } = window.Motion;
+
+            /* ---------- SECTION 1: FULL-SCREEN HERO — Cinematic reveal ---------- */
+            inView('#insS1Hero', () => {
+                animate('.ins-s1-hero-bg',
+                    { scale: [1.15, 1] },
+                    { duration: 2, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-ins="heroBadge"]',
+                    { opacity: [0, 1], y: [-40, 0] },
+                    { duration: 0.7, delay: 0.3, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-ins="heroTitle"]',
+                    { opacity: [0, 1], y: [50, 0], scale: [0.95, 1] },
+                    { duration: 1.1, delay: 0.45, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-ins="heroDesc"]',
+                    { opacity: [0, 1], y: [30, 0] },
+                    { duration: 0.9, delay: 0.65, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-ins="heroCta"]',
+                    { opacity: [0, 1], y: [25, 0] },
+                    { duration: 0.8, delay: 0.85, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-ins="heroHint"]',
+                    { opacity: [0, 1] },
+                    { duration: 1, delay: 1.5 }
+                );
+            }, { amount: 0.1 });
+
+            /* ---------- SECTION 2: TEAM — Flip-in cards with rotation ---------- */
+            inView('#insS2Team', () => {
+                animate('[data-ins="teamHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const cards = document.querySelectorAll('[data-ins^="coach"]');
+                cards.forEach((card, i) => {
+                    animate(card,
+                        { opacity: [0, 1], rotateY: [60, 0], y: [40, 0] },
+                        { duration: 0.85, delay: 0.2 + i * 0.14, easing: [0.22, 1, 0.36, 1] }
+                    );
+                });
+            }, { amount: 0.2 });
+
+            /* ---------- SECTION 3: PHILOSOPHY — Quote cards scale + stagger ---------- */
+            inView('#insS3Philosophy', () => {
+                animate('[data-ins="philosophyHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const cards = document.querySelectorAll('[data-ins^="philosophy"]:not([data-ins="philosophyHead"])');
+                cards.forEach((card, i) => {
+                    animate(card,
+                        { opacity: [0, 1], scale: [0.85, 1], y: [50, 0] },
+                        { duration: 0.8, delay: 0.2 + i * 0.16, easing: [0.34, 1.56, 0.64, 1] }
+                    );
+                });
+            }, { amount: 0.2 });
+
+            /* ---------- SECTION 4: CERTS — Wave stagger from bottom ---------- */
+            inView('#insS4Certs', () => {
+                animate('[data-ins="certsHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const certs = document.querySelectorAll('[data-ins^="cert"]:not([data-ins="certsHead"])');
+                certs.forEach((cert, i) => {
+                    animate(cert,
+                        { opacity: [0, 1], y: [60, 0], scale: [0.9, 1] },
+                        { duration: 0.7, delay: 0.15 + i * 0.1, easing: [0.22, 1, 0.36, 1] }
+                    );
+                });
+            }, { amount: 0.2 });
+
+            /* ---------- SECTION 5: DEV — Timeline steps alternate fade ---------- */
+            inView('#insS5Dev', () => {
+                animate('[data-ins="devHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const steps = document.querySelectorAll('[data-ins^="dev"]:not([data-ins="devHead"])');
+                steps.forEach((step, i) => {
+                    animate(step,
+                        { opacity: [0, 1], x: [-50, 0], y: [20, 0] },
+                        { duration: 0.75, delay: 0.2 + i * 0.15, easing: [0.22, 1, 0.36, 1] }
+                    );
+                });
+            }, { amount: 0.15 });
+
+            /* ---------- SECTION 6: SPECTRUM — Meters slide + fill width ---------- */
+            inView('#insS6Spectrum', () => {
+                animate('[data-ins="spectrumHead"]',
+                    { opacity: [0, 1], y: [-25, 0] },
+                    { duration: 0.7, easing: [0.22, 1, 0.36, 1] }
+                );
+                const meters = document.querySelectorAll('[data-ins^="meter"]');
+                meters.forEach((meter, i) => {
+                    animate(meter,
+                        { opacity: [0, 1], x: [60, 0] },
+                        { duration: 0.75, delay: 0.15 + i * 0.14, easing: [0.22, 1, 0.36, 1] }
+                    );
+                    const fill = meter.querySelector('[data-ins-fill]');
+                    if (fill) {
+                        const targetWidth = fill.style.width || '85%';
+                        animate(fill,
+                            { width: ['0%', targetWidth] },
+                            { duration: 1.4, delay: 0.5 + i * 0.14, easing: [0.22, 1, 0.36, 1] }
+                        );
+                    }
+                });
+            }, { amount: 0.2 });
+
+            /* ---------- SECTION 7: CTA — Split slide + image scale ---------- */
+            inView('#insS7Cta', () => {
+                animate('[data-ins="ctaContent"]',
+                    { opacity: [0, 1], x: [-60, 0] },
+                    { duration: 0.9, easing: [0.22, 1, 0.36, 1] }
+                );
+                animate('[data-ins="ctaImg"]',
+                    { opacity: [0, 1], x: [60, 0], scale: [0.9, 1] },
+                    { duration: 1, delay: 0.2, easing: [0.22, 1, 0.36, 1] }
+                );
+            }, { amount: 0.3 });
+
+        });
+    </script>
+</body>
+</html>

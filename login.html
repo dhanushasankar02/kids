@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Login — AquaKids Academy</title>
+
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Framer Motion (Motion One CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@10.16.2/dist/motion.min.js"></script>
+
+    <style>
+        /* ==================== GLOBAL SYSTEM TOKENS ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-body: #f0fdfa;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+            --brand-primary: #0284c7;
+            --brand-aqua: #06b6d4;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
+            --brand-mint: #10b981;
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-card: 0 15px 35px -5px rgba(2, 132, 199, 0.15);
+            --font-friendly: 'Fredoka', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark-mode {
+            --bg-body: #07131e;
+            --card-bg: #0f2338;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #38bdf8;
+            --brand-aqua: #22d3ee;
+            --border-soft: rgba(56, 189, 248, 0.2);
+            --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            transition: background 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        a, button { text-decoration: none !important; font-family: inherit; }
+
+        /* Top Header Bar (NO WEBSITE NAVBAR) */
+        .login-top-bar {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            z-index: 10;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle-btn {
+            height: 42px;
+            padding: 0 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .back-site-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #fff !important;
+            border-radius: 12px;
+            font-family: var(--font-friendly);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+            transition: var(--transition);
+        }
+
+        .back-site-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45);
+        }
+
+        /* FLOATING CONTROL ICONS */
+        .login-controls-bar {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 20;
+        }
+
+        .top-icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .top-icon-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        /* CENTER LOGIN CONTAINER */
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            margin: auto;
+            z-index: 10;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--brand-aqua), var(--brand-primary));
+        }
+
+        /* BRAND LOGO HEADER */
+        .brand-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-emblem {
+            width: 52px;
+            height: 52px;
+            border-radius: 50% 50% 50% 14px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(6, 182, 212, 0.35);
+            margin-bottom: 0.8rem;
+        }
+
+        .logo-emblem svg {
+            width: 26px;
+            height: 26px;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-header h1 {
+            font-family: var(--font-friendly);
+            font-size: 1.6rem;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .brand-header p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+        }
+
+        /* ROLE SELECTOR TABS */
+        .role-tabs {
+            display: flex;
+            background: rgba(6, 182, 212, 0.1);
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 1.8rem;
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 0.65rem 0.5rem;
+            text-align: center;
+            border-radius: 10px;
+            font-family: var(--font-friendly);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .role-tab.active {
+            background: var(--card-bg);
+            color: var(--brand-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* FORM INPUTS */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i.input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            padding: 0.85rem 2.8rem 0.85rem 2.8rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input-wrap input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* FORM OPTIONS */
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.8rem;
+            font-size: 0.85rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-sub);
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            accent-color: var(--brand-primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-link {
+            color: var(--brand-primary);
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline !important;
+        }
+
+        /* SUBMIT BUTTON */
+        .submit-btn {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #ffffff !important;
+            font-family: var(--font-friendly);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.45);
+        }
+
+        /* SOCIAL ICONS ROW */
+        .social-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.4rem 0 1rem 0;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .social-divider::before, .social-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px dashed var(--border-soft);
+        }
+
+        .social-divider span {
+            padding: 0 0.8rem;
+        }
+
+        .social-icons-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .social-icon-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.25);
+        }
+
+        /* QUICK PORTAL LINKS */
+        .portal-quick-links {
+            margin-top: 1.8rem;
+            padding-top: 1.2rem;
+            border-top: 1px dashed var(--border-soft);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .portal-quick-links a {
+            color: var(--brand-primary);
+            font-weight: 700;
+            margin: 0 4px;
+        }
+
+        /* ==================== RTL OVERRIDES ==================== */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .login-controls-bar { right: auto; left: 1.2rem; }
+        [dir="rtl"] .input-wrap i.input-icon { left: auto; right: 1rem; }
+        [dir="rtl"] .input-wrap input { padding: 0.85rem 2.8rem 0.85rem 2.8rem; }
+        [dir="rtl"] .toggle-password { right: auto; left: 1rem; }
+        [dir="rtl"] .submit-btn i, [dir="rtl"] .back-site-btn i { transform: scaleX(-1); }
+    </style>
+</head>
+<body>
+
+    <!-- FLOATING CONTROL ICONS (DARK MODE & RTL) -->
+    <div class="login-controls-bar">
+        <button class="top-icon-btn" id="rtlToggleBtn" title="Toggle RTL Layout">
+            <i class="fas fa-right-left"></i>
+        </button>
+        <button class="top-icon-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- CENTER LOGIN CARD (NO WEBSITE FOOTER) -->
+    <main class="login-container">
+        <div class="login-card">
+
+            <div class="brand-header">
+                <a href="index.html" title="Back to Home" style="text-decoration: none; color: inherit;">
+                    <div class="logo-emblem">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                </a>
+                <h1>Academy Login</h1>
+                <p>Access your AquaKids dashboard &amp; portals</p>
+            </div>
+
+            <!-- Role Selector Tabs -->
+            <div class="role-tabs">
+                <div class="role-tab active" data-role="parent">
+                    <i class="fas fa-user-circle"></i> Parent Portal
+                </div>
+                <div class="role-tab" data-role="admin">
+                    <i class="fas fa-user-shield"></i> Admin Staff
+                </div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label id="emailLabel">Parent Email Address</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="emailInput" placeholder="sarah.jenkins@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="passwordInput" placeholder="••••••••" required>
+                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" checked>
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link" onclick="alert('Password reset link sent to your email.'); return false;">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span>Sign In to Parent Portal</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Social Login Divider & Icons -->
+            <div class="social-divider">
+                <span>Or continue with</span>
+            </div>
+            <div class="social-icons-row">
+                <button type="button" class="social-icon-btn" title="Sign in with Google">
+                    <i class="fab fa-google" style="color: #ea4335;"></i>
+                </button>
+                <button type="button" class="social-icon-btn" title="Sign in with Facebook">
+                    <i class="fab fa-facebook-f" style="color: #1877f2;"></i>
+                </button>
+                <button type="button" class="social-icon-btn" title="Sign in with Instagram">
+                    <i class="fab fa-instagram" style="color: #e4405f;"></i>
+                </button>
+            </div>
+
+            <div class="portal-quick-links">
+                Don't have an account? <a href="register.html">Register Here</a>
+                <br><br>
+                Direct links: <a href="user-dashboard.html">User Dashboard</a> | <a href="admin-dashboard.html">Admin Panel</a>
+            </div>
+
+        </div>
+    </main>
+
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 1rem;">
+        © 2026 AquaKids Academy. Safe Swimming &amp; Water Confidence.
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            let selectedRole = 'parent';
+            const roleTabs = document.querySelectorAll('.role-tab');
+            const emailLabel = document.getElementById('emailLabel');
+            const emailInput = document.getElementById('emailInput');
+            const submitBtn = document.getElementById('submitBtn').querySelector('span');
+
+            // 1. ROLE SWITCHER
+            roleTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    roleTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    selectedRole = tab.getAttribute('data-role');
+
+                    if (selectedRole === 'admin') {
+                        emailLabel.textContent = 'Admin Username / Email';
+                        emailInput.placeholder = 'admin@aquakids.com';
+                        submitBtn.textContent = 'Sign In to Admin Panel';
+                    } else {
+                        emailLabel.textContent = 'Parent Email Address';
+                        emailInput.placeholder = 'sarah.jenkins@example.com';
+                        submitBtn.textContent = 'Sign In to Parent Portal';
+                    }
+                });
+            });
+
+            // 2. TOGGLE PASSWORD VISIBILITY
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('passwordInput');
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', () => {
+                    const isPass = passwordInput.type === 'password';
+                    passwordInput.type = isPass ? 'text' : 'password';
+                    togglePassword.className = isPass ? 'fas fa-eye-slash toggle-password' : 'fas fa-eye toggle-password';
+                });
+            }
+
+            // 3. FORM SUBMISSION DIRECT REDIRECT
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (selectedRole === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        window.location.href = 'user-dashboard.html';
+                    }
+                });
+            }
+
+            // 4. THEME TOGGLE
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const icon = themeBtn ? themeBtn.querySelector('i') : null;
+
+            const savedTheme = localStorage.getItem('aquakids_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (icon) { icon.className = 'fas fa-sun'; }
+            }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('aquakids_theme', isDark ? 'dark' : 'light');
+                    if (icon) { icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon'; }
+                });
+            }
+
+            // 5. RTL TOGGLE
+            const rtlBtn = document.getElementById('rtlToggleBtn');
+            const rtlLabel = document.getElementById('rtlLabel');
+
+            function applyRTL(isRtl) {
+                if (isRtl) {
+                    document.body.setAttribute('dir', 'rtl');
+                    document.documentElement.setAttribute('dir', 'rtl');
+                    if (rtlLabel) rtlLabel.textContent = 'LTR';
+                } else {
+                    document.body.setAttribute('dir', 'ltr');
+                    document.documentElement.setAttribute('dir', 'ltr');
+                    if (rtlLabel) rtlLabel.textContent = 'RTL';
+                }
+                localStorage.setItem('aquakids_rtl', isRtl ? 'rtl' : 'ltr');
+            }
+
+            const savedRtl = localStorage.getItem('aquakids_rtl');
+            applyRTL(savedRtl === 'rtl');
+
+            if (rtlBtn) {
+                rtlBtn.addEventListener('click', () => {
+                    const currentDir = document.body.getAttribute('dir') || 'ltr';
+                    applyRTL(currentDir === 'ltr');
+                });
+            }
+
+            // 6. ENTRANCE ANIMATION
+            if (window.Motion) {
+                window.Motion.animate('.login-card', { opacity: [0, 1], y: [20, 0] }, { duration: 0.4 });
+            }
+        });
+    </script>
+</body>
+</html>
