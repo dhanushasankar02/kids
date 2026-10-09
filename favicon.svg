@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.75" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0284c7" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Background Squircle -->
+  <rect x="16" y="16" width="480" height="480" rx="110" fill="url(#bgGrad)" filter="url(#shadow)" />
+
+  <!-- Outer Water Splash Ring -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="#ffffff" stroke-width="12" stroke-opacity="0.3" stroke-dasharray="24 16" />
+
+  <!-- Ocean Wave Silhouette -->
+  <path d="M 80,340 C 130,260 200,220 280,260 C 350,295 400,270 432,230 C 432,360 400,432 256,432 C 150,432 90,390 80,340 Z" fill="url(#waveGrad)" />
+
+  <!-- Cute Water Droplet Mascot Body -->
+  <path d="M 256,90 C 256,90 350,210 350,290 C 350,342 308,384 256,384 C 204,384 162,342 162,290 C 162,210 256,90 256,90 Z" fill="#38bdf8" stroke="#ffffff" stroke-width="14" stroke-linejoin="round" />
+
+  <!-- Inner Droplet Gradient Highlight -->
+  <path d="M 256,120 C 256,120 330,220 330,285 C 330,326 297,360 256,360 C 215,360 182,326 182,285 C 182,220 256,120 256,120 Z" fill="#06b6d4" />
+
+  <!-- Swim Goggles Frame -->
+  <rect x="195" y="215" width="122" height="52" rx="26" fill="#fbbf24" stroke="#ffffff" stroke-width="8" />
+  
+  <!-- Left Goggle Lens -->
+  <ellipse cx="225" cy="241" rx="20" ry="16" fill="#0f172a" />
+  <circle cx="220" cy="236" r="6" fill="#ffffff" />
+  
+  <!-- Right Goggle Lens -->
+  <ellipse cx="287" cy="241" rx="20" ry="16" fill="#0f172a" />
+  <circle cx="282" cy="236" r="6" fill="#ffffff" />
+
+  <!-- Goggle Strap -->
+  <path d="M 162,241 H 195 M 317,241 H 350" stroke="#fbbf24" stroke-width="8" stroke-linecap="round" />
+
+  <!-- Cheerful Smile -->
+  <path d="M 236,295 Q 256,315 276,295" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+
+  <!-- Cute Rosy Cheeks -->
+  <ellipse cx="205" cy="285" rx="12" ry="8" fill="#ff6b6b" opacity="0.8" />
+  <ellipse cx="307" cy="285" rx="12" ry="8" fill="#ff6b6b" opacity="0.8" />
+
+  <!-- Water Sparkles -->
+  <path d="M 130,150 L 136,166 L 152,172 L 136,178 L 130,194 L 124,178 L 108,172 L 124,166 Z" fill="#ffffff" opacity="0.9" />
+  <path d="M 370,120 L 374,132 L 386,136 L 374,140 L 370,152 L 366,140 L 354,136 L 366,132 Z" fill="#fbbf24" opacity="0.9" />
+  <circle cx="390" cy="340" r="10" fill="#ffffff" opacity="0.8" />
+  <circle cx="110" cy="290" r="7" fill="#ffffff" opacity="0.7" />
+</svg>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>404 Page Not Found — AquaKids Academy</title>
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#0284c7">
+
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Framer Motion (Motion One CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@10.16.2/dist/motion.min.js"></script>
+
+    <style>
+        /* ==================== GLOBAL SYSTEM TOKENS ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-body: #f0fdfa;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+            --brand-primary: #0284c7;
+            --brand-aqua: #06b6d4;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
+            --brand-mint: #10b981;
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-card: 0 15px 35px -5px rgba(2, 132, 199, 0.15);
+            --shadow-btn: 0 8px 20px -4px rgba(2, 132, 199, 0.35);
+            --font-friendly: 'Fredoka', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark-mode {
+            --bg-body: #07131e;
+            --card-bg: #0f2338;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #38bdf8;
+            --brand-aqua: #22d3ee;
+            --border-soft: rgba(56, 189, 248, 0.2);
+            --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+            --shadow-btn: 0 8px 20px -4px rgba(56, 189, 248, 0.35);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            transition: background 0.3s ease, color 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        a, button { text-decoration: none !important; font-family: inherit; }
+
+        /* ==================== RTL OVERRIDES ==================== */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .error-actions { flex-direction: row-reverse; }
+
+        /* Top Minimal Header (No navbar) */
+        .top-header {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            z-index: 10;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            color: inherit;
+        }
+
+        .logo-emblem {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(145deg, #0ea5e9, #0284c7);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: var(--font-friendly);
+            font-weight: 700;
+            font-size: 1.25rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-subtitle {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--brand-coral);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-btn {
+            height: 42px;
+            padding: 0 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            background: var(--card-bg);
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--brand-aqua);
+            color: var(--brand-primary);
+        }
+
+        /* Main Container */
+        .error-wrapper {
+            width: 100%;
+            max-width: 850px;
+            margin: 2rem auto;
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .error-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow-card);
+            width: 100%;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Aquatic 404 Display */
+        .error-code-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-family: var(--font-friendly);
+            font-size: 7.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 1rem;
+            user-select: none;
+        }
+
+        .error-digit {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 20px rgba(2, 132, 199, 0.15);
+        }
+
+        /* Lifebuoy graphic for 0 */
+        .lifebuoy-wrapper {
+            width: 110px;
+            height: 110px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            animation: floatBuoy 3.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatBuoy {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+            100% { transform: translateY(0px) rotate(-5deg); }
+        }
+
+        .lifebuoy-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 15px rgba(255, 107, 107, 0.35));
+        }
+
+        .error-title {
+            font-family: var(--font-friendly);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+        }
+
+        .error-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-sub);
+            max-width: 580px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* Action Buttons */
+        .error-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: white !important;
+            padding: 0.85rem 1.8rem;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-btn);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 25px -4px rgba(2, 132, 199, 0.45);
+        }
+
+        .btn-secondary-custom {
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.85rem 1.8rem;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid var(--border-soft);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-secondary-custom:hover {
+            transform: translateY(-3px);
+            background: rgba(6, 182, 212, 0.08);
+            border-color: var(--brand-aqua);
+            color: var(--brand-primary);
+        }
+
+        /* Helpful Suggestions / Quick Links */
+        .quick-links-title {
+            font-family: var(--font-friendly);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .quick-card {
+            background: var(--bg-body);
+            border: 1.5px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 1.25rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .quick-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--brand-aqua);
+            box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.2);
+            background: var(--card-bg);
+        }
+
+        .quick-card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.1), rgba(6, 182, 212, 0.15));
+            color: var(--brand-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            transition: var(--transition);
+        }
+
+        .quick-card:hover .quick-card-icon {
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .quick-card-span {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* Floating Ocean Bubbles Animation */
+        .bubbles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(6, 182, 212, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: rise 10s infinite ease-in;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.15);
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -50px;
+                transform: translateX(0) scale(0.6);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            80% {
+                opacity: 0.7;
+            }
+            100% {
+                bottom: 105%;
+                transform: translateX(80px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .error-card { padding: 2.25rem 1.25rem; }
+            .error-code-container { font-size: 5.5rem; }
+            .lifebuoy-wrapper { width: 80px; height: 80px; }
+            .error-title { font-size: 1.6rem; }
+            .quick-links-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .error-code-container { font-size: 4.2rem; }
+            .lifebuoy-wrapper { width: 65px; height: 65px; }
+            .error-actions { flex-direction: column; width: 100%; }
+            .btn-primary-custom, .btn-secondary-custom { width: 100%; justify-content: center; }
+            .quick-links-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Underwater Bubbles -->
+    <div class="bubbles-container" id="bubblesContainer"></div>
+
+    <!-- Top Minimal Bar (No Navbar) -->
+    <header class="top-header">
+        <a href="index.html" class="brand-logo">
+            <div class="logo-emblem">
+                <i class="fas fa-water"></i>
+            </div>
+            <div class="logo-text">
+                <span class="logo-title">AquaKids</span>
+                <span class="logo-subtitle">Academy</span>
+            </div>
+        </a>
+
+        <div class="header-controls">
+            <button class="control-btn" id="rtlToggleBtn" title="Toggle RTL/LTR">
+                <i class="fas fa-globe"></i>
+                <span id="rtlLabel">RTL</span>
+            </button>
+            <button class="control-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main 404 Hero Section -->
+    <main class="error-wrapper">
+        <div class="error-card" id="errorCard">
+            <!-- Ocean 404 Display -->
+            <div class="error-code-container">
+                <span class="error-digit">4</span>
+                <div class="lifebuoy-wrapper" title="Swim Ring / Lifebuoy">
+                    <svg class="lifebuoy-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Outer ring -->
+                        <circle cx="50" cy="50" r="45" fill="#FF6B6B" stroke="#EE5253" stroke-width="3"/>
+                        <!-- White bands -->
+                        <path d="M 50,5 L 50,25" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
+                        <path d="M 50,75 L 50,95" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
+                        <path d="M 5,50 L 25,50" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
+                        <path d="M 75,50 L 95,50" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round"/>
+                        <!-- Inner circle hole -->
+                        <circle cx="50" cy="50" r="23" fill="var(--card-bg)" stroke="#FF6B6B" stroke-width="3"/>
+                        <!-- Inner shadow reflection -->
+                        <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+                    </svg>
+                </div>
+                <span class="error-digit">4</span>
+            </div>
+
+            <h1 class="error-title">Oops! You've Drifted Out to Sea</h1>
+            <p class="error-subtitle">
+                The page you're looking for was carried away by the tide, renamed, or doesn't exist. Don't worry, our swimming instructors can guide you back to safe waters!
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="error-actions">
+                <a href="index.html" class="btn-primary-custom">
+                    <i class="fas fa-home"></i> Back to Homepage
+                </a>
+                <button onclick="history.back()" class="btn-secondary-custom">
+                    <i class="fas fa-arrow-left"></i> Go Back Previous
+                </button>
+            </div>
+
+            <!-- Quick Navigation Cards -->
+            <div class="quick-links-title">
+                <i class="fas fa-compass"></i> Explore Popular Destinations
+            </div>
+            <div class="quick-links-grid">
+                <a href="programs.html" class="quick-card">
+                    <div class="quick-card-icon">
+                        <i class="fas fa-swimmer"></i>
+                    </div>
+                    <span class="quick-card-span">Programs</span>
+                </a>
+                <a href="schedules.html" class="quick-card">
+                    <div class="quick-card-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <span class="quick-card-span">Schedules</span>
+                </a>
+                <a href="instructors.html" class="quick-card">
+                    <div class="quick-card-icon">
+                        <i class="fas fa-user-ninja"></i>
+                    </div>
+                    <span class="quick-card-span">Instructors</span>
+                </a>
+                <a href="contact.html" class="quick-card">
+                    <div class="quick-card-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <span class="quick-card-span">Contact</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- (No Footer present as requested) -->
+
+    <!-- Scripts: Dark Mode, RTL, Bubble Generator & Framer Motion -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. THEME TOGGLE (Synced with local storage)
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const icon = themeBtn ? themeBtn.querySelector('i') : null;
+
+            const savedTheme = localStorage.getItem('aquakids_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (icon) { icon.className = 'fas fa-sun'; }
+            }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('aquakids_theme', isDark ? 'dark' : 'light');
+                    if (icon) { icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon'; }
+                });
+            }
+
+            // 2. RTL TOGGLE
+            const rtlBtn = document.getElementById('rtlToggleBtn');
+            const rtlLabel = document.getElementById('rtlLabel');
+
+            function applyRTL(isRtl) {
+                if (isRtl) {
+                    document.body.setAttribute('dir', 'rtl');
+                    document.documentElement.setAttribute('dir', 'rtl');
+                    if (rtlLabel) rtlLabel.textContent = 'LTR';
+                } else {
+                    document.body.setAttribute('dir', 'ltr');
+                    document.documentElement.setAttribute('dir', 'ltr');
+                    if (rtlLabel) rtlLabel.textContent = 'RTL';
+                }
+                localStorage.setItem('aquakids_rtl', isRtl ? 'rtl' : 'ltr');
+            }
+
+            const savedRtl = localStorage.getItem('aquakids_rtl');
+            applyRTL(savedRtl === 'rtl');
+
+            if (rtlBtn) {
+                rtlBtn.addEventListener('click', () => {
+                    const currentDir = document.body.getAttribute('dir') || 'ltr';
+                    applyRTL(currentDir === 'ltr');
+                });
+            }
+
+            // 3. ENTRANCE ANIMATION (Motion One)
+            if (window.Motion) {
+                window.Motion.animate('.error-card', { opacity: [0, 1], y: [30, 0] }, { duration: 0.5 });
+            }
+
+            // 4. DYNAMIC OCEAN BUBBLES GENERATOR
+            const container = document.getElementById('bubblesContainer');
+            const bubbleCount = 18;
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                const size = Math.random() * 28 + 12; // 12px to 40px
+                const leftPercent = Math.random() * 100;
+                const animDuration = Math.random() * 7 + 6; // 6s to 13s
+                const animDelay = Math.random() * 8;
+
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${leftPercent}%`;
+                bubble.style.animationDuration = `${animDuration}s`;
+                bubble.style.animationDelay = `${animDelay}s`;
+
+                container.appendChild(bubble);
+            }
+        });
+    </script>
+</body>
+</html>
