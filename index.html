@@ -89,12 +89,17 @@
         }
 
         .navbar-container {
-            max-width: 1440px; margin: 0 auto; padding: 0.85rem 2rem;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 1.5rem; white-space: nowrap;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            white-space: nowrap;
         }
 
-        .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; color: inherit; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; color: inherit;  flex-shrink: 0; }
 
         .logo-emblem {
             width: 46px; height: 46px;
@@ -134,11 +139,11 @@
             letter-spacing: 1.2px; text-transform: uppercase;
         }
 
-        .nav-center-menu { display: flex; align-items: center; gap: 0.35rem; list-style: none; }
+        .nav-center-menu { display: flex; align-items: center; gap: 0.35rem; list-style: none;  flex-shrink: 0; }
         .nav-item { position: relative; }
 
         .nav-link {
-            font-weight: 700; font-size: 0.95rem; padding: 0.55rem 0.95rem;
+            font-weight: 700; font-size: 0.95rem; padding:  0.5rem 0.75rem;
             color: var(--text-main); border-radius: 50px;
             display: inline-flex; align-items: center; gap: 6px;
             transition: var(--transition); cursor: pointer;
@@ -204,12 +209,12 @@
         .dash-pill.parent { background: rgba(255, 107, 107, 0.2); color: var(--brand-coral); }
         .dash-pill.admin { background: rgba(2, 132, 199, 0.2); color: var(--brand-primary); }
 
-        .nav-right-actions { display: flex; align-items: center; gap: 0.6rem; }
+        .nav-right-actions { display: flex; align-items: center; gap: 0.6rem;  flex-shrink: 0; }
 
         .action-chip {
             background: var(--card-bg); border: 1.5px solid var(--border-soft);
             color: var(--text-main); font-size: 0.88rem; font-weight: 700;
-            padding: 0.45rem 0.95rem; border-radius: 50px; cursor: pointer;
+            padding:  0.4rem 0.85rem; border-radius: 50px; cursor: pointer;
             display: inline-flex; align-items: center; gap: 6px;
             transition: var(--transition);
         }
@@ -1135,7 +1140,7 @@
         .footer-bottom-link:hover { color: var(--brand-primary); }
 
         /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 1180px) {
+        @media (max-width: 1280px) {
             .nav-center-menu, .nav-right-actions .action-chip { display: none; }
             .menu-toggle-btn { display: block; }
         }
@@ -1202,8 +1207,8 @@
                 </li>
                 <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
                 <li class="nav-item"><a href="instructors.html" class="nav-link">Instructors</a></li>
-                <li class="nav-item"><a href="water safety.html" class="nav-link">Water Safety</a></li>
                 <li class="nav-item"><a href="schedules.html" class="nav-link">Schedules</a></li>
+                <li class="nav-item"><a href="water safety.html" class="nav-link">Water Safety</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link">
@@ -1298,13 +1303,13 @@
                 </a>
             </li>
             <li class="mobile-item">
-                <a href="water safety.html" class="mobile-link">
-                    <span><i class="fas fa-life-ring" style="width: 24px; color: var(--brand-coral);"></i> Water Safety</span>
+                <a href="schedules.html" class="mobile-link">
+                    <span><i class="fas fa-calendar-alt" style="width: 24px; color: var(--brand-aqua);"></i> Schedules &amp; Slots</span>
                 </a>
             </li>
             <li class="mobile-item">
-                <a href="schedules.html" class="mobile-link">
-                    <span><i class="fas fa-calendar-alt" style="width: 24px; color: var(--brand-aqua);"></i> Schedules &amp; Slots</span>
+                <a href="water safety.html" class="mobile-link">
+                    <span><i class="fas fa-life-ring" style="width: 24px; color: var(--brand-coral);"></i> Water Safety</span>
                 </a>
             </li>
             <li class="mobile-item">
