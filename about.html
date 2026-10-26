@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>About Us — Our Story &amp; Mission | AquaKids Academy</title>
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#0284c7">
+
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Framer Motion (Motion One CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@10.16.2/dist/motion.min.js"></script>
+
+    <style>
+        /* ==================== GLOBAL SYSTEM TOKENS ==================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-body: #f0fdfa;
+            --navbar-bg: rgba(255, 255, 255, 0.94);
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --text-muted: #64748b;
+            --brand-primary: #0284c7;
+            --brand-aqua: #06b6d4;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
+            --brand-mint: #34d399;
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-nav: 0 4px 20px -2px rgba(2, 132, 199, 0.1);
+            --shadow-card: 0 14px 35px -8px rgba(2, 132, 199, 0.16);
+            --font-friendly: 'Fredoka', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark-mode {
+            --bg-body: #07131e;
+            --navbar-bg: rgba(11, 26, 42, 0.94);
+            --card-bg: #0f2338;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --text-muted: #64748b;
+            --brand-primary: #38bdf8;
+            --brand-aqua: #22d3ee;
+            --border-soft: rgba(56, 189, 248, 0.2);
+            --shadow-nav: 0 4px 25px -2px rgba(0, 0, 0, 0.55);
+            --shadow-card: 0 14px 35px -8px rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a, button { text-decoration: none !important; font-family: inherit; }
+
+        /* ==================== RTL OVERRIDES ==================== */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .dropdown-menu { left: auto !important; right: 0 !important; }
+        [dir="rtl"] .dropdown-item:hover { transform: translateX(-4px) !important; }
+
+        /* ==================== STICKY NAVBAR ==================== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            background: var(--navbar-bg);
+            border-bottom: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-nav);
+            transition: var(--transition);
+        }
+
+        .navbar-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            white-space: nowrap;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; color: inherit; flex-shrink: 0; }
+
+        .logo-emblem {
+            width: 46px; height: 46px;
+            background: linear-gradient(145deg, #0ea5e9, #0284c7);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            transition: var(--transition); flex-shrink: 0;
+        }
+
+        .logo-emblem svg {
+            width: 26px; height: 26px; fill: none; stroke: #ffffff;
+            stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .nav-logo:hover .logo-emblem {
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 8px 18px rgba(2, 132, 199, 0.45);
+        }
+
+        .logo-text-block { display: flex; flex-direction: column; }
+
+        .logo-title {
+            font-family: var(--font-friendly); font-size: 1.35rem; font-weight: 700;
+            line-height: 1.1; letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        body.dark-mode .logo-title {
+            background: linear-gradient(135deg, #38bdf8 0%, #a5f3fc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .logo-tagline {
+            font-size: 0.72rem; font-weight: 700; color: var(--brand-coral);
+            letter-spacing: 1.2px; text-transform: uppercase;
+        }
+
+        .nav-center-menu { display: flex; align-items: center; gap: 0.25rem; list-style: none; flex-shrink: 0; }
+        .nav-item { position: relative; }
+
+        .nav-link {
+            font-weight: 700; font-size: 0.95rem; padding: 0.5rem 0.75rem;
+            color: var(--text-main); border-radius: 50px;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: var(--transition); cursor: pointer;
+        }
+
+        .nav-link .dropdown-caret { font-size: 0.7rem; transition: transform 0.25s ease; }
+        .nav-link:hover, .nav-link.active {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--brand-primary);
+        }
+        .nav-item.dropdown:hover .nav-link .dropdown-caret { transform: rotate(180deg); }
+
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 10px;
+            min-width: 250px; background: var(--card-bg); border-radius: 20px;
+            padding: 0.75rem; border: 2px solid var(--border-soft);
+            box-shadow: var(--shadow-card);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: var(--transition); z-index: 1000; list-style: none;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.75rem 1rem; color: var(--text-main);
+            font-weight: 600; font-size: 0.92rem; border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--brand-primary);
+            transform: translateX(4px);
+        }
+
+        .dropdown-item.parent-dash {
+            border-left: 3px solid var(--brand-coral);
+            background: rgba(255, 107, 107, 0.05);
+            margin-bottom: 6px;
+        }
+
+        .dropdown-item.admin-dash {
+            border-left: 3px solid var(--brand-primary);
+            background: rgba(2, 132, 199, 0.05);
+        }
+
+        [dir="rtl"] .dropdown-item.parent-dash,
+        [dir="rtl"] .dropdown-item.admin-dash {
+            border-left: none; border-right: 3px solid var(--brand-coral);
+        }
+        [dir="rtl"] .dropdown-item.admin-dash { border-right-color: var(--brand-primary); }
+
+        .dash-pill {
+            font-size: 0.65rem; font-weight: 800; padding: 2px 8px;
+            border-radius: 20px; text-transform: uppercase;
+        }
+
+        .dash-pill.parent { background: rgba(255, 107, 107, 0.2); color: var(--brand-coral); }
+        .dash-pill.admin { background: rgba(2, 132, 199, 0.2); color: var(--brand-primary); }
+
+        /* Consistent header actions & buttons */
+        .nav-right-actions {
+            display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0;
+        }
+
+        .action-chip {
+            height: 38px;
+            box-sizing: border-box;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-soft);
+            color: var(--text-main);
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1;
+            padding: 0 0.95rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .action-chip:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.25);
+        }
+
+        .action-chip.btn-login {
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff !important;
+            border: 1.5px solid transparent;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
+        }
+
+        .action-chip.btn-login:hover {
+            background: linear-gradient(135deg, #ff7b7b 0%, #e11d48 100%);
+            box-shadow: 0 6px 18px rgba(255, 107, 107, 0.5);
+            color: #ffffff !important;
+        }
+
+        .menu-toggle-btn {
+            display: none;
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
+            background: rgba(6, 182, 212, 0.12);
+            border: 1.5px solid var(--border-soft);
+            color: var(--brand-primary);
+            font-size: 1.2rem;
+            padding: 0 0.85rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ==================== MOBILE DRAWER ==================== */
+        .mobile-overlay {
+            position: fixed; inset: 0; background: rgba(8, 26, 42, 0.7);
+            backdrop-filter: blur(8px); z-index: 10000;
+            opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+        .mobile-overlay.active { opacity: 1; visibility: visible; }
+
+        .mobile-panel {
+            position: fixed; top: 0; right: -390px; width: 330px; max-width: 86vw;
+            height: 100vh; background: var(--card-bg);
+            border-left: 2px solid var(--border-soft); box-shadow: var(--shadow-card);
+            z-index: 10001; padding: 2rem 1.5rem; display: flex; flex-direction: column;
+            gap: 1.5rem; overflow-y: auto; transition: right 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body[dir="rtl"] .mobile-panel {
+            right: auto; left: -390px; border-left: none;
+            border-right: 2px solid var(--border-soft); transition: left 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .mobile-panel.active { right: 0; }
+        body[dir="rtl"] .mobile-panel.active { left: 0; }
+
+        .mobile-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: 1rem; border-bottom: 1.5px solid var(--border-soft);
+        }
+
+        .mobile-close-btn { background: none; border: none; color: var(--text-main); font-size: 1.4rem; cursor: pointer; }
+        .mobile-links { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+        .mobile-item { border-bottom: 1px solid var(--border-soft); padding-bottom: 0.35rem; }
+
+        .mobile-link {
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-main); font-weight: 700; font-size: 1.05rem;
+            padding: 0.75rem 0.85rem; border-radius: 12px; cursor: pointer;
+        }
+        .mobile-link:hover, .mobile-link.active {
+            color: var(--brand-primary); background: rgba(6, 182, 212, 0.08);
+        }
+
+        .mobile-accordion {
+            display: none; padding-left: 1rem; padding-top: 0.35rem;
+            flex-direction: column; gap: 0.4rem; list-style: none;
+        }
+        [dir="rtl"] .mobile-accordion { padding-left: 0; padding-right: 1rem; }
+        .mobile-accordion.show { display: flex; }
+
+        .mobile-sublink {
+            color: var(--text-sub); font-size: 0.92rem; font-weight: 600;
+            padding: 0.55rem 0.85rem; display: flex; align-items: center;
+            justify-content: space-between; border-radius: 10px;
+        }
+        .mobile-sublink:hover { color: var(--brand-primary); background: rgba(6, 182, 212, 0.1); }
+
+        .mobile-actions {
+            margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem;
+            padding-top: 1.25rem; border-top: 1.5px solid var(--border-soft);
+        }
+        .mobile-actions .action-chip { justify-content: center; width: 100%; height: 42px; }
+
+        /* ==================== LOGIN MODAL ==================== */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(6px); z-index: 20000; display: flex;
+            align-items: center; justify-content: center; padding: 1.5rem;
+            opacity: 0; visibility: hidden; transition: var(--transition);
+        }
+        .modal-backdrop.active { opacity: 1; visibility: visible; }
+
+        .login-dialog {
+            background: var(--card-bg); border: 2px solid var(--border-soft);
+            border-radius: 28px; width: 100%; max-width: 430px;
+            padding: 2.5rem 2rem; box-shadow: var(--shadow-card);
+            position: relative; transform: scale(0.95); transition: var(--transition);
+        }
+        .modal-backdrop.active .login-dialog { transform: scale(1); }
+
+        .modal-close-trigger {
+            position: absolute; top: 1.2rem; right: 1.2rem; background: none;
+            border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer;
+        }
+        [dir="rtl"] .modal-close-trigger { right: auto; left: 1.2rem; }
+
+        .dialog-title { font-family: var(--font-friendly); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.35rem; }
+        .dialog-subtitle { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1.8rem; }
+        .input-group { margin-bottom: 1.2rem; }
+        .input-label { display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.4rem; }
+
+        .form-control {
+            width: 100%; padding: 0.8rem 1.1rem; border-radius: 14px;
+            border: 1.5px solid var(--border-soft); background: var(--bg-body);
+            color: var(--text-main); outline: none; font-family: inherit;
+            transition: var(--transition);
+        }
+        .form-control:focus {
+            border-color: var(--brand-primary); box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+        }
+
+        .submit-btn {
+            width: 100%; padding: 0.9rem;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35); transition: var(--transition);
+            margin-top: 0.5rem;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255, 107, 107, 0.45);
+        }
+
+        /* ==================== SECTION 1: ABOUT HERO ==================== */
+        .ab-hero {
+            position: relative;
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8.5rem 2rem 5rem;
+            background: linear-gradient(180deg, rgba(2, 132, 199, 0.12) 0%, rgba(6, 182, 212, 0.05) 100%);
+            overflow: hidden;
+        }
+
+        .ab-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('images/home1-hero-bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.18;
+            pointer-events: none;
+        }
+
+        .ab-hero-container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .ab-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.45rem 1.25rem;
+            border-radius: 50px;
+            background: rgba(2, 132, 199, 0.14);
+            border: 1.5px solid rgba(2, 132, 199, 0.3);
+            color: var(--brand-primary);
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .ab-hero-title {
+            font-family: var(--font-friendly);
+            font-size: clamp(2.3rem, 5vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+        }
+
+        .ab-hero-title span {
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.dark-mode .ab-hero-title span {
+            background: linear-gradient(135deg, #38bdf8 0%, #a5f3fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ab-hero-desc {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-sub);
+            max-width: 720px;
+            margin: 0 auto 2.2rem;
+            line-height: 1.7;
+        }
+
+        .ab-hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-coral {
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff !important;
+            padding: 0.95rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 18px rgba(255, 107, 107, 0.4);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-coral:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.55);
+        }
+
+        .btn-ghost-ocean {
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--brand-primary) !important;
+            border: 2px solid var(--border-soft);
+            padding: 0.95rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-ghost-ocean:hover {
+            background: rgba(2, 132, 199, 0.18);
+            border-color: var(--brand-primary);
+            transform: translateY(-3px);
+        }
+
+        /* ==================== SECTION 2: STATS ==================== */
+        .ab-stats {
+            max-width: 1200px;
+            margin: -3rem auto 5rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .ab-stat-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+        }
+
+        .ab-stat-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--brand-primary);
+        }
+
+        .ab-stat-num {
+            font-family: var(--font-friendly);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin-bottom: 0.35rem;
+        }
+
+        .ab-stat-label {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+        }
+
+        /* ==================== SECTION 3: STORY & MISSION ==================== */
+        .ab-story {
+            max-width: 1200px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .ab-story-img-wrap {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            border: 3px solid var(--border-soft);
+            box-shadow: var(--shadow-card);
+        }
+
+        .ab-story-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .ab-story-img-wrap:hover .ab-story-img {
+            transform: scale(1.04);
+        }
+
+        .ab-story-content h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+        }
+
+        .ab-story-content h2 span {
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ab-story-content p {
+            color: var(--text-sub);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+        }
+
+        .ab-story-points {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .ab-story-point {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .ab-point-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* ==================== SECTION 4: CORE VALUES ==================== */
+        .ab-values {
+            background: rgba(6, 182, 212, 0.04);
+            border-top: 2px solid var(--border-soft);
+            border-bottom: 2px solid var(--border-soft);
+            padding: 6rem 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .ab-values-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ab-section-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .ab-section-header h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(2rem, 3.5vw, 2.7rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .ab-section-header p {
+            color: var(--text-sub);
+            font-size: 1.05rem;
+        }
+
+        .ab-values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .ab-value-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-soft);
+            border-radius: 28px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .ab-value-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--brand-primary);
+        }
+
+        .ab-value-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-aqua) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.25);
+        }
+
+        .ab-value-card h3 {
+            font-family: var(--font-friendly);
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        .ab-value-card p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ==================== SECTION 5: SAFETY & POOL STANDARDS ==================== */
+        .ab-standards {
+            max-width: 1200px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .ab-standards-reverse {
+            direction: rtl;
+        }
+        .ab-standards-reverse > * {
+            direction: ltr;
+        }
+        [dir="rtl"] .ab-standards-reverse {
+            direction: ltr;
+        }
+        [dir="rtl"] .ab-standards-reverse > * {
+            direction: rtl;
+        }
+
+        /* ==================== SECTION 6: CTA BANNER ==================== */
+        .ab-cta-banner {
+            max-width: 1200px;
+            margin: 0 auto 6rem;
+            padding: 0 2rem;
+        }
+
+        .ab-cta-inner {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0c4a6e 100%);
+            border-radius: 36px;
+            padding: 4rem 3.5rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.45);
+        }
+
+        .ab-cta-text h2 {
+            font-family: var(--font-friendly);
+            font-size: clamp(2rem, 3.5vw, 2.7rem);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .ab-cta-text p {
+            color: #e0f2fe;
+            font-size: 1.1rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .ab-cta-btns {
+            display: flex;
+            gap: 1rem;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: #f8fafc;
+            border-top: 2px solid var(--border-soft);
+            padding: 4.5rem 2rem 2rem;
+            margin-top: auto;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .footer {
+            background: #091a29;
+            border-top: 2px solid var(--border-soft);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 1.2fr 1.6fr;
+            gap: 3.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .footer-brand { display: flex; flex-direction: column; gap: 1.2rem; }
+        .footer-logo { display: flex; align-items: center; gap: 12px; color: inherit; }
+        .footer-desc { color: var(--text-sub); font-size: 0.95rem; line-height: 1.7; max-width: 380px; }
+        .social-links { display: flex; gap: 0.75rem; }
+
+        .social-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: var(--card-bg); border: 1.5px solid var(--border-soft);
+            color: var(--brand-primary) !important; display: inline-flex;
+            align-items: center; justify-content: center; font-size: 1.1rem;
+            transition: var(--transition); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .social-btn:hover {
+            background: var(--brand-primary) !important; color: #ffffff !important;
+            border-color: var(--brand-primary); transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        .footer-col h4 {
+            font-family: var(--font-friendly); font-size: 1.2rem; font-weight: 700;
+            color: var(--text-main); margin-bottom: 1.5rem;
+        }
+
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+
+        .footer-link {
+            color: var(--text-sub); font-weight: 600; font-size: 0.95rem;
+            display: inline-flex; align-items: center; gap: 8px; transition: var(--transition);
+        }
+        .footer-link:hover { color: var(--brand-primary); transform: translateX(4px); }
+        [dir="rtl"] .footer-link:hover { transform: translateX(-4px); }
+        [dir="rtl"] .footer-link i { transform: scaleX(-1); }
+
+        .newsletter-desc { color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+        .newsletter-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .newsletter-input {
+            width: 100%; padding: 0.85rem 1.2rem; border-radius: 12px;
+            border: 1.5px solid var(--border-soft); background: var(--card-bg);
+            color: var(--text-main); font-family: inherit; font-size: 0.95rem;
+            outline: none; transition: var(--transition);
+        }
+        .newsletter-input:focus {
+            border-color: var(--brand-primary); box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .newsletter-btn {
+            padding: 0.85rem 1.4rem; border-radius: 12px; border: none;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff; font-family: var(--font-friendly); font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: var(--transition);
+            box-shadow: 0 4px 14px rgba(255, 107, 107, 0.3);
+        }
+        .newsletter-btn:hover {
+            transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255, 107, 107, 0.45);
+        }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 0 auto; border-top: 1.5px solid var(--border-soft);
+            padding-top: 1.8rem; display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-muted); font-size: 0.9rem; flex-wrap: wrap; gap: 1rem;
+        }
+
+        .footer-bottom-links { display: flex; gap: 1.5rem; }
+        .footer-bottom-link { color: var(--text-muted); font-size: 0.88rem; font-weight: 600; transition: var(--transition); }
+        .footer-bottom-link:hover { color: var(--brand-primary); }
+
+        /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+        @media (max-width: 1280px) {
+            .nav-center-menu, .nav-right-actions .action-chip { display: none; }
+            .menu-toggle-btn { display: inline-flex; }
+        }
+
+        @media (max-width: 1100px) {
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+            .ab-values-grid { grid-template-columns: repeat(2, 1fr); }
+            .ab-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 860px) {
+            .ab-story, .ab-standards { grid-template-columns: 1fr; gap: 2.5rem; }
+            .ab-cta-inner { flex-direction: column; text-align: center; }
+            .ab-cta-btns { justify-content: center; width: 100%; }
+        }
+
+        @media (max-width: 650px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom-links { justify-content: center; flex-wrap: wrap; }
+            .ab-values-grid { grid-template-columns: 1fr; }
+            .ab-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body dir="ltr">
+
+    <!-- ==================== MAIN NAVBAR ==================== -->
+    <header class="navbar" id="mainNavbar">
+        <div class="navbar-container">
+            <a href="index.html" class="nav-logo" aria-label="AquaKids Academy Home">
+                <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);">
+                    <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="logo-text-block">
+                    <span class="logo-title">AquaKids Academy</span>
+                    <span class="logo-tagline">Swim • Learn • Stay Safe</span>
+                </div>
+            </a>
+
+            <ul class="nav-center-menu">
+                <li class="nav-item dropdown">
+                    <a href="index.html" class="nav-link">
+                        Home <i class="fas fa-chevron-down dropdown-caret"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html" class="dropdown-item"><span>Home 1 (Water Confidence)</span></a></li>
+                        <li><a href="home2.html" class="dropdown-item"><span>Home 2 (Stroke Mastery)</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="about.html" class="nav-link active">About</a></li>
+                <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
+                <li class="nav-item"><a href="instructors.html" class="nav-link">Instructors</a></li>
+                <li class="nav-item"><a href="schedules.html" class="nav-link">Schedules</a></li>
+                <li class="nav-item"><a href="water safety.html" class="nav-link">Water Safety</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link">
+                        Dashboard <i class="fas fa-chevron-down dropdown-caret"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="user-dashboard.html" class="dropdown-item parent-dash">
+                                <div>
+                                    <div style="font-weight: 700;">User Dashboard</div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">Learning Topics, Badges &amp; Levels</div>
+                                </div>
+                                <span class="dash-pill parent">Family</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="admin-dashboard.html" class="dropdown-item admin-dash">
+                                <div>
+                                    <div style="font-weight: 700;">Admin Dashboard</div>
+                                    <div style="font-size: 0.78rem; color: var(--text-muted);">Rosters, Coaches &amp; Billing</div>
+                                </div>
+                                <span class="dash-pill admin">Staff</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="nav-right-actions">
+                <button class="action-chip" id="themeToggleBtn" aria-label="Toggle Night/Day Mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                    <span id="themeLabel">Dark</span>
+                </button>
+                <button class="action-chip" id="rtlToggleBtn" aria-label="Toggle Text Direction">
+                    <i class="fas fa-right-left" id="rtlIcon"></i>
+                    <span id="rtlLabel">RTL</span>
+                </button>
+                <a href="login.html" class="action-chip btn-login" aria-label="Open Login Portal">
+                    <i class="fas fa-lock"></i>
+                    <span>Login</span>
+                </a>
+                <button class="menu-toggle-btn" id="mobileToggleBtn" aria-label="Toggle Mobile Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MOBILE DRAWER ==================== -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-panel" id="mobilePanel">
+        <div class="mobile-header">
+            <a href="index.html" class="nav-logo" style="text-decoration: none; color: inherit;">
+                <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 40px; height: 40px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35); flex-shrink: 0;">
+                    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                    </svg>
+                </div>
+                <div class="logo-text-block">
+                    <span class="logo-title" style="font-size: 1.25rem;">AquaKids</span>
+                    <span class="logo-tagline" style="font-size: 0.7rem; color: var(--text-sub);">Swim • Learn • Stay Safe</span>
+                </div>
+            </a>
+            <button class="mobile-close-btn" id="mobileCloseBtn" title="Close Menu" aria-label="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="mobile-links" style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li class="mobile-item" style="border: none; padding: 0.5rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Main Navigation</li>
+            
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileHomeAcc">
+                    <span><i class="fas fa-home" style="width: 24px; color: var(--brand-primary);"></i> Home Pages</span>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+                <ul class="mobile-accordion" id="mobileHomeContent">
+                    <li><a href="index.html" class="mobile-sublink"><i class="fas fa-water" style="width: 18px;"></i> Home 1 (Confidence)</a></li>
+                    <li><a href="home2.html" class="mobile-sublink"><i class="fas fa-award" style="width: 18px;"></i> Home 2 (Mastery)</a></li>
+                </ul>
+            </li>
+            
+            <li class="mobile-item">
+                <a href="about.html" class="mobile-link active">
+                    <span><i class="fas fa-info-circle" style="width: 24px; color: var(--brand-primary);"></i> About Us</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="programs.html" class="mobile-link">
+                    <span><i class="fas fa-swimmer" style="width: 24px; color: var(--brand-aqua);"></i> Swim Programs</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="instructors.html" class="mobile-link">
+                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #0284c7;"></i> Instructors &amp; Staff</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="schedules.html" class="mobile-link">
+                    <span><i class="fas fa-calendar-alt" style="width: 24px; color: var(--brand-aqua);"></i> Schedules &amp; Slots</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="water safety.html" class="mobile-link">
+                    <span><i class="fas fa-life-ring" style="width: 24px; color: var(--brand-coral);"></i> Water Safety</span>
+                </a>
+            </li>
+            <li class="mobile-item">
+                <a href="contact.html" class="mobile-link">
+                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-primary);"></i> Contact Us</span>
+                </a>
+            </li>
+
+            <li class="mobile-item" style="border: none; padding: 0.75rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Dashboards &amp; Portals</li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileDashAcc">
+                    <span><i class="fas fa-tachometer-alt" style="width: 24px; color: var(--brand-coral);"></i> Portals</span>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+                <ul class="mobile-accordion" id="mobileDashContent">
+                    <li><a href="user-dashboard.html" class="mobile-sublink"><i class="fas fa-users" style="width: 18px;"></i> User Dashboard <span style="font-size: 0.7rem; background: rgba(255,107,107,0.2); color: var(--brand-coral); padding: 1px 6px; border-radius: 10px;">Family</span></a></li>
+                    <li><a href="admin-dashboard.html" class="mobile-sublink"><i class="fas fa-shield-alt" style="width: 18px;"></i> Admin Dashboard <span style="font-size: 0.7rem; background: rgba(2,132,199,0.2); color: var(--brand-primary); padding: 1px 6px; border-radius: 10px;">Staff</span></a></li>
+                </ul>
+            </li>
+
+            <li class="mobile-item" style="border: none; padding: 0.75rem 0.5rem 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px;">Settings &amp; Preferences</li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileRtlBtn" style="cursor: pointer;">
+                    <span><i class="fas fa-right-left" style="width: 24px; color: var(--brand-primary);"></i> RTL Layout</span>
+                    <span class="badge-count" id="mobileRtlLabel" style="background: var(--brand-primary); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; color: #fff; font-weight: 700;">OFF</span>
+                </div>
+            </li>
+            <li class="mobile-item">
+                <div class="mobile-link" id="mobileThemeBtn" style="cursor: pointer;">
+                    <span><i class="fas fa-moon" style="width: 24px; color: var(--brand-aqua);"></i> Dark Mode</span>
+                    <span class="badge-count" id="mobileThemeLabel" style="background: var(--brand-aqua); font-size: 0.72rem; padding: 2px 8px; border-radius: 12px; color: #fff; font-weight: 700;">OFF</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="mobile-actions" style="margin-top: auto; padding-top: 1rem; border-top: 1.5px solid var(--border-soft);">
+            <a href="login.html" class="action-chip btn-login" style="width: 100%; justify-content: center;">
+                <i class="fas fa-user-lock"></i> Login to Portal
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== LOGIN MODAL ==================== -->
+    <div class="modal-backdrop" id="loginBackdrop">
+        <div class="login-dialog">
+            <button class="modal-close-trigger" id="modalCloseBtn"><i class="fas fa-times"></i></button>
+            <h3 class="dialog-title">Academy Login</h3>
+            <p class="dialog-subtitle">Select your account type to access your portal.</p>
+
+            <form id="academyLoginForm">
+                <div class="input-group">
+                    <label class="input-label" for="loginRole">Account Type</label>
+                    <select id="loginRole" class="form-control" required>
+                        <option value="parent">Parent / Guardian</option>
+                        <option value="admin">Staff / Pool Administrator</option>
+                        <option value="coach">Swim Instructor</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" class="form-control" placeholder="parent@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="userPass">Password</label>
+                    <input type="password" id="userPass" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+        <!-- SECTION 1: HERO (No floating dropdown icon) -->
+        <section class="ab-hero" id="abHero">
+            <div class="ab-hero-bg"></div>
+            <div class="ab-hero-container">
+                <div class="ab-hero-badge" data-anim="badge">
+                    <i class="fas fa-award"></i> Premier Children's Swim Academy Since 2014
+                </div>
+                <h1 class="ab-hero-title" data-anim="title">
+                    Empowering Every Child With <span>Lifelong Confidence</span> in the Water
+                </h1>
+                <p class="ab-hero-desc" data-anim="desc">
+                    At AquaKids Academy, our certified coaches create a supportive, joy-filled sanctuary where toddlers to tweens conquer fear, master essential water survival skills, and unlock a love for swimming that lasts forever.
+                </p>
+                <div class="ab-hero-actions" data-anim="cta">
+                    <a href="programs.html" class="btn-primary-coral">
+                        <i class="fas fa-swimmer"></i> Explore Our Programs
+                    </a>
+                    <a href="contact.html" class="btn-ghost-ocean">
+                        <i class="fas fa-calendar-check"></i> Book a Free Trial
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: STATS -->
+        <section class="ab-stats" id="abStats">
+            <div class="ab-stat-card" data-anim="stat">
+                <div class="ab-stat-num">12+</div>
+                <div class="ab-stat-label">Years of Excellence</div>
+            </div>
+            <div class="ab-stat-card" data-anim="stat">
+                <div class="ab-stat-num">15,000+</div>
+                <div class="ab-stat-label">Confident Swimmers</div>
+            </div>
+            <div class="ab-stat-card" data-anim="stat">
+                <div class="ab-stat-num">100%</div>
+                <div class="ab-stat-label">Certified Coaches</div>
+            </div>
+            <div class="ab-stat-card" data-anim="stat">
+                <div class="ab-stat-num">32°C</div>
+                <div class="ab-stat-label">Warm, Clean Water</div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: STORY & MISSION -->
+        <section class="ab-story" id="abStory">
+            <div class="ab-story-img-wrap" data-anim="storyImg">
+                <img src="images/instructors-cta-team.png" alt="AquaKids Coaching Team" class="ab-story-img">
+            </div>
+            <div class="ab-story-content" data-anim="storyContent">
+                <h2>Our Mission: <span>Trust Before Technique</span></h2>
+                <p>
+                    AquaKids Academy began with a simple belief: swimming is not merely a sport—it is a non-negotiable life skill and a transformative confidence builder. Every child progresses at their own pace when nurtured with gentleness, play, and positive reinforcement.
+                </p>
+                <p>
+                    Rather than forced submersions or high-pressure drills, our curriculum is rooted in child development psychology. We build genuine comfort first, followed by breath mastery, buoyancy, and beautiful efficient strokes.
+                </p>
+                <ul class="ab-story-points">
+                    <li class="ab-story-point">
+                        <span class="ab-point-icon"><i class="fas fa-check"></i></span>
+                        Gentle, trauma-free curriculum designed for all temperaments
+                    </li>
+                    <li class="ab-story-point">
+                        <span class="ab-point-icon"><i class="fas fa-check"></i></span>
+                        Low student-to-instructor ratios (never more than 4:1)
+                    </li>
+                    <li class="ab-story-point">
+                        <span class="ab-point-icon"><i class="fas fa-check"></i></span>
+                        Real-time parent progress tracking through dedicated portal
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CORE VALUES -->
+        <section class="ab-values" id="abValues">
+            <div class="ab-values-container">
+                <div class="ab-section-header" data-anim="valHeader">
+                    <h2>The Pillars of AquaKids Academy</h2>
+                    <p>Every lesson, program, and facility design is guided by our four core promises to families.</p>
+                </div>
+                <div class="ab-values-grid">
+                    <div class="ab-value-card" data-anim="valCard">
+                        <div class="ab-value-icon"><i class="fas fa-shield-heart"></i></div>
+                        <h3>Safety as the Foundation</h3>
+                        <p>We teach vital survival self-rescue skills—rolling to float, treading, and poolside exits—before formal strokes, giving parents genuine peace of mind.</p>
+                    </div>
+                    <div class="ab-value-card" data-anim="valCard">
+                        <div class="ab-value-icon"><i class="fas fa-smile-beam"></i></div>
+                        <h3>Joy-Centered Learning</h3>
+                        <p>Laughter and fun activate memory and motor learning in children. We integrate imaginative games, songs, and colorful badges to celebrate every breakthrough.</p>
+                    </div>
+                    <div class="ab-value-card" data-anim="valCard">
+                        <div class="ab-value-icon"><i class="fas fa-temperature-arrow-up"></i></div>
+                        <h3>Kid-First Facilities</h3>
+                        <p>Our custom indoor pools are heated to a soothing 32°C (90°F) with hospital-grade UV filtration, gentle gradual depths, and spacious viewing lounges.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SAFETY STANDARDS -->
+        <section class="ab-standards ab-standards-reverse" id="abStandards">
+            <div class="ab-story-img-wrap" data-anim="stdImg">
+                <img src="images/home1-safety-pledge.png" alt="Safety First Approach" class="ab-story-img">
+            </div>
+            <div class="ab-story-content" data-anim="stdContent">
+                <h2>Certified Excellence in <span>Water Safety</span></h2>
+                <p>
+                    All AquaKids coaches are triple-certified in Water Safety Instruction (WSI), Pediatric CPR, AED, and First Aid. Our ongoing instructor training exceeds industry benchmarks, ensuring every coach is deeply equipped to understand each child's emotional and physical needs.
+                </p>
+                <p>
+                    We proudly collaborate with the National Drowning Prevention Alliance and USA Swimming Foundation to champion water awareness throughout our community.
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="water safety.html" class="btn-ghost-ocean">
+                        <i class="fas fa-life-ring"></i> View Our 5 Water Safety Rules
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CTA BANNER -->
+        <section class="ab-cta-banner" id="abCta">
+            <div class="ab-cta-inner" data-anim="ctaBanner">
+                <div class="ab-cta-text">
+                    <h2>Ready to Begin Your Child's Journey?</h2>
+                    <p>Join thousands of happy families who have discovered safe, joyful swimming at AquaKids Academy. Book a complimentary trial lesson today.</p>
+                </div>
+                <div class="ab-cta-btns">
+                    <a href="contact.html" class="btn-primary-coral">
+                        <i class="fas fa-calendar-check"></i> Book Free Trial
+                    </a>
+                    <a href="programs.html" class="btn-ghost-ocean" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); color: #ffffff !important;">
+                        <i class="fas fa-th-list"></i> View Programs
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);">
+                        <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text-block">
+                        <span class="logo-title">AquaKids Academy</span>
+                        <span class="logo-tagline">Swim • Learn • Stay Safe</span>
+                    </div>
+                </a>
+                <p class="footer-desc">
+                    Building water confidence and safety skills for children of all ages. Our certified instructors create a fun, nurturing environment where every child can thrive in the water.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html" class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="programs.html" class="footer-link"><i class="fas fa-chevron-right"></i> Programs</a></li>
+                    <li><a href="instructors.html" class="footer-link"><i class="fas fa-chevron-right"></i> Instructors</a></li>
+                    <li><a href="schedules.html" class="footer-link"><i class="fas fa-chevron-right"></i> Schedules</a></li>
+                    <li><a href="water safety.html" class="footer-link"><i class="fas fa-chevron-right"></i> Water Safety</a></li>
+                    <li><a href="contact.html" class="footer-link"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Enrollment Guide</a></li>
+                    <li><a href="user-dashboard.html" class="footer-link"><i class="fas fa-chevron-right"></i> Parent Portal</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Stay Updated</h4>
+                <p class="newsletter-desc">
+                    Get the latest news, swim tips, and schedule updates delivered to your inbox.
+                </p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                    <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 AquaKids Academy. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#" class="footer-bottom-link">Privacy Policy</a>
+                <a href="#" class="footer-bottom-link">Terms of Service</a>
+                <a href="contact.html" class="footer-bottom-link">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeLabel = document.getElementById('themeLabel');
+            const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+            const mobileThemeLabel = document.getElementById('mobileThemeLabel');
+
+            const rtlToggleBtn = document.getElementById('rtlToggleBtn');
+            const mobileRtlBtn = document.getElementById('mobileRtlBtn');
+            const mobileRtlLabel = document.getElementById('mobileRtlLabel');
+
+            const mobileToggleBtn = document.getElementById('mobileToggleBtn');
+            const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mobilePanel = document.getElementById('mobilePanel');
+
+            const mobileHomeAcc = document.getElementById('mobileHomeAcc');
+            const mobileHomeContent = document.getElementById('mobileHomeContent');
+            const mobileDashAcc = document.getElementById('mobileDashAcc');
+            const mobileDashContent = document.getElementById('mobileDashContent');
+
+            const loginModalBtn = document.querySelector('.btn-login');
+            const mobileLoginBtn = document.querySelector('.mobile-actions .btn-login');
+            const loginBackdrop = document.getElementById('loginBackdrop');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const loginForm = document.getElementById('academyLoginForm');
+
+            // Theme Management
+            function applyTheme(isDark) {
+                if (isDark) {
+                    body.classList.add('dark-mode');
+                    if (themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+                    if (themeLabel) themeLabel.textContent = 'Light';
+                    if (mobileThemeLabel) mobileThemeLabel.textContent = 'ON';
+                    localStorage.setItem('aquakids_theme', 'dark');
+                } else {
+                    body.classList.remove('dark-mode');
+                    if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+                    if (themeLabel) themeLabel.textContent = 'Dark';
+                    if (mobileThemeLabel) mobileThemeLabel.textContent = 'OFF';
+                    localStorage.setItem('aquakids_theme', 'light');
+                }
+            }
+
+            function toggleTheme() {
+                const isDark = body.classList.contains('dark-mode');
+                applyTheme(!isDark);
+            }
+
+            const savedTheme = localStorage.getItem('aquakids_theme');
+            applyTheme(savedTheme === 'dark');
+
+            if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+            if (mobileThemeBtn) mobileThemeBtn.addEventListener('click', toggleTheme);
+
+            // RTL Management
+            function applyRTL(isRtl) {
+                if (isRtl) {
+                    body.setAttribute('dir', 'rtl');
+                    if (mobileRtlLabel) mobileRtlLabel.textContent = 'ON';
+                    localStorage.setItem('aquakids_rtl', 'rtl');
+                } else {
+                    body.setAttribute('dir', 'ltr');
+                    if (mobileRtlLabel) mobileRtlLabel.textContent = 'OFF';
+                    localStorage.setItem('aquakids_rtl', 'ltr');
+                }
+            }
+
+            function toggleRTL() {
+                const isRtl = (body.getAttribute('dir') || 'ltr') === 'ltr';
+                applyRTL(isRtl);
+                closeMobileDrawer();
+            }
+
+            const savedRtl = localStorage.getItem('aquakids_rtl');
+            applyRTL(savedRtl === 'rtl');
+
+            if (rtlToggleBtn) rtlToggleBtn.addEventListener('click', toggleRTL);
+            if (mobileRtlBtn) mobileRtlBtn.addEventListener('click', toggleRTL);
+
+            // Drawer
+            function openMobileDrawer() {
+                mobileOverlay.classList.add('active');
+                mobilePanel.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+
+            function closeMobileDrawer() {
+                mobileOverlay.classList.remove('active');
+                mobilePanel.classList.remove('active');
+                body.style.overflow = '';
+            }
+
+            if (mobileToggleBtn) mobileToggleBtn.addEventListener('click', openMobileDrawer);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileDrawer);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileDrawer);
+
+            // Accordion
+            function bindAccordion(trigger, content) {
+                if (trigger && content) {
+                    trigger.addEventListener('click', () => {
+                        content.classList.toggle('show');
+                        const caret = trigger.querySelector('.dropdown-caret');
+                        if (caret) caret.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    });
+                }
+            }
+
+            bindAccordion(mobileHomeAcc, mobileHomeContent);
+            bindAccordion(mobileDashAcc, mobileDashContent);
+
+            // Modal
+            function openLoginModal() {
+                loginBackdrop.classList.add('active');
+                closeMobileDrawer();
+            }
+            function closeLoginModal() {
+                loginBackdrop.classList.remove('active');
+            }
+
+            if (loginModalBtn) loginModalBtn.addEventListener('click', openLoginModal);
+            if (mobileLoginBtn) mobileLoginBtn.addEventListener('click', openLoginModal);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeLoginModal);
+            if (loginBackdrop) {
+                loginBackdrop.addEventListener('click', (e) => {
+                    if (e.target === loginBackdrop) closeLoginModal();
+                });
+            }
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const role = document.getElementById('loginRole').value;
+                    const email = document.getElementById('userEmail').value;
+                    alert(`Signed in as [${role.toUpperCase()}]: ${email}`);
+                    closeLoginModal();
+                });
+            }
+
+            // Framer Motion Animations
+            if (window.Motion) {
+                const { animate, inView } = window.Motion;
+
+                inView('#abHero', () => {
+                    animate('[data-anim="badge"]', { opacity: [0, 1], y: [-25, 0] }, { duration: 0.7 });
+                    animate('[data-anim="title"]', { opacity: [0, 1], y: [35, 0] }, { duration: 0.9, delay: 0.15 });
+                    animate('[data-anim="desc"]', { opacity: [0, 1], y: [25, 0] }, { duration: 0.8, delay: 0.3 });
+                    animate('[data-anim="cta"]', { opacity: [0, 1], y: [20, 0] }, { duration: 0.7, delay: 0.45 });
+                }, { amount: 0.2 });
+
+                inView('#abStats', () => {
+                    const stats = document.querySelectorAll('[data-anim="stat"]');
+                    stats.forEach((st, i) => {
+                        animate(st, { opacity: [0, 1], scale: [0.8, 1], y: [30, 0] }, { duration: 0.6, delay: i * 0.1 });
+                    });
+                }, { amount: 0.3 });
+
+                inView('#abStory', () => {
+                    animate('[data-anim="storyImg"]', { opacity: [0, 1], x: [-50, 0] }, { duration: 0.8 });
+                    animate('[data-anim="storyContent"]', { opacity: [0, 1], x: [50, 0] }, { duration: 0.8, delay: 0.15 });
+                }, { amount: 0.2 });
+
+                inView('#abValues', () => {
+                    animate('[data-anim="valHeader"]', { opacity: [0, 1], y: [-20, 0] }, { duration: 0.7 });
+                    const cards = document.querySelectorAll('[data-anim="valCard"]');
+                    cards.forEach((c, i) => {
+                        animate(c, { opacity: [0, 1], y: [40, 0] }, { duration: 0.7, delay: 0.15 + i * 0.12 });
+                    });
+                }, { amount: 0.2 });
+
+                inView('#abStandards', () => {
+                    animate('[data-anim="stdImg"]', { opacity: [0, 1], scale: [0.9, 1] }, { duration: 0.8 });
+                    animate('[data-anim="stdContent"]', { opacity: [0, 1], y: [30, 0] }, { duration: 0.8, delay: 0.15 });
+                }, { amount: 0.2 });
+
+                inView('#abCta', () => {
+                    animate('[data-anim="ctaBanner"]', { opacity: [0, 1], y: [40, 0], scale: [0.96, 1] }, { duration: 0.8 });
+                }, { amount: 0.2 });
+            }
+        });
+    </script>
+</body>
+</html>

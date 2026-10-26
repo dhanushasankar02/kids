@@ -41,7 +41,7 @@
             --brand-violet: #a78bfa;
             --brand-rose: #f472b6;
             --brand-amber: #f59e0b;
-            --brand-teal: #14b8a6;
+            --brand-teal: #0284c7;
             --border-soft: rgba(6, 182, 212, 0.22);
             --shadow-nav: 0 4px 20px -2px rgba(2, 132, 199, 0.1);
             --shadow-card: 0 14px 35px -8px rgba(2, 132, 199, 0.16);
@@ -216,11 +216,23 @@
         .nav-right-actions { display: flex; align-items: center; gap: 0.6rem;  flex-shrink: 0; }
 
         .action-chip {
-            background: var(--card-bg); border: 1.5px solid var(--border-soft);
-            color: var(--text-main); font-size: 0.88rem; font-weight: 700;
-            padding:  0.4rem 0.85rem; border-radius: 50px; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 6px;
+            height: 38px;
+            box-sizing: border-box;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-soft);
+            color: var(--text-main);
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1;
+            padding: 0 0.95rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .action-chip:hover {
@@ -230,8 +242,13 @@
         }
 
         .action-chip.btn-login {
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
             background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
-            color: #ffffff; border-color: transparent; font-weight: 700;
+            color: #ffffff !important;
+            border: 1.5px solid transparent;
+            font-weight: 700;
             box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
         }
 
@@ -242,10 +259,20 @@
         }
 
         .menu-toggle-btn {
-            display: none; background: rgba(6, 182, 212, 0.12);
-            border: 1.5px solid var(--border-soft); color: var(--brand-primary);
-            font-size: 1.3rem; padding: 0.45rem 0.85rem; border-radius: 14px;
-            cursor: pointer; transition: var(--transition);
+            display: none;
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
+            background: rgba(6, 182, 212, 0.12);
+            border: 1.5px solid var(--border-soft);
+            color: var(--brand-primary);
+            font-size: 1.2rem;
+            padding: 0 0.85rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            align-items: center;
+            justify-content: center;
         }
 
         /* ==================== MOBILE DRAWER (UNCHANGED) ==================== */
@@ -322,7 +349,7 @@
             padding-top: 1.25rem; border-top: 1.5px solid var(--border-soft);
         }
 
-        .mobile-actions .action-chip { justify-content: center; width: 100%; padding: 0.75rem; }
+        .mobile-actions .action-chip { justify-content: center; width: 100%; height: 42px; }
 
         /* ==================== LOGIN MODAL (UNCHANGED) ==================== */
         .modal-backdrop {
@@ -464,7 +491,7 @@
         }
 
         .sch-s1-title .teal-accent {
-            background: linear-gradient(135deg, #5eead4, #14b8a6, #0d9488);
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -489,8 +516,8 @@
         }
 
         .sch-s1-btn-primary {
-            background: linear-gradient(135deg, #14b8a6 0%, #5eead4 100%);
-            color: #0f172a !important;
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
+            color: #ffffff !important;
             padding: 1.1rem 2.2rem;
             border-radius: 50px;
             font-weight: 800;
@@ -498,7 +525,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 28px rgba(20, 184, 166, 0.5);
+            box-shadow: 0 10px 28px rgba(255, 107, 107, 0.45);
             transition: var(--transition);
             border: none;
             cursor: pointer;
@@ -506,7 +533,7 @@
 
         .sch-s1-btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 14px 34px rgba(20, 184, 166, 0.65);
+            box-shadow: 0 14px 34px rgba(255, 107, 107, 0.6);
         }
 
         .sch-s1-btn-ghost {
@@ -637,7 +664,7 @@
 
         body.dark-mode .sch-s2-day-count {
             background: rgba(94, 234, 212, 0.15);
-            color: #5eead4;
+            color: #38bdf8;
         }
 
         /* ========== SECTION 3: TIME SLOTS TABS ========== */
@@ -695,7 +722,7 @@
         }
 
         .sch-s3-tab.active {
-            background: linear-gradient(135deg, #14b8a6, #5eead4);
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
             color: #0f172a;
             border-color: transparent;
             box-shadow: 0 8px 20px rgba(20, 184, 166, 0.4);
@@ -895,7 +922,7 @@
 
         body.dark-mode .sch-s4-season-range {
             background: rgba(94, 234, 212, 0.15);
-            color: #5eead4;
+            color: #38bdf8;
         }
 
         .sch-s4-season p {
@@ -971,7 +998,7 @@
             align-items: center;
             gap: 6px;
             background: rgba(20, 184, 166, 0.2);
-            color: #5eead4;
+            color: #38bdf8;
             font-size: 0.78rem;
             font-weight: 800;
             padding: 0.45rem 1rem;
@@ -993,7 +1020,7 @@
         }
 
         .sch-s5-content h2 span {
-            background: linear-gradient(135deg, #5eead4, #14b8a6);
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1027,7 +1054,7 @@
             height: 30px;
             border-radius: 10px;
             background: rgba(20, 184, 166, 0.2);
-            color: #5eead4;
+            color: #38bdf8;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1036,7 +1063,7 @@
         }
 
         .sch-s5-btn {
-            background: linear-gradient(135deg, #14b8a6 0%, #5eead4 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
             color: #0f172a !important;
             padding: 1rem 2rem;
             border-radius: 50px;
@@ -1113,7 +1140,7 @@
         [dir="rtl"] .sch-s6-item:hover { transform: translateX(-8px); }
 
         .sch-s6-date-badge {
-            background: linear-gradient(135deg, #14b8a6, #5eead4);
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
             color: #0f172a;
             border-radius: 16px;
             padding: 0.9rem 1.1rem;
@@ -1187,16 +1214,17 @@
         }
 
         .sch-s7-banner {
-            background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0c4a6e 100%);
             border-radius: 36px;
-            padding: 4rem 3rem;
+            padding: 4.5rem 3.5rem;
+            box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.45);
+            color: #ffffff;
             display: grid;
-            grid-template-columns: 1.3fr 1fr;
-            gap: 3rem;
+            grid-template-columns: 1.4fr 1fr;
             align-items: center;
-            position: relative;
+            gap: 3rem;
             overflow: hidden;
-            box-shadow: 0 30px 60px -15px rgba(20, 184, 166, 0.4);
+            position: relative;
         }
 
         .sch-s7-banner::before {
@@ -1244,7 +1272,7 @@
 
         .sch-s7-btn-primary {
             background: #ffffff;
-            color: #0d9488 !important;
+            color: var(--brand-primary) !important;
             padding: 1rem 2.2rem;
             border-radius: 50px;
             font-weight: 800;
@@ -1496,6 +1524,7 @@
                         <li><a href="home2.html" class="dropdown-item"><span>Home 2 (Stroke Mastery)</span></a></li>
                     </ul>
                 </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
                 <li class="nav-item"><a href="instructors.html" class="nav-link">Instructors</a></li>
                 <li class="nav-item"><a href="schedules.html" class="nav-link active">Schedules</a></li>
@@ -1584,17 +1613,22 @@
             </li>
             
             <li class="mobile-item">
+                <a href="about.html" class="mobile-link">
+                    <span><i class="fas fa-info-circle" style="width: 24px; color: var(--brand-primary);"></i> About Us</span>
+                </a>
+            </li>
+            <li class="mobile-item">
                 <a href="programs.html" class="mobile-link">
                     <span><i class="fas fa-swimmer" style="width: 24px; color: var(--brand-aqua);"></i> Swim Programs</span>
                 </a>
             </li>
             <li class="mobile-item">
                 <a href="instructors.html" class="mobile-link">
-                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #f59e0b;"></i> Instructors &amp; Staff</span>
+                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #0284c7;"></i> Instructors &amp; Staff</span>
                 </a>
             </li>
             <li class="mobile-item">
-                <a href="schedules.html" class="mobile-link">
+                <a href="schedules.html" class="mobile-link active">
                     <span><i class="fas fa-calendar-alt" style="width: 24px; color: var(--brand-aqua);"></i> Schedules &amp; Slots</span>
                 </a>
             </li>
@@ -1605,7 +1639,7 @@
             </li>
             <li class="mobile-item">
                 <a href="contact.html" class="mobile-link">
-                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-mint);"></i> Contact Us</span>
+                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-primary);"></i> Contact Us</span>
                 </a>
             </li>
 
@@ -1709,10 +1743,6 @@
                         <i class="fas fa-water"></i> Explore Programs
                     </a>
                 </div>
-            </div>
-
-            <div class="sch-s1-scroll-hint" data-sch="heroHint">
-                <i class="fas fa-chevron-down"></i>
             </div>
         </section>
 
@@ -2034,6 +2064,7 @@
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul class="footer-links">
+                    <li><a href="about.html" class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
                     <li><a href="programs.html" class="footer-link"><i class="fas fa-chevron-right"></i> Programs</a></li>
                     <li><a href="instructors.html" class="footer-link"><i class="fas fa-chevron-right"></i> Instructors</a></li>
                     <li><a href="schedules.html" class="footer-link"><i class="fas fa-chevron-right"></i> Schedules</a></li>
@@ -2263,10 +2294,7 @@
                     { opacity: [0, 1], y: [25, 0] },
                     { duration: 0.8, delay: 0.85, easing: [0.22, 1, 0.36, 1] }
                 );
-                animate('[data-sch="heroHint"]',
-                    { opacity: [0, 1] },
-                    { duration: 1, delay: 1.5 }
-                );
+                // Hero scroll hint removed
             }, { amount: 0.1 });
 
             /* ---------- SECTION 2: WEEKLY — Clockwise day-by-day reveal ---------- */

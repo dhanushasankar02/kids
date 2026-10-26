@@ -301,18 +301,23 @@
          flex-shrink: 0; }
 
         .action-chip {
+            height: 38px;
+            box-sizing: border-box;
             background: var(--card-bg);
             border: 1.5px solid var(--border-soft);
             color: var(--text-main);
             font-size: 0.88rem;
             font-weight: 700;
-            padding:  0.4rem 0.85rem;
+            line-height: 1;
+            padding: 0 0.95rem;
             border-radius: 50px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .action-chip:hover {
@@ -323,9 +328,12 @@
         }
 
         .action-chip.btn-login {
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
             background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
-            color: #ffffff;
-            border-color: transparent;
+            color: #ffffff !important;
+            border: 1.5px solid transparent;
             font-weight: 700;
             box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
         }
@@ -338,14 +346,19 @@
 
         .menu-toggle-btn {
             display: none;
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
             background: rgba(6, 182, 212, 0.12);
             border: 1.5px solid var(--border-soft);
             color: var(--brand-primary);
-            font-size: 1.3rem;
-            padding: 0.45rem 0.85rem;
-            border-radius: 14px;
+            font-size: 1.2rem;
+            padding: 0 0.85rem;
+            border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
+            align-items: center;
+            justify-content: center;
         }
 
         /* ==================== MOBILE DRAWER ==================== */
@@ -475,11 +488,7 @@
             border-top: 1.5px solid var(--border-soft);
         }
 
-        .mobile-actions .action-chip {
-            justify-content: center;
-            width: 100%;
-            padding: 0.75rem;
-        }
+        .mobile-actions .action-chip { justify-content: center; width: 100%; height: 42px; }
 
         /* ==================== LOGIN MODAL ==================== */
         .modal-backdrop {
@@ -839,6 +848,7 @@
                         <li><a href="home2.html" class="dropdown-item"><span>Home 2 (Stroke Mastery)</span></a></li>
                     </ul>
                 </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
                 <li class="nav-item"><a href="instructors.html" class="nav-link">Instructors</a></li>
                 <li class="nav-item"><a href="schedules.html" class="nav-link">Schedules</a></li>
@@ -927,13 +937,18 @@
             </li>
             
             <li class="mobile-item">
+                <a href="about.html" class="mobile-link">
+                    <span><i class="fas fa-info-circle" style="width: 24px; color: var(--brand-primary);"></i> About Us</span>
+                </a>
+            </li>
+            <li class="mobile-item">
                 <a href="programs.html" class="mobile-link">
                     <span><i class="fas fa-swimmer" style="width: 24px; color: var(--brand-aqua);"></i> Swim Programs</span>
                 </a>
             </li>
             <li class="mobile-item">
                 <a href="instructors.html" class="mobile-link">
-                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #f59e0b;"></i> Instructors &amp; Staff</span>
+                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #0284c7;"></i> Instructors &amp; Staff</span>
                 </a>
             </li>
             <li class="mobile-item">
@@ -948,7 +963,7 @@
             </li>
             <li class="mobile-item">
                 <a href="contact.html" class="mobile-link">
-                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-mint);"></i> Contact Us</span>
+                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-primary);"></i> Contact Us</span>
                 </a>
             </li>
 
@@ -1065,6 +1080,7 @@
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul class="footer-links">
+                    <li><a href="about.html" class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
                     <li><a href="programs.html" class="footer-link"><i class="fas fa-chevron-right"></i> Programs</a></li>
                     <li><a href="instructors.html" class="footer-link"><i class="fas fa-chevron-right"></i> Instructors</a></li>
                     <li><a href="schedules.html" class="footer-link"><i class="fas fa-chevron-right"></i> Schedules</a></li>

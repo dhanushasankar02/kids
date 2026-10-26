@@ -42,7 +42,7 @@
             --brand-rose: #f472b6;
             --brand-amber: #f59e0b;
             --brand-teal: #14b8a6;
-            --brand-indigo: #6366f1;
+            --brand-indigo: #0284c7;
             --border-soft: rgba(6, 182, 212, 0.22);
             --shadow-nav: 0 4px 20px -2px rgba(2, 132, 199, 0.1);
             --shadow-card: 0 14px 35px -8px rgba(2, 132, 199, 0.16);
@@ -217,11 +217,23 @@
         .nav-right-actions { display: flex; align-items: center; gap: 0.6rem;  flex-shrink: 0; }
 
         .action-chip {
-            background: var(--card-bg); border: 1.5px solid var(--border-soft);
-            color: var(--text-main); font-size: 0.88rem; font-weight: 700;
-            padding:  0.4rem 0.85rem; border-radius: 50px; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 6px;
+            height: 38px;
+            box-sizing: border-box;
+            background: var(--card-bg);
+            border: 1.5px solid var(--border-soft);
+            color: var(--text-main);
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1;
+            padding: 0 0.95rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .action-chip:hover {
@@ -231,8 +243,13 @@
         }
 
         .action-chip.btn-login {
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
             background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
-            color: #ffffff; border-color: transparent; font-weight: 700;
+            color: #ffffff !important;
+            border: 1.5px solid transparent;
+            font-weight: 700;
             box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
         }
 
@@ -243,10 +260,20 @@
         }
 
         .menu-toggle-btn {
-            display: none; background: rgba(6, 182, 212, 0.12);
-            border: 1.5px solid var(--border-soft); color: var(--brand-primary);
-            font-size: 1.3rem; padding: 0.45rem 0.85rem; border-radius: 14px;
-            cursor: pointer; transition: var(--transition);
+            display: none;
+            height: 38px;
+            box-sizing: border-box;
+            line-height: 1;
+            background: rgba(6, 182, 212, 0.12);
+            border: 1.5px solid var(--border-soft);
+            color: var(--brand-primary);
+            font-size: 1.2rem;
+            padding: 0 0.85rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            align-items: center;
+            justify-content: center;
         }
 
         /* ==================== MOBILE DRAWER (UNCHANGED) ==================== */
@@ -323,7 +350,7 @@
             padding-top: 1.25rem; border-top: 1.5px solid var(--border-soft);
         }
 
-        .mobile-actions .action-chip { justify-content: center; width: 100%; padding: 0.75rem; }
+        .mobile-actions .action-chip { justify-content: center; width: 100%; height: 42px; }
 
         /* ==================== LOGIN MODAL (UNCHANGED) ==================== */
         .modal-backdrop {
@@ -465,7 +492,7 @@
         }
 
         .ct-s1-title .indigo-accent {
-            background: linear-gradient(135deg, #c7d2fe, #a5b4fc, #6366f1);
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -490,7 +517,7 @@
         }
 
         .ct-s1-btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+            background: linear-gradient(135deg, var(--brand-coral) 0%, #f43f5e 100%);
             color: #ffffff !important;
             padding: 1.1rem 2.2rem;
             border-radius: 50px;
@@ -499,7 +526,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 28px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 28px rgba(255, 107, 107, 0.45);
             transition: var(--transition);
             border: none;
             cursor: pointer;
@@ -507,7 +534,7 @@
 
         .ct-s1-btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 14px 34px rgba(99, 102, 241, 0.65);
+            box-shadow: 0 14px 34px rgba(255, 107, 107, 0.6);
         }
 
         .ct-s1-btn-ghost {
@@ -641,7 +668,7 @@
             box-shadow: 0 12px 26px rgba(99, 102, 241, 0.3);
         }
 
-        .ct-s2-method:nth-child(1) .ct-s2-method-icon { background: linear-gradient(135deg, #6366f1, #a5b4fc); }
+        .ct-s2-method:nth-child(1) .ct-s2-method-icon { background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua)); }
         .ct-s2-method:nth-child(2) .ct-s2-method-icon { background: linear-gradient(135deg, #14b8a6, #5eead4); }
         .ct-s2-method:nth-child(3) .ct-s2-method-icon { background: linear-gradient(135deg, #f472b6, #db2777); }
         .ct-s2-method:nth-child(4) .ct-s2-method-icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
@@ -670,7 +697,7 @@
             width: 100%;
         }
 
-        body.dark-mode .ct-s2-method-value { color: #a5b4fc; }
+        body.dark-mode .ct-s2-method-value { color: #38bdf8; }
 
         /* ========== SECTION 3: CONTACT FORM — LARGE SPLIT FORM ========== */
         .ct-s3-form {
@@ -836,7 +863,7 @@
         .ct-s3-submit {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #6366f1 0%, #a5b4fc 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
             color: #ffffff !important;
             border: none;
             border-radius: 14px;
@@ -991,7 +1018,7 @@
 
         body.dark-mode .ct-s4-location-meta span {
             background: rgba(165, 180, 252, 0.15);
-            color: #a5b4fc;
+            color: #38bdf8;
         }
 
         /* ========== SECTION 5: HOURS + RESPONSE TIME — SPLIT CARDS ========== */
@@ -1074,7 +1101,7 @@
         .ct-s5-hours-item span {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #a5b4fc;
+            color: #38bdf8;
         }
 
         .ct-s5-response {
@@ -1213,7 +1240,7 @@
             font-family: var(--font-friendly);
             font-size: 1.4rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #6366f1, #a5b4fc);
+            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             flex-shrink: 0;
@@ -1221,7 +1248,7 @@
         }
 
         body.dark-mode .ct-s6-card-num {
-            background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+            background: linear-gradient(135deg, #c7d2fe, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1248,16 +1275,17 @@
         }
 
         .ct-s7-banner {
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0c4a6e 100%);
             border-radius: 36px;
-            padding: 4rem 3rem;
+            padding: 4.5rem 3.5rem;
+            box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.45);
+            color: #ffffff;
             display: grid;
-            grid-template-columns: 1.3fr 1fr;
-            gap: 3rem;
+            grid-template-columns: 1.4fr 1fr;
             align-items: center;
-            position: relative;
+            gap: 3rem;
             overflow: hidden;
-            box-shadow: 0 30px 60px -15px rgba(99, 102, 241, 0.4);
+            position: relative;
         }
 
         .ct-s7-banner::before {
@@ -1305,7 +1333,7 @@
 
         .ct-s7-btn-primary {
             background: #ffffff;
-            color: #4f46e5 !important;
+            color: var(--brand-primary) !important;
             padding: 1rem 2.2rem;
             border-radius: 50px;
             font-weight: 800;
@@ -1551,6 +1579,7 @@
                         <li><a href="home2.html" class="dropdown-item"><span>Home 2 (Stroke Mastery)</span></a></li>
                     </ul>
                 </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="programs.html" class="nav-link">Programs</a></li>
                 <li class="nav-item"><a href="instructors.html" class="nav-link">Instructors</a></li>
                 <li class="nav-item"><a href="schedules.html" class="nav-link">Schedules</a></li>
@@ -1639,13 +1668,18 @@
             </li>
             
             <li class="mobile-item">
+                <a href="about.html" class="mobile-link">
+                    <span><i class="fas fa-info-circle" style="width: 24px; color: var(--brand-primary);"></i> About Us</span>
+                </a>
+            </li>
+            <li class="mobile-item">
                 <a href="programs.html" class="mobile-link">
                     <span><i class="fas fa-swimmer" style="width: 24px; color: var(--brand-aqua);"></i> Swim Programs</span>
                 </a>
             </li>
             <li class="mobile-item">
                 <a href="instructors.html" class="mobile-link">
-                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #f59e0b;"></i> Instructors &amp; Staff</span>
+                    <span><i class="fas fa-user-nurse" style="width: 24px; color: #0284c7;"></i> Instructors &amp; Staff</span>
                 </a>
             </li>
             <li class="mobile-item">
@@ -1659,8 +1693,8 @@
                 </a>
             </li>
             <li class="mobile-item">
-                <a href="contact.html" class="mobile-link">
-                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-mint);"></i> Contact Us</span>
+                <a href="contact.html" class="mobile-link active">
+                    <span><i class="fas fa-envelope" style="width: 24px; color: var(--brand-primary);"></i> Contact Us</span>
                 </a>
             </li>
 
@@ -1764,10 +1798,6 @@
                         <i class="fas fa-phone"></i> Call Us Now
                     </a>
                 </div>
-            </div>
-
-            <div class="ct-s1-scroll-hint" data-ct="heroHint">
-                <i class="fas fa-chevron-down"></i>
             </div>
         </section>
 
@@ -2079,6 +2109,7 @@
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul class="footer-links">
+                    <li><a href="about.html" class="footer-link"><i class="fas fa-chevron-right"></i> About Us</a></li>
                     <li><a href="programs.html" class="footer-link"><i class="fas fa-chevron-right"></i> Programs</a></li>
                     <li><a href="instructors.html" class="footer-link"><i class="fas fa-chevron-right"></i> Instructors</a></li>
                     <li><a href="schedules.html" class="footer-link"><i class="fas fa-chevron-right"></i> Schedules</a></li>
@@ -2280,10 +2311,7 @@
                     { opacity: [0, 1], y: [25, 0] },
                     { duration: 0.8, delay: 0.85, easing: [0.22, 1, 0.36, 1] }
                 );
-                animate('[data-ct="heroHint"]',
-                    { opacity: [0, 1] },
-                    { duration: 1, delay: 1.5 }
-                );
+                // Hero scroll hint removed
             }, { amount: 0.1 });
 
             /* ---------- SECTION 2: METHODS — Slide from alternating corners ---------- */

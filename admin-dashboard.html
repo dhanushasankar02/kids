@@ -28,21 +28,21 @@
 
         :root {
             --bg-body: #f8fafc;
-            --sidebar-bg: #0f172a;
-            --sidebar-text: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --sidebar-text: #0f172a;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-sub: #475569;
             --text-muted: #64748b;
             --brand-primary: #0284c7;
             --brand-aqua: #06b6d4;
-            --brand-coral: #ef4444;
-            --brand-sun: #f59e0b;
+            --brand-coral: #ff6b6b;
+            --brand-sun: #fbbf24;
             --brand-mint: #10b981;
             --brand-purple: #8b5cf6;
-            --border-soft: rgba(2, 132, 199, 0.18);
-            --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
-            --shadow-hover: 0 18px 40px -8px rgba(15, 23, 42, 0.16);
+            --border-soft: rgba(6, 182, 212, 0.22);
+            --shadow-card: 0 10px 30px -5px rgba(2, 132, 199, 0.08);
+            --shadow-hover: 0 18px 40px -8px rgba(2, 132, 199, 0.16);
             --font-friendly: 'Fredoka', sans-serif;
             --font-body: 'Quicksand', sans-serif;
             --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
@@ -50,8 +50,8 @@
 
         body.dark-mode {
             --bg-body: #07131e;
-            --sidebar-bg: #0b1726;
-            --sidebar-text: #f8fafc;
+            --sidebar-bg: #0f2338;
+            --sidebar-text: #f1f5f9;
             --card-bg: #0f2338;
             --text-main: #f1f5f9;
             --text-sub: #94a3b8;
@@ -86,10 +86,10 @@
         .dash-sidebar {
             width: 270px;
             background: var(--sidebar-bg);
-            color: var(--sidebar-text);
+            border-right: 2px solid var(--border-soft);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             padding: 1.8rem 1.2rem;
             position: fixed;
             top: 0;
@@ -97,6 +97,27 @@
             bottom: 0;
             z-index: 100;
             transition: var(--transition);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(6, 182, 212, 0.4) transparent;
+        }
+
+        .dash-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .dash-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .dash-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(6, 182, 212, 0.35);
+            border-radius: 10px;
+        }
+
+        .dash-sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--brand-primary);
         }
 
         .sidebar-brand {
@@ -104,25 +125,34 @@
             align-items: center;
             gap: 12px;
             padding-bottom: 1.5rem;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            border-bottom: 2px dashed var(--border-soft);
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .brand-title {
             font-family: var(--font-friendly);
             font-size: 1.15rem;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-main);
             line-height: 1.2;
+        }
+
+        body.dark-mode .brand-title {
+            color: #ffffff;
         }
 
         .brand-title span {
             display: block;
             font-size: 0.72rem;
-            color: var(--brand-aqua);
+            color: var(--brand-primary);
             font-weight: 700;
             letter-spacing: 0.8px;
             text-transform: uppercase;
+        }
+
+        body.dark-mode .brand-title span {
+            color: var(--brand-aqua);
         }
 
         .sidebar-nav {
@@ -139,8 +169,12 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.45);
+            color: var(--text-muted);
             margin: 0.8rem 0 0.3rem 0.6rem;
+        }
+
+        body.dark-mode .nav-label {
+            color: rgba(255, 255, 255, 0.45);
         }
 
         .sidebar-link {
@@ -149,11 +183,15 @@
             gap: 12px;
             padding: 0.75rem 1rem;
             border-radius: 12px;
-            color: rgba(255, 255, 255, 0.75);
+            color: var(--text-sub);
             font-weight: 600;
             font-size: 0.95rem;
             transition: var(--transition);
             cursor: pointer;
+        }
+
+        body.dark-mode .sidebar-link {
+            color: rgba(255, 255, 255, 0.75);
         }
 
         .sidebar-link i {
@@ -165,9 +203,14 @@
         }
 
         .sidebar-link:hover, .sidebar-link.active {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--brand-primary);
+            transform: translateX(4px);
+        }
+
+        body.dark-mode .sidebar-link:hover, body.dark-mode .sidebar-link.active {
             background: rgba(56, 189, 248, 0.18);
             color: #ffffff;
-            transform: translateX(4px);
         }
 
         .sidebar-link.active i {
@@ -186,14 +229,20 @@
 
         /* Sidebar Footer / Admin Info */
         .sidebar-user {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(6, 182, 212, 0.06);
+            border: 1.5px solid var(--border-soft);
             border-radius: 14px;
             padding: 0.9rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 1rem;
+            margin-top: auto;
+            flex-shrink: 0;
+        }
+
+        body.dark-mode .sidebar-user {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .user-avatar {
@@ -216,411 +265,12 @@
             font-family: var(--font-friendly);
             font-size: 0.95rem;
             font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+
+        body.dark-mode .user-name {
             color: #ffffff;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        .user-role {
-            font-size: 0.78rem;
-            color: rgba(255, 255, 255, 0.55);
-        }
-
-        /* ==================== MAIN CONTENT AREA ==================== */
-        .dash-main {
-            margin-left: 270px;
-            flex-grow: 1;
-            padding: 2rem 2.5rem;
-            max-width: 1400px;
-            width: calc(100vw - 270px);
-        }
-
-        /* Top Dashboard Header Bar */
-        .dash-header {
-            position: sticky;
-            top: 0.8rem;
-            z-index: 99;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1.5px solid var(--border-soft);
-            border-radius: 20px;
-            padding: 0.85rem 1.4rem;
-            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
-            transition: var(--transition);
-        }
-
-        body.dark-mode .dash-header {
-            background: rgba(15, 35, 56, 0.94);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.55);
-        }
-
-        .welcome-box h1 {
-            font-family: var(--font-friendly);
-            font-size: 1.85rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .welcome-box p {
-            color: var(--text-sub);
-            font-size: 0.98rem;
-            margin-top: 4px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .theme-toggle-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid var(--border-soft);
-            background: var(--card-bg);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-card);
-            transition: var(--transition);
-        }
-
-        .theme-toggle-btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--brand-primary);
-            color: var(--brand-primary);
-        }
-
-        .back-site-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.65rem 1.2rem;
-            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
-            color: #fff !important;
-            border-radius: 12px;
-            font-family: var(--font-friendly);
-            font-weight: 600;
-            font-size: 0.92rem;
-            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
-            transition: var(--transition);
-        }
-
-        .back-site-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.45);
-        }
-
-        /* ==================== DASHBOARD VIEWS ==================== */
-        .dash-view {
-            display: none;
-            animation: fadeInView 0.35s ease forwards;
-        }
-
-        .dash-view.active-view {
-            display: block;
-        }
-
-        @keyframes fadeInView {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Back to Overview Header inside Modules */
-        .topic-view-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 18px;
-            padding: 1.2rem 1.8rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-card);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .topic-title-group {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .topic-view-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-
-        .topic-view-title h2 {
-            font-family: var(--font-friendly);
-            font-size: 1.5rem;
-            color: var(--text-main);
-            line-height: 1.2;
-        }
-
-        .topic-view-title p {
-            font-size: 0.88rem;
-            color: var(--text-sub);
-        }
-
-        .back-overview-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0.6rem 1.2rem;
-            background: rgba(6, 182, 212, 0.12);
-            color: var(--brand-primary);
-            border-radius: 12px;
-            font-family: var(--font-friendly);
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-        }
-
-        .back-overview-btn:hover {
-            background: var(--brand-primary);
-            color: #fff;
-            transform: translateX(-4px);
-        }
-
-        /* STAT CARDS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 2.5rem;
-            align-items: stretch;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 18px;
-            padding: 1.4rem;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: var(--transition);
-            height: 100%;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .stat-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
-
-        .stat-icon.cyan { background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua); }
-        .stat-icon.blue { background: rgba(2, 132, 199, 0.15); color: var(--brand-primary); }
-        .stat-icon.coral { background: rgba(239, 68, 68, 0.15); color: var(--brand-coral); }
-        .stat-icon.green { background: rgba(16, 185, 129, 0.15); color: var(--brand-mint); }
-        .stat-icon.purple { background: rgba(139, 92, 246, 0.15); color: var(--brand-purple); }
-
-        .stat-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .stat-info .stat-num {
-            font-family: var(--font-friendly);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.15;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .stat-info .stat-lbl {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            font-weight: 600;
-            margin-top: 2px;
-            line-height: 1.25;
-        }
-
-        /* GRID MODULE CARDS */
-        .topics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-            align-items: stretch;
-        }
-
-        .topic-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition);
-            cursor: pointer;
-            height: 100%;
-        }
-
-        .topic-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--brand-primary), var(--brand-aqua));
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-
-        .topic-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--brand-aqua);
-        }
-
-        .topic-card:hover::before { height: 6px; opacity: 1; }
-
-        .topic-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-
-        .topic-icon-wrap {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-        }
-
-        .topic-pill {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-
-        .pill-roster { background: rgba(2, 132, 199, 0.15); color: var(--brand-primary); }
-        .pill-coach { background: rgba(245, 158, 11, 0.18); color: #d97706; }
-        .pill-schedule { background: rgba(6, 182, 212, 0.15); color: var(--brand-aqua); }
-        .pill-safety { background: rgba(239, 68, 68, 0.15); color: var(--brand-coral); }
-        .pill-billing { background: rgba(16, 185, 129, 0.15); color: var(--brand-mint); }
-
-        .topic-card h3 {
-            font-family: var(--font-friendly);
-            font-size: 1.18rem;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .topic-card p {
-            font-size: 0.88rem;
-            color: var(--text-sub);
-            line-height: 1.5;
-            margin-bottom: 1.2rem;
-            flex-grow: 1;
-        }
-
-        .topic-footer {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-top: 0.5rem;
-        }
-
-        .topic-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0.55rem 1.1rem;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--brand-primary), var(--brand-aqua));
-            color: #ffffff !important;
-            font-family: var(--font-friendly);
-            font-weight: 700;
-            font-size: 0.88rem;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
-            transition: var(--transition);
-        }
-
-        .topic-card:hover .topic-btn {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
-        }
-
-        /* TABLES */
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-bottom: 1.5rem;
-            border-radius: 16px;
-        }
-
-        .custom-table {
-            width: 100%;
-            min-width: 650px;
-            border-collapse: separate;
-            border-spacing: 0;
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-        }
-
-        .custom-table th, .custom-table td {
-            padding: 0.9rem 1.1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-soft);
-            font-size: 0.92rem;
-            white-space: nowrap;
         }
 
         [dir="rtl"] .custom-table th, [dir="rtl"] .custom-table td {
@@ -822,9 +472,8 @@
         }
 
         @media (max-width: 768px) {
-            .header-actions .theme-toggle-btn,
             .header-actions .back-site-btn {
-                display: none !important;
+                display: inline-flex !important;
             }
             .dash-header {
                 flex-direction: row;
@@ -852,88 +501,6 @@
 <body>
 
     <div class="dash-wrapper">
-
-        <!-- ==================== ADMIN SIDEBAR (NO WEBSITE NAVBAR/FOOTER) ==================== -->
-        <aside class="dash-sidebar">
-            <div>
-                <a href="index.html" class="sidebar-brand" title="Back to Main Website" style="text-decoration: none; color: inherit;">
-                    <div class="logo-emblem" style="background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%); width: 44px; height: 44px; border-radius: 50% 50% 50% 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35); flex-shrink: 0;">
-                        <svg viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: none; stroke: #ffffff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <path d="M8 11c1.5-1 3.5-1 5 0s3.5 1 3 0" stroke-width="1.8"/>
-                        </svg>
-                    </div>
-                    <div class="brand-title">
-                        AquaKids
-                        <span>Admin Control</span>
-                    </div>
-                </a>
-
-                <ul class="sidebar-nav">
-                    <li class="nav-label">Admin Controls</li>
-                    <li>
-                        <div class="sidebar-link active" data-target="overview">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Overview</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sidebar-link" data-target="rosters">
-                            <i class="fas fa-users"></i>
-                            <span>Swimmer Rosters</span>
-                            <span class="badge-count">342</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sidebar-link" data-target="coaches">
-                            <i class="fas fa-user-tie"></i>
-                            <span>Coaches &amp; Staff</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sidebar-link" data-target="schedules">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Schedules &amp; Slots</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sidebar-link" data-target="safety">
-                            <i class="fas fa-shield-virus"></i>
-                            <span>Safety Compliance</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sidebar-link" data-target="billing">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <span>Billing &amp; Revenue</span>
-                        </div>
-                    </li>
-
-                    <li class="nav-label">Portal Links</li>
-                    <li>
-                        <a href="user-dashboard.html" class="sidebar-link">
-                            <i class="fas fa-user-circle"></i>
-                            <span>User Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html" class="sidebar-link">
-                            <i class="fas fa-home"></i>
-                            <span>Back to Main Site</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Sidebar User Profile -->
-            <div class="sidebar-user">
-                <div class="user-avatar">A</div>
-                <div class="user-meta">
-                    <div class="user-name">Director Marcus</div>
-                    <div class="user-role">Head Operations</div>
-                </div>
-            </div>
-        </aside>
 
         <!-- Backdrop overlay for mobile drawer -->
         <div class="dash-sidebar-overlay" id="dashSidebarOverlay"></div>
@@ -997,21 +564,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-label">Settings &amp; Preferences</li>
-                    <li>
-                        <div class="sidebar-link" id="sidebarRtlToggle">
-                            <i class="fas fa-right-left"></i>
-                            <span>RTL Direction</span>
-                            <span class="badge-count" id="sidebarRtlLabel" style="background: var(--brand-primary);">OFF</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sidebar-link" id="sidebarThemeToggle">
-                            <i class="fas fa-moon" id="sidebarThemeIcon"></i>
-                            <span>Dark Mode</span>
-                            <span class="badge-count" id="sidebarThemeLabel" style="background: var(--brand-aqua);">OFF</span>
-                        </div>
-                    </li>
+                    
 
                     <li class="nav-label">Portal Links</li>
                     <li>
@@ -1045,22 +598,11 @@
             <!-- Top Header Bar with Hamburger Menu Button -->
             <header class="dash-top-bar">
                 <div class="top-bar-left">
-                    <button class="dash-hamburger-btn" id="dashHamburgerBtn" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
-                        <i class="fas fa-bars"></i>
-                        <span>Menu</span>
-                    </button>
                     <h1 class="top-bar-title">Admin Operations</h1>
                 </div>
 
                 <div class="header-actions">
-                    <button class="theme-toggle-btn" id="rtlToggleBtn" title="Toggle RTL / LTR Direction" style="display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; width: auto; font-weight: 700; font-size: 0.88rem;">
-                        <i class="fas fa-right-left"></i>
-                        <span id="rtlLabel">RTL</span>
-                    </button>
-                    <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <a href="index.html" class="back-site-btn">
+                    <a href="index.html" class="back-site-btn" title="Back to Main Website">
                         <i class="fas fa-arrow-left"></i>
                         <span>Main Site</span>
                     </a>
